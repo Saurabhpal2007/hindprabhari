@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { 
@@ -7,7 +6,9 @@ import {
   Search, 
   User,
   LogIn,
-  UserPlus
+  UserPlus,
+  X,
+  Menu
 } from "lucide-react";
 import { Button } from "../ui/button";
 import { 
