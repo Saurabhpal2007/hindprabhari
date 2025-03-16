@@ -25,6 +25,7 @@ const HeroSection = () => {
 
   return (
     <section 
+      id="home"
       className="relative h-[70vh] flex items-center justify-center overflow-hidden"
       style={{
         backgroundPosition: `50% ${offset * 0.5}px`
@@ -45,13 +46,13 @@ const HeroSection = () => {
         "relative z-10 text-center transition-all duration-1000 transform",
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
       )}>
-        {/* Logo with glow effect */}
-        <div className="relative mb-6 mx-auto w-48 h-48">
+        {/* Logo with glow effect - 2x bigger */}
+        <div className="relative mb-10 mx-auto w-64 h-64">
           <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/60 to-orange-500/60 rounded-full blur-xl"></div>
           <div className="relative flex items-center justify-center h-full">
-            <div className="bg-white dark:bg-black/30 rounded-full p-4 backdrop-blur-sm border border-white/20 dark:border-white/10">
-              <div className="w-32 h-32 flex items-center justify-center">
-                <span className="text-6xl font-bold bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
+            <div className="bg-white dark:bg-black/30 rounded-full p-6 backdrop-blur-sm border border-white/20 dark:border-white/10">
+              <div className="w-44 h-44 flex items-center justify-center">
+                <span className="text-8xl font-bold bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
                   HP
                 </span>
               </div>
@@ -59,10 +60,10 @@ const HeroSection = () => {
           </div>
         </div>
         
-        {/* Hindi slogan with English subtitle */}
-        <h1 className="mb-4">
-          <span className="block text-5xl font-bold mb-2">भारत की धड़कन</span>
-          <span className="block text-xl text-muted-foreground">The Pulse of Bharat - Truth in Every Story</span>
+        {/* Hindi slogan with English subtitle - with added line spacing */}
+        <h1 className="mb-6 space-y-4">
+          <span className="block text-5xl font-bold">भारत की धड़कन</span>
+          <span className="block text-xl text-muted-foreground mt-2">The Pulse of Bharat - Truth in Every Story</span>
         </h1>
       </div>
     </section>

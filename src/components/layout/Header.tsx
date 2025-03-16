@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { 
   Sun, 
@@ -16,7 +16,8 @@ import {
   Grid,
   ChevronDown,
   Info,
-  Mail
+  Mail,
+  Settings
 } from "lucide-react";
 import { Button } from "../ui/button";
 import { 
@@ -44,15 +45,28 @@ const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   const { toast } = useToast();
+  const searchRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
     };
 
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setIsSearchExpanded(false);
+      }
+    };
+
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    document.addEventListener("mousedown", handleClickOutside);
+    
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
 
   const toggleTheme = () => {
@@ -89,6 +103,21 @@ const Header = () => {
     });
   };
 
+  const handleAdminAccess = () => {
+    toast({
+      title: "Admin Access",
+      description: "Admin functionality will be implemented soon.",
+    });
+  };
+
+  const scrollToSection = (sectionId: string) => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+      setIsMobileMenuOpen(false);
+    }
+  };
+
   // List of categories for the dropdown
   const categories = [
     { name: "Politics", path: "/politics" },
@@ -112,55 +141,54 @@ const Header = () => {
     >
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
-          <div className="flex items-center">
-            <Link to="/" className="flex items-center">
-              <div className="relative h-10 w-40 overflow-hidden rounded-md">
-                {/* Banner image */}
-                <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-orange-500"></div>
-                <div className="relative z-10 flex h-full items-center justify-center">
-                  <span className="text-xl font-bold text-white">HindPrabhari</span>
-                </div>
-              </div>
-            </Link>
+          {/* Left section: Hamburger menu (mobile) */}
+          <div className="flex md:hidden">
+            <Button 
+              variant="ghost" 
+              size="icon"
+              onClick={toggleMobileMenu}
+              aria-label="Toggle menu"
+              className="mr-2"
+            >
+              {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </Button>
           </div>
-
-          {/* Desktop Search Bar */}
-          <div className="hidden md:flex items-center max-w-md w-full mx-4">
-            <form onSubmit={handleSearch} className="relative w-full">
-              <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                type="text"
-                placeholder="Search news..."
-                className="w-full pl-9 pr-4 h-9"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </form>
-          </div>
-
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-4">
+          
+          {/* Left section: Navigation (desktop) */}
+          <nav className="hidden md:flex items-center">
             <NavigationMenu>
               <NavigationMenuList>
                 <NavigationMenuItem>
-                  <Link to="/" className="px-3 py-2 text-sm font-medium hover:text-primary flex items-center">
+                  <Button 
+                    variant="ghost"
+                    className="px-3 py-2 text-sm font-medium hover:text-primary flex items-center"
+                    onClick={() => scrollToSection("home")}
+                  >
                     <Home className="mr-1.5 h-4 w-4" />
                     Home
-                  </Link>
+                  </Button>
                 </NavigationMenuItem>
                 
                 <NavigationMenuItem>
-                  <Link to="/trending" className="px-3 py-2 text-sm font-medium hover:text-primary flex items-center">
+                  <Button 
+                    variant="ghost"
+                    className="px-3 py-2 text-sm font-medium hover:text-primary flex items-center"
+                    onClick={() => scrollToSection("trending")}
+                  >
                     <TrendingUp className="mr-1.5 h-4 w-4" />
                     Trending
-                  </Link>
+                  </Button>
                 </NavigationMenuItem>
                 
                 <NavigationMenuItem>
-                  <Link to="/latest" className="px-3 py-2 text-sm font-medium hover:text-primary flex items-center">
+                  <Button 
+                    variant="ghost"
+                    className="px-3 py-2 text-sm font-medium hover:text-primary flex items-center"
+                    onClick={() => scrollToSection("latest")}
+                  >
                     <Clock className="mr-1.5 h-4 w-4" />
                     Latest
-                  </Link>
+                  </Button>
                 </NavigationMenuItem>
                 
                 <NavigationMenuItem>
@@ -184,20 +212,82 @@ const Header = () => {
                 </NavigationMenuItem>
                 
                 <NavigationMenuItem>
-                  <Link to="/about" className="px-3 py-2 text-sm font-medium hover:text-primary flex items-center">
+                  <Button 
+                    variant="ghost"
+                    className="px-3 py-2 text-sm font-medium hover:text-primary flex items-center"
+                    onClick={() => scrollToSection("about")}
+                  >
                     <Info className="mr-1.5 h-4 w-4" />
                     About Us
-                  </Link>
+                  </Button>
                 </NavigationMenuItem>
                 
                 <NavigationMenuItem>
-                  <Link to="/contact" className="px-3 py-2 text-sm font-medium hover:text-primary flex items-center">
+                  <Button 
+                    variant="ghost"
+                    className="px-3 py-2 text-sm font-medium hover:text-primary flex items-center"
+                    onClick={() => scrollToSection("contact")}
+                  >
                     <Mail className="mr-1.5 h-4 w-4" />
                     Contact
-                  </Link>
+                  </Button>
                 </NavigationMenuItem>
               </NavigationMenuList>
             </NavigationMenu>
+          </nav>
+
+          {/* Center section: Logo */}
+          <div className="absolute left-1/2 -translate-x-1/2 flex items-center">
+            <Link to="/" className="flex items-center">
+              <div className="relative h-10 w-40 overflow-hidden rounded-md">
+                {/* Banner image */}
+                <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-orange-500"></div>
+                <div className="relative z-10 flex h-full items-center justify-center">
+                  <span className="text-xl font-bold text-white">HindPrabhari</span>
+                </div>
+              </div>
+            </Link>
+          </div>
+
+          {/* Right section: Search and Profile */}
+          <div className="flex items-center">
+            {/* Adaptive Search */}
+            <div ref={searchRef} className={cn(
+              "relative transition-all duration-300 mr-2",
+              isSearchExpanded ? "w-64" : "w-10"
+            )}>
+              {isSearchExpanded ? (
+                <form onSubmit={handleSearch} className="w-full">
+                  <Input
+                    type="text"
+                    placeholder="Search news..."
+                    className="pr-8 pl-9 h-9"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    autoFocus
+                  />
+                  <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Button 
+                    type="button" 
+                    variant="ghost" 
+                    size="icon" 
+                    className="absolute right-0 top-0 h-9 w-9" 
+                    onClick={() => setIsSearchExpanded(false)}
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                </form>
+              ) : (
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="h-10 w-10"
+                  onClick={() => setIsSearchExpanded(true)}
+                >
+                  <Search className="h-5 w-5" />
+                </Button>
+              )}
+            </div>
 
             {/* Profile Dropdown */}
             <DropdownMenu>
@@ -212,15 +302,15 @@ const Header = () => {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuLabel>My Profile</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleLogin}>
                   <LogIn className="mr-2 h-4 w-4" />
-                  <span>Log In</span>
+                  <span>Account</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={handleSignup}>
-                  <UserPlus className="mr-2 h-4 w-4" />
-                  <span>Sign Up</span>
+                <DropdownMenuItem onClick={handleAdminAccess}>
+                  <Settings className="mr-2 h-4 w-4" />
+                  <span>Admin</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={toggleTheme}>
@@ -238,70 +328,6 @@ const Header = () => {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-          </nav>
-
-          {/* Mobile menu button */}
-          <div className="flex md:hidden">
-            {/* Mobile search button */}
-            <Button 
-              variant="ghost" 
-              size="icon"
-              className="mr-2"
-              aria-label="Search"
-              onClick={() => toast({
-                title: "Mobile Search",
-                description: "Mobile search will be implemented soon."
-              })}
-            >
-              <Search className="h-5 w-5" />
-            </Button>
-            
-            {/* Mobile profile dropdown */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button 
-                  variant="ghost" 
-                  size="icon"
-                  className="mr-2 rounded-full bg-muted/50 hover:bg-muted"
-                  aria-label="Profile options"
-                >
-                  <User className="h-5 w-5" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={handleLogin}>
-                  <LogIn className="mr-2 h-4 w-4" />
-                  <span>Log In</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={handleSignup}>
-                  <UserPlus className="mr-2 h-4 w-4" />
-                  <span>Sign Up</span>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={toggleTheme}>
-                  {theme === "light" ? (
-                    <>
-                      <Moon className="mr-2 h-4 w-4" />
-                      <span>Dark Mode</span>
-                    </>
-                  ) : (
-                    <>
-                      <Sun className="mr-2 h-4 w-4" />
-                      <span>Light Mode</span>
-                    </>
-                  )}
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-            
-            <Button 
-              variant="ghost" 
-              size="icon"
-              onClick={toggleMobileMenu}
-              aria-label="Toggle menu"
-            >
-              {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-            </Button>
           </div>
         </div>
       </div>
@@ -321,18 +347,30 @@ const Header = () => {
               />
             </form>
             <nav className="flex flex-col space-y-4">
-              <Link to="/" className="px-3 py-2 text-sm font-medium hover:text-primary flex items-center" onClick={() => setIsMobileMenuOpen(false)}>
+              <Button 
+                variant="ghost"
+                className="justify-start px-3 py-2 text-sm font-medium hover:text-primary flex items-center" 
+                onClick={() => scrollToSection("home")}
+              >
                 <Home className="mr-2 h-4 w-4" />
                 Home
-              </Link>
-              <Link to="/trending" className="px-3 py-2 text-sm font-medium hover:text-primary flex items-center" onClick={() => setIsMobileMenuOpen(false)}>
+              </Button>
+              <Button 
+                variant="ghost"
+                className="justify-start px-3 py-2 text-sm font-medium hover:text-primary flex items-center" 
+                onClick={() => scrollToSection("trending")}
+              >
                 <TrendingUp className="mr-2 h-4 w-4" />
                 Trending
-              </Link>
-              <Link to="/latest" className="px-3 py-2 text-sm font-medium hover:text-primary flex items-center" onClick={() => setIsMobileMenuOpen(false)}>
+              </Button>
+              <Button 
+                variant="ghost"
+                className="justify-start px-3 py-2 text-sm font-medium hover:text-primary flex items-center" 
+                onClick={() => scrollToSection("latest")}
+              >
                 <Clock className="mr-2 h-4 w-4" />
                 Latest
-              </Link>
+              </Button>
               
               <div className="px-3 py-2 text-sm font-medium border-b">Categories</div>
               
@@ -347,14 +385,22 @@ const Header = () => {
                 </Link>
               ))}
               
-              <Link to="/about" className="px-3 py-2 text-sm font-medium hover:text-primary flex items-center" onClick={() => setIsMobileMenuOpen(false)}>
+              <Button 
+                variant="ghost"
+                className="justify-start px-3 py-2 text-sm font-medium hover:text-primary flex items-center" 
+                onClick={() => scrollToSection("about")}
+              >
                 <Info className="mr-2 h-4 w-4" />
                 About Us
-              </Link>
-              <Link to="/contact" className="px-3 py-2 text-sm font-medium hover:text-primary flex items-center" onClick={() => setIsMobileMenuOpen(false)}>
+              </Button>
+              <Button 
+                variant="ghost"
+                className="justify-start px-3 py-2 text-sm font-medium hover:text-primary flex items-center" 
+                onClick={() => scrollToSection("contact")}
+              >
                 <Mail className="mr-2 h-4 w-4" />
                 Contact
-              </Link>
+              </Button>
             </nav>
           </div>
         </div>

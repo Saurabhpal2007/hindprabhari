@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { AlertTriangle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -15,6 +15,7 @@ const breakingNewsItems = [
 const BreakingNews = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
+  const tickerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // Show the component with animation
@@ -34,24 +35,24 @@ const BreakingNews = () => {
       isVisible ? "opacity-100" : "opacity-0"
     )}>
       <div className="container mx-auto px-4">
-        <div className="flex items-center overflow-hidden">
-          <div className="flex items-center mr-4 font-bold">
+        <div className="flex items-center">
+          <div className="flex-shrink-0 flex items-center mr-4 font-bold">
             <AlertTriangle className="mr-2 h-4 w-4" />
             <span>BREAKING:</span>
           </div>
           
-          <div className="overflow-hidden flex-1">
-            <div className="whitespace-nowrap animate-[slide_25s_linear_infinite]">
+          <div className="relative overflow-hidden flex-grow" ref={tickerRef}>
+            <div className="relative whitespace-nowrap">
               {breakingNewsItems.map((item, index) => (
-                <span 
+                <div 
                   key={index}
                   className={cn(
-                    "inline-block px-4 transition-opacity duration-500",
+                    "absolute left-0 right-0 transition-opacity duration-500 truncate",
                     currentIndex === index ? "opacity-100" : "opacity-0"
                   )}
                 >
                   {item}
-                </span>
+                </div>
               ))}
             </div>
           </div>
