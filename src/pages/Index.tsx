@@ -7,7 +7,6 @@ import BreakingNews from "../components/news/BreakingNews";
 import FeaturedArticles from "../components/news/FeaturedArticles";
 import CategoryCards from "../components/home/CategoryCards";
 import LatestNews from "../components/news/LatestNews";
-import SearchBar from "../components/common/SearchBar";
 import { useToast } from "../components/ui/use-toast";
 
 const Index = () => {
@@ -35,10 +34,6 @@ const Index = () => {
         <div className={`transition-opacity duration-700 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
           <HeroSection />
           <BreakingNews />
-          
-          <section className="container mx-auto py-8 px-4">
-            <SearchBar />
-          </section>
           
           <section className="container mx-auto py-8 px-4">
             <FeaturedArticles />

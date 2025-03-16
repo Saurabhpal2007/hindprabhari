@@ -49,9 +49,13 @@ const HeroSection = () => {
         <div className="relative mb-6 mx-auto w-48 h-48">
           <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/60 to-orange-500/60 rounded-full blur-xl"></div>
           <div className="relative flex items-center justify-center h-full">
-            <span className="text-6xl font-bold bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
-              HP
-            </span>
+            <div className="bg-white dark:bg-black/30 rounded-full p-4 backdrop-blur-sm border border-white/20 dark:border-white/10">
+              <div className="w-32 h-32 flex items-center justify-center">
+                <span className="text-6xl font-bold bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
+                  HP
+                </span>
+              </div>
+            </div>
           </div>
         </div>
         
