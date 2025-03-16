@@ -57,15 +57,28 @@ const Index = () => {
       
       <main className="flex-grow">
         <div className={`transition-opacity duration-700 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
-          <HeroSection />
-          <BreakingNews />
+          <div id="home">
+            <HeroSection />
+            <BreakingNews />
+          </div>
           
-          <section className="container mx-auto py-8 px-4">
+          <section id="trending" className="container mx-auto py-8 px-4">
+            <div className="flex justify-between items-center mb-8">
+              <h2 className="text-3xl font-bold">Trending</h2>
+              <a href="/trending" className="flex items-center text-primary hover:underline">
+                View All <ArrowRight className="ml-1 h-5 w-5" />
+              </a>
+            </div>
             <FeaturedArticles />
           </section>
           
-          <section className="container mx-auto py-12 px-4">
-            <h2 className="text-3xl font-bold mb-8 text-center">Categories</h2>
+          <section id="categories" className="container mx-auto py-12 px-4">
+            <div className="flex justify-between items-center mb-8">
+              <h2 className="text-3xl font-bold">Categories</h2>
+              <a href="/categories" className="flex items-center text-primary hover:underline">
+                View All <ArrowRight className="ml-1 h-5 w-5" />
+              </a>
+            </div>
             <CategoryCards />
           </section>
           
@@ -73,14 +86,19 @@ const Index = () => {
             <div className="flex justify-between items-center mb-8">
               <h2 className="text-3xl font-bold">Latest News</h2>
               <a href="/latest" className="flex items-center text-primary hover:underline">
-                View All <ArrowRight className="ml-1 h-4 w-4" />
+                View All <ArrowRight className="ml-1 h-5 w-5" />
               </a>
             </div>
             <LatestNews />
           </section>
           
-          <AboutUsSection />
-          <ContactSection />
+          <section id="about">
+            <AboutUsSection />
+          </section>
+          
+          <section id="contact">
+            <ContactSection />
+          </section>
         </div>
       </main>
       
