@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { 
@@ -8,14 +9,23 @@ import {
   LogIn,
   UserPlus,
   X,
-  Menu
+  Menu,
+  Home,
+  TrendingUp,
+  Clock,
+  Grid,
+  ChevronDown,
+  Info,
+  Mail
 } from "lucide-react";
 import { Button } from "../ui/button";
 import { 
   NavigationMenu,
   NavigationMenuList,
   NavigationMenuItem,
-  NavigationMenuLink
+  NavigationMenuLink,
+  NavigationMenuContent,
+  NavigationMenuTrigger
 } from "../ui/navigation-menu";
 import {
   DropdownMenu,
@@ -79,6 +89,18 @@ const Header = () => {
     });
   };
 
+  // List of categories for the dropdown
+  const categories = [
+    { name: "Politics", path: "/politics" },
+    { name: "Technology", path: "/technology" },
+    { name: "Sports", path: "/sports" },
+    { name: "Entertainment", path: "/entertainment" },
+    { name: "Education", path: "/education" },
+    { name: "Health", path: "/health" },
+    { name: "World", path: "/world" },
+    { name: "Business", path: "/business" }
+  ];
+
   return (
     <header 
       className={cn(
@@ -121,23 +143,57 @@ const Header = () => {
             <NavigationMenu>
               <NavigationMenuList>
                 <NavigationMenuItem>
-                  <Link to="/" className="px-3 py-2 text-sm font-medium hover:text-primary">
+                  <Link to="/" className="px-3 py-2 text-sm font-medium hover:text-primary flex items-center">
+                    <Home className="mr-1.5 h-4 w-4" />
                     Home
                   </Link>
                 </NavigationMenuItem>
+                
                 <NavigationMenuItem>
-                  <Link to="/politics" className="px-3 py-2 text-sm font-medium hover:text-primary">
-                    Politics
+                  <Link to="/trending" className="px-3 py-2 text-sm font-medium hover:text-primary flex items-center">
+                    <TrendingUp className="mr-1.5 h-4 w-4" />
+                    Trending
                   </Link>
                 </NavigationMenuItem>
+                
                 <NavigationMenuItem>
-                  <Link to="/technology" className="px-3 py-2 text-sm font-medium hover:text-primary">
-                    Technology
+                  <Link to="/latest" className="px-3 py-2 text-sm font-medium hover:text-primary flex items-center">
+                    <Clock className="mr-1.5 h-4 w-4" />
+                    Latest
                   </Link>
                 </NavigationMenuItem>
+                
                 <NavigationMenuItem>
-                  <Link to="/sports" className="px-3 py-2 text-sm font-medium hover:text-primary">
-                    Sports
+                  <NavigationMenuTrigger className="text-sm font-medium">
+                    <Grid className="mr-1.5 h-4 w-4" />
+                    Categories
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent className="bg-background/95 backdrop-blur-sm border p-2 rounded-md">
+                    <div className="grid grid-cols-2 gap-2 w-[400px] p-2">
+                      {categories.map((category) => (
+                        <Link 
+                          key={category.path} 
+                          to={category.path}
+                          className="flex items-center p-2 rounded-md hover:bg-accent"
+                        >
+                          <span>{category.name}</span>
+                        </Link>
+                      ))}
+                    </div>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+                
+                <NavigationMenuItem>
+                  <Link to="/about" className="px-3 py-2 text-sm font-medium hover:text-primary flex items-center">
+                    <Info className="mr-1.5 h-4 w-4" />
+                    About Us
+                  </Link>
+                </NavigationMenuItem>
+                
+                <NavigationMenuItem>
+                  <Link to="/contact" className="px-3 py-2 text-sm font-medium hover:text-primary flex items-center">
+                    <Mail className="mr-1.5 h-4 w-4" />
+                    Contact
                   </Link>
                 </NavigationMenuItem>
               </NavigationMenuList>
@@ -265,20 +321,39 @@ const Header = () => {
               />
             </form>
             <nav className="flex flex-col space-y-4">
-              <Link to="/" className="px-3 py-2 text-sm font-medium hover:text-primary" onClick={() => setIsMobileMenuOpen(false)}>
+              <Link to="/" className="px-3 py-2 text-sm font-medium hover:text-primary flex items-center" onClick={() => setIsMobileMenuOpen(false)}>
+                <Home className="mr-2 h-4 w-4" />
                 Home
               </Link>
-              <Link to="/politics" className="px-3 py-2 text-sm font-medium hover:text-primary" onClick={() => setIsMobileMenuOpen(false)}>
-                Politics
+              <Link to="/trending" className="px-3 py-2 text-sm font-medium hover:text-primary flex items-center" onClick={() => setIsMobileMenuOpen(false)}>
+                <TrendingUp className="mr-2 h-4 w-4" />
+                Trending
               </Link>
-              <Link to="/technology" className="px-3 py-2 text-sm font-medium hover:text-primary" onClick={() => setIsMobileMenuOpen(false)}>
-                Technology
+              <Link to="/latest" className="px-3 py-2 text-sm font-medium hover:text-primary flex items-center" onClick={() => setIsMobileMenuOpen(false)}>
+                <Clock className="mr-2 h-4 w-4" />
+                Latest
               </Link>
-              <Link to="/sports" className="px-3 py-2 text-sm font-medium hover:text-primary" onClick={() => setIsMobileMenuOpen(false)}>
-                Sports
+              
+              <div className="px-3 py-2 text-sm font-medium border-b">Categories</div>
+              
+              {categories.map((category) => (
+                <Link 
+                  key={category.path}
+                  to={category.path} 
+                  className="px-6 py-1.5 text-sm font-medium hover:text-primary" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {category.name}
+                </Link>
+              ))}
+              
+              <Link to="/about" className="px-3 py-2 text-sm font-medium hover:text-primary flex items-center" onClick={() => setIsMobileMenuOpen(false)}>
+                <Info className="mr-2 h-4 w-4" />
+                About Us
               </Link>
-              <Link to="/entertainment" className="px-3 py-2 text-sm font-medium hover:text-primary" onClick={() => setIsMobileMenuOpen(false)}>
-                Entertainment
+              <Link to="/contact" className="px-3 py-2 text-sm font-medium hover:text-primary flex items-center" onClick={() => setIsMobileMenuOpen(false)}>
+                <Mail className="mr-2 h-4 w-4" />
+                Contact
               </Link>
             </nav>
           </div>
