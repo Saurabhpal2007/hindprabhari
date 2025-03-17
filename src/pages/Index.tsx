@@ -52,6 +52,14 @@ const Index = () => {
     };
   }, [toast]);
 
+  // Handle smooth scrolling for in-page navigation
+  const scrollToSection = (sectionId: string) => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <Header />
@@ -61,7 +69,7 @@ const Index = () => {
           <div id="home">
             <HeroSection />
             
-            {/* New AI Search Bar below hero */}
+            {/* Search Bar below hero */}
             <div className="container mx-auto py-8 px-4">
               <SearchBar />
             </div>
@@ -69,7 +77,7 @@ const Index = () => {
             <BreakingNews />
           </div>
           
-          <section id="trending" className="container mx-auto py-8 px-4">
+          <section id="trending" className="container mx-auto py-12 px-4">
             <div className="flex justify-between items-center mb-8">
               <h2 className="text-3xl font-bold">Trending</h2>
               <a href="/trending" className="flex items-center text-primary hover:underline">
@@ -79,7 +87,7 @@ const Index = () => {
             <FeaturedArticles />
           </section>
           
-          <section id="categories" className="container mx-auto py-12 px-4">
+          <section id="categories" className="container mx-auto py-16 px-4">
             <div className="flex justify-between items-center mb-8">
               <h2 className="text-3xl font-bold">Categories</h2>
               <a href="/categories" className="flex items-center text-primary hover:underline">
@@ -89,7 +97,7 @@ const Index = () => {
             <CategoryCards />
           </section>
           
-          <section id="latest" className="container mx-auto py-12 px-4">
+          <section id="latest" className="container mx-auto py-16 px-4">
             <div className="flex justify-between items-center mb-8">
               <h2 className="text-3xl font-bold">Latest News</h2>
               <a href="/latest" className="flex items-center text-primary hover:underline">
