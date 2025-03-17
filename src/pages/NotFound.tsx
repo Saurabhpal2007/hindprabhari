@@ -1,25 +1,55 @@
-import { useLocation } from "react-router-dom";
+
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import Header from "../components/layout/Header";
+import Footer from "../components/layout/Footer";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft, Home } from "lucide-react";
 
 const NotFound = () => {
-  const location = useLocation();
-
   useEffect(() => {
-    console.error(
-      "404 Error: User attempted to access non-existent route:",
-      location.pathname
-    );
-  }, [location.pathname]);
+    // Update page title
+    document.title = "Page Not Found | HindPrabhari";
+  }, []);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">404</h1>
-        <p className="text-xl text-gray-600 mb-4">Oops! Page not found</p>
-        <a href="/" className="text-blue-500 hover:text-blue-700 underline">
-          Return to Home
-        </a>
-      </div>
+    <div className="min-h-screen flex flex-col bg-background">
+      <Header />
+      
+      <main className="flex-grow flex items-center justify-center">
+        <div className="container px-4 py-16 text-center">
+          <h1 className="text-9xl font-bold text-primary mb-4">404</h1>
+          <h2 className="text-3xl font-bold mb-4">Page Not Found</h2>
+          <p className="text-lg text-muted-foreground mb-8 max-w-md mx-auto">
+            The page you are looking for doesn't exist or has been moved.
+          </p>
+          
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <Button 
+              variant="outline" 
+              size="lg"
+              onClick={() => window.history.back()}
+              className="gap-2"
+            >
+              <ArrowLeft className="h-5 w-5" />
+              Go Back
+            </Button>
+            
+            <Button 
+              size="lg"
+              asChild
+              className="gap-2"
+            >
+              <Link to="/">
+                <Home className="h-5 w-5" />
+                Return Home
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </main>
+      
+      <Footer />
     </div>
   );
 };
