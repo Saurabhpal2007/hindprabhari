@@ -82,6 +82,31 @@ const CategoryCards = () => {
         setVisibleCategories(prev => [...prev, index]);
       }, index * 100);
     });
+    
+    // Setup hash navigation to scroll to specific category
+    const handleHashChange = () => {
+      const hash = window.location.hash;
+      if (hash && hash.includes("category-")) {
+        const categoryId = hash.replace("#category-", "");
+        const categoryElement = document.getElementById(categoryId);
+        if (categoryElement) {
+          setTimeout(() => {
+            categoryElement.scrollIntoView({ behavior: "smooth" });
+          }, 100);
+        }
+      }
+    };
+    
+    window.addEventListener("hashchange", handleHashChange);
+    
+    // Check for hash on initial load
+    if (window.location.hash && window.location.hash.includes("category-")) {
+      handleHashChange();
+    }
+    
+    return () => {
+      window.removeEventListener("hashchange", handleHashChange);
+    };
   }, []);
 
   return (

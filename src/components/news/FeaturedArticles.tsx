@@ -5,10 +5,9 @@ import { Card, CardContent, CardFooter } from "../ui/card";
 import { cn } from "@/lib/utils";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "../ui/tabs";
 import { ScrollArea } from "../ui/scroll-area";
-import { Button } from "../ui/button";
 import { ArrowRight } from "lucide-react";
 
-// Sample featured articles data
+// Sample trending articles data
 const trendingArticlesData = {
   technology: [
     {
@@ -108,13 +107,6 @@ const FeaturedArticles = () => {
 
   return (
     <div id="trending" className="py-8">
-      <div className="flex justify-between items-center mb-8">
-        <h2 className="text-3xl font-bold">Trending Stories</h2>
-        <Link to="/trending" className="flex items-center text-primary hover:underline">
-          View All <ArrowRight className="ml-1 h-4 w-4" />
-        </Link>
-      </div>
-      
       <Tabs defaultValue="technology" value={activeTab} onValueChange={setActiveTab} className="w-full">
         <ScrollArea className="pb-2">
           <TabsList className="w-full justify-start overflow-x-auto">

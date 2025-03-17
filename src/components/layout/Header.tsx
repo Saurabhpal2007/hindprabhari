@@ -65,7 +65,11 @@ const Header = () => {
     const handleResize = () => {
       const desktop = window.innerWidth >= 768;
       setIsDesktop(desktop);
-      setIsSearchExpanded(desktop);
+      if (desktop) {
+        setIsSearchExpanded(true);
+      } else {
+        setIsSearchExpanded(false);
+      }
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -154,20 +158,34 @@ const Header = () => {
     >
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
-          {/* Left section: Hamburger menu (mobile) */}
-          <div className="flex md:hidden">
-            <Button 
-              variant="ghost" 
-              size="icon"
-              onClick={toggleMobileMenu}
-              aria-label="Toggle menu"
-              className="mr-2 rounded-full"
-            >
-              {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-            </Button>
+          {/* Left section: Logo + Hamburger menu (mobile) */}
+          <div className="flex items-center">
+            {/* Hamburger menu (mobile) */}
+            <div className="md:hidden mr-2">
+              <Button 
+                variant="ghost" 
+                size="icon"
+                onClick={toggleMobileMenu}
+                aria-label="Toggle menu"
+                className="rounded-full"
+              >
+                {isMobileMenuOpen ? <X className="h-7 w-7" /> : <Menu className="h-7 w-7" />}
+              </Button>
+            </div>
+            
+            {/* Logo - now left aligned */}
+            <Link to="/" className="flex items-center">
+              <div className="relative h-10 w-40 overflow-hidden rounded-xl">
+                {/* Banner image */}
+                <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-orange-500"></div>
+                <div className="relative z-10 flex h-full items-center justify-center">
+                  <span className="text-xl font-bold text-white">HindPrabhari</span>
+                </div>
+              </div>
+            </Link>
           </div>
           
-          {/* Left section: Navigation (desktop) */}
+          {/* Center section: Navigation (desktop) */}
           <nav className="hidden md:flex items-center">
             <NavigationMenu>
               <NavigationMenuList>
@@ -177,7 +195,7 @@ const Header = () => {
                     className="px-3 py-2 text-sm font-medium hover:text-primary flex items-center rounded-full"
                     onClick={() => scrollToSection("home")}
                   >
-                    <Home className="mr-1.5 h-5 w-5" />
+                    <Home className="mr-1.5 h-6 w-6" />
                     Home
                   </Button>
                 </NavigationMenuItem>
@@ -188,7 +206,7 @@ const Header = () => {
                     className="px-3 py-2 text-sm font-medium hover:text-primary flex items-center rounded-full"
                     onClick={() => scrollToSection("trending")}
                   >
-                    <TrendingUp className="mr-1.5 h-5 w-5" />
+                    <TrendingUp className="mr-1.5 h-6 w-6" />
                     Trending
                   </Button>
                 </NavigationMenuItem>
@@ -199,14 +217,14 @@ const Header = () => {
                     className="px-3 py-2 text-sm font-medium hover:text-primary flex items-center rounded-full"
                     onClick={() => scrollToSection("latest")}
                   >
-                    <Clock className="mr-1.5 h-5 w-5" />
+                    <Clock className="mr-1.5 h-6 w-6" />
                     Latest
                   </Button>
                 </NavigationMenuItem>
                 
                 <NavigationMenuItem>
                   <NavigationMenuTrigger className="text-sm font-medium rounded-full">
-                    <Grid className="mr-1.5 h-5 w-5" />
+                    <Grid className="mr-1.5 h-6 w-6" />
                     Categories
                   </NavigationMenuTrigger>
                   <NavigationMenuContent className="bg-background/95 backdrop-blur-sm border p-2 rounded-xl">
@@ -231,29 +249,13 @@ const Header = () => {
                     className="px-3 py-2 text-sm font-medium hover:text-primary flex items-center rounded-full"
                     onClick={() => scrollToSection("contact")}
                   >
-                    <Mail className="mr-1.5 h-5 w-5" />
+                    <Mail className="mr-1.5 h-6 w-6" />
                     Contact
                   </Button>
                 </NavigationMenuItem>
               </NavigationMenuList>
             </NavigationMenu>
           </nav>
-
-          {/* Center section: Logo */}
-          <div className={cn(
-            "absolute transition-all duration-300",
-            isDesktop ? "left-1/2 -translate-x-1/2" : "left-14 -translate-x-0 md:left-1/2 md:-translate-x-1/2"
-          )}>
-            <Link to="/" className="flex items-center">
-              <div className="relative h-10 w-40 overflow-hidden rounded-xl">
-                {/* Banner image */}
-                <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-orange-500"></div>
-                <div className="relative z-10 flex h-full items-center justify-center">
-                  <span className="text-xl font-bold text-white">HindPrabhari</span>
-                </div>
-              </div>
-            </Link>
-          </div>
 
           {/* Right section: Search and Profile */}
           <div className="flex items-center">
@@ -292,7 +294,7 @@ const Header = () => {
                   className="h-10 w-10 rounded-full"
                   onClick={() => setIsSearchExpanded(true)}
                 >
-                  <Search className="h-6 w-6" />
+                  <Search className="h-7 w-7" />
                 </Button>
               )}
             </div>
@@ -306,7 +308,7 @@ const Header = () => {
                   className="rounded-full bg-muted/50 hover:bg-muted h-10 w-10"
                   aria-label="Profile options"
                 >
-                  <User className="h-6 w-6" />
+                  <User className="h-7 w-7" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56 rounded-xl">
@@ -360,7 +362,7 @@ const Header = () => {
                 className="justify-start px-3 py-2 text-sm font-medium hover:text-primary flex items-center rounded-lg" 
                 onClick={() => scrollToSection("home")}
               >
-                <Home className="mr-2 h-5 w-5" />
+                <Home className="mr-2 h-6 w-6" />
                 Home
               </Button>
               <Button 
@@ -368,7 +370,7 @@ const Header = () => {
                 className="justify-start px-3 py-2 text-sm font-medium hover:text-primary flex items-center rounded-lg" 
                 onClick={() => scrollToSection("trending")}
               >
-                <TrendingUp className="mr-2 h-5 w-5" />
+                <TrendingUp className="mr-2 h-6 w-6" />
                 Trending
               </Button>
               <Button 
@@ -376,7 +378,7 @@ const Header = () => {
                 className="justify-start px-3 py-2 text-sm font-medium hover:text-primary flex items-center rounded-lg" 
                 onClick={() => scrollToSection("latest")}
               >
-                <Clock className="mr-2 h-5 w-5" />
+                <Clock className="mr-2 h-6 w-6" />
                 Latest
               </Button>
               
@@ -398,7 +400,7 @@ const Header = () => {
                 className="justify-start px-3 py-2 text-sm font-medium hover:text-primary flex items-center rounded-lg" 
                 onClick={() => scrollToSection("contact")}
               >
-                <Mail className="mr-2 h-5 w-5" />
+                <Mail className="mr-2 h-6 w-6" />
                 Contact
               </Button>
             </nav>

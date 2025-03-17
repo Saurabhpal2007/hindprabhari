@@ -9,6 +9,7 @@ import CategoryCards from "../components/home/CategoryCards";
 import LatestNews from "../components/news/LatestNews";
 import AboutUsSection from "../components/home/AboutUsSection";
 import ContactSection from "../components/home/ContactSection";
+import SearchBar from "../components/common/SearchBar";
 import { useToast } from "../components/ui/use-toast";
 import { ArrowRight } from "lucide-react";
 
@@ -59,6 +60,12 @@ const Index = () => {
         <div className={`transition-opacity duration-700 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
           <div id="home">
             <HeroSection />
+            
+            {/* New AI Search Bar below hero */}
+            <div className="container mx-auto py-8 px-4">
+              <SearchBar />
+            </div>
+            
             <BreakingNews />
           </div>
           
