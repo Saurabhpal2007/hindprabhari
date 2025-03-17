@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import Header from "../components/layout/Header";
@@ -18,7 +17,7 @@ import {
   ThumbsUp, 
   Twitter, 
   Linkedin, 
-  WhatsApp,
+  Mail,
   ArrowRight
 } from "lucide-react";
 import { useToast } from "../components/ui/use-toast";
@@ -307,8 +306,8 @@ const ArticlePage = () => {
                     <Button variant="outline" size="icon" className="rounded-full" onClick={() => handleShare('LinkedIn')}>
                       <Linkedin className="h-5 w-5" />
                     </Button>
-                    <Button variant="outline" size="icon" className="rounded-full" onClick={() => handleShare('WhatsApp')}>
-                      <WhatsApp className="h-5 w-5" />
+                    <Button variant="outline" size="icon" className="rounded-full" onClick={() => handleShare('Email')}>
+                      <Mail className="h-5 w-5" />
                     </Button>
                   </div>
                 </div>

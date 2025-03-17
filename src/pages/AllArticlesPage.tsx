@@ -10,8 +10,6 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { 
   Bookmark, 
   Calendar, 
-  ChevronLeft, 
-  ChevronRight, 
   Clock, 
   Eye, 
   Filter, 
@@ -580,17 +578,19 @@ const AllArticlesPage = () => {
                 </SheetContent>
               </Sheet>
               
-              <Select value={sortBy} onValueChange={setSortBy} className="w-full md:w-48">
-                <SelectTrigger className="h-11 rounded-full">
-                  <SelectValue placeholder="Sort by" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="latest">Latest First</SelectItem>
-                  <SelectItem value="oldest">Oldest First</SelectItem>
-                  <SelectItem value="mostViewed">Most Viewed</SelectItem>
-                  <SelectItem value="mostCommented">Most Commented</SelectItem>
-                </SelectContent>
-              </Select>
+              <div className="w-full md:w-48">
+                <Select value={sortBy} onValueChange={setSortBy}>
+                  <SelectTrigger className="h-11 rounded-full">
+                    <SelectValue placeholder="Sort by" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="latest">Latest First</SelectItem>
+                    <SelectItem value="oldest">Oldest First</SelectItem>
+                    <SelectItem value="mostViewed">Most Viewed</SelectItem>
+                    <SelectItem value="mostCommented">Most Commented</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
             
             {/* Active Filters */}
