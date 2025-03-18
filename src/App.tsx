@@ -1,6 +1,5 @@
-
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { ClerkProvider, useUser } from '@clerk/clerk-react';
+import { ClerkProvider } from '@clerk/clerk-react';
 import Index from './pages/Index';
 import CategoryPage from './pages/CategoryPage';
 import ArticlePage from './pages/ArticlePage';
@@ -12,19 +11,34 @@ import SignupPage from './pages/SignupPage';
 import AuthWrapper from './components/auth/AuthWrapper';
 import './App.css';
 
-// Replace with your actual Clerk publishable key
-const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY || "pk_test_YourClerkPublishableKey";
+// Get the Clerk publishable key from environment variable
+const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
-function App() {
+// Create a fallback component when Clerk is not properly configured
+const ClerkProviderWithFallback = ({ children }: { children: React.ReactNode }) => {
+  // If no valid Clerk key, just render the children without Clerk
+  if (!PUBLISHABLE_KEY || PUBLISHABLE_KEY === "pk_test_YourClerkPublishableKey") {
+    console.warn("Clerk authentication is disabled because no valid publishable key was provided.");
+    return <>{children}</>;
+  }
+
+  // Otherwise use Clerk as intended
   return (
     <ClerkProvider
       publishableKey={PUBLISHABLE_KEY}
-      clerkJSVersion="5.56.0-snapshot.v20250312225817"
       signInUrl="/login"
       signUpUrl="/signup"
       afterSignInUrl="/"
       afterSignUpUrl="/"
     >
+      {children}
+    </ClerkProvider>
+  );
+};
+
+function App() {
+  return (
+    <ClerkProviderWithFallback>
       <Router>
         <AuthWrapper>
           <Routes>
@@ -49,7 +63,7 @@ function App() {
           </Routes>
         </AuthWrapper>
       </Router>
-    </ClerkProvider>
+    </ClerkProviderWithFallback>
   );
 }
 
