@@ -19,64 +19,56 @@ const categories = [
     name: "Politics",
     icon: <Briefcase className="h-8 w-8" />,
     gradient: "from-orange-400 to-red-500",
-    description: "Latest political developments and policy updates",
-    image: "https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=800&auto=format&fit=crop"
+    description: "Latest political developments and policy updates"
   },
   {
     id: "technology",
     name: "Technology",
     icon: <Cpu className="h-8 w-8" />,
     gradient: "from-blue-400 to-indigo-500",
-    description: "Innovation, startups, and digital transformation",
-    image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=800&auto=format&fit=crop"
+    description: "Innovation, startups, and digital transformation"
   },
   {
     id: "sports",
     name: "Sports",
     icon: <Trophy className="h-8 w-8" />,
     gradient: "from-green-400 to-emerald-500",
-    description: "Cricket, football, and all sporting events",
-    image: "https://images.unsplash.com/photo-1517649763962-0c623066013b?w=800&auto=format&fit=crop"
+    description: "Cricket, football, and all sporting events"
   },
   {
     id: "entertainment",
     name: "Entertainment",
     icon: <Film className="h-8 w-8" />,
     gradient: "from-purple-400 to-pink-500",
-    description: "Bollywood, OTT, and celebrity news",
-    image: "https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?w=800&auto=format&fit=crop"
+    description: "Bollywood, OTT, and celebrity news"
   },
   {
     id: "education",
     name: "Education",
     icon: <GraduationCap className="h-8 w-8" />,
     gradient: "from-yellow-400 to-amber-500",
-    description: "Educational policies and academic updates",
-    image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&auto=format&fit=crop"
+    description: "Educational policies and academic updates"
   },
   {
     id: "health",
     name: "Health",
     icon: <Heart className="h-8 w-8" />,
     gradient: "from-rose-400 to-red-500",
-    description: "Healthcare innovations and wellness tips",
-    image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&auto=format&fit=crop"
+    description: "Healthcare innovations and wellness tips"
   },
   {
     id: "world",
     name: "World",
     icon: <Globe className="h-8 w-8" />,
     gradient: "from-sky-400 to-blue-500",
-    description: "International news and global affairs",
-    image: "https://images.unsplash.com/photo-1532375810709-75b1da00537c?w=800&auto=format&fit=crop"
+    description: "International news and global affairs"
   },
   {
     id: "business",
     name: "Business",
     icon: <TrendingUp className="h-8 w-8" />,
     gradient: "from-teal-400 to-emerald-500",
-    description: "Economy, markets, and business news",
-    image: "https://images.unsplash.com/photo-1591696205602-2f950c417cb9?w=800&auto=format&fit=crop"
+    description: "Economy, markets, and business news"
   }
 ];
 
@@ -139,39 +131,34 @@ const CategoryCards = () => {
   }, []);
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
       {categories.map((category, index) => (
         <div id={category.id} key={category.id}>
           <Link 
             to={`/${category.id}`}
             className={cn(
-              "relative rounded-xl overflow-hidden transition-all duration-500 transform hover:scale-105 hover:shadow-lg group block h-64",
+              "relative rounded-3xl p-6 overflow-hidden transition-all duration-500 transform hover:scale-105 bg-card hover:shadow-lg group",
               visibleCategories.includes(index) ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10",
               activeCategory === category.id ? "ring-2 ring-primary ring-offset-2" : ""
             )}
           >
-            {/* Background image */}
-            <img 
-              src={category.image} 
-              alt={category.name}
-              className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-            />
-            
-            {/* Overlay gradient */}
+            {/* Gradient background that appears on hover */}
             <div 
               className={cn(
-                `absolute inset-0 opacity-70 bg-gradient-to-b ${category.gradient} transition-opacity duration-300`
+                `absolute inset-0 opacity-0 group-hover:opacity-100 bg-gradient-to-br ${category.gradient} transition-opacity duration-300`
               )}
             ></div>
             
-            <div className="relative z-10 flex flex-col items-center text-center h-full justify-center p-6">
-              <div className="p-3 rounded-full mb-3 bg-white/20 backdrop-blur-sm">
+            <div className="relative z-10 flex flex-col items-center text-center">
+              <div className={cn(
+                "p-4 rounded-full mb-4 bg-background/10 backdrop-blur-sm transition-colors group-hover:text-white"
+              )}>
                 {category.icon}
               </div>
-              <h3 className="font-bold mb-2 text-xl text-white">
+              <h3 className="font-bold mb-2 text-lg transition-colors group-hover:text-white">
                 {category.name}
               </h3>
-              <p className="text-sm text-white/90 max-w-[200px]">
+              <p className="text-sm text-muted-foreground transition-colors group-hover:text-white/80">
                 {category.description}
               </p>
             </div>

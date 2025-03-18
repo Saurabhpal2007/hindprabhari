@@ -126,8 +126,8 @@ const Header = () => {
             {/* Adaptive Search */}
             <SearchBar isDesktop={isDesktop} />
 
-            {/* ProfileDropdown - removing theme and toggleTheme props */}
-            <ProfileDropdown />
+            {/* Profile Dropdown */}
+            <ProfileDropdown theme={theme} toggleTheme={toggleTheme} />
           </div>
         </div>
       </div>
