@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Header from "../components/layout/Header";
@@ -24,7 +23,7 @@ import {
   PanelRight,
   Sliders,
   MessageSquare,
-  MoreHorizontal
+  Search
 } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
@@ -46,167 +45,133 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-// Sample data for the admin dashboard
-const sampleUsers = [
-  { id: 1, name: "Rajiv Kumar", email: "rajiv@example.com", role: "Editor", status: "Active", lastActive: "2023-05-18" },
-  { id: 2, name: "Priya Sharma", email: "priya@example.com", role: "Admin", status: "Active", lastActive: "2023-05-17" },
-  { id: 3, name: "Vikram Singh", email: "vikram@example.com", role: "Writer", status: "Active", lastActive: "2023-05-15" },
-  { id: 4, name: "Ananya Patel", email: "ananya@example.com", role: "Writer", status: "Inactive", lastActive: "2023-05-10" },
-  { id: 5, name: "Suresh Reddy", email: "suresh@example.com", role: "Editor", status: "Active", lastActive: "2023-05-16" },
-];
-
-const sampleArticles = [
-  { id: 1, title: "New Policy Reform Announced", category: "Politics", author: "Rajiv Kumar", status: "Published", date: "2023-05-15", views: 1245 },
-  { id: 2, title: "Stock Market Hits All-Time High", category: "Business", author: "Priya Sharma", status: "Published", date: "2023-05-17", views: 3120 },
-  { id: 3, title: "New AI Model Breaks Records", category: "Technology", author: "Vikram Singh", status: "Draft", date: "-", views: 0 },
-  { id: 4, title: "Indian Cricket Team Announces Squad", category: "Sports", author: "Ananya Patel", status: "Published", date: "2023-05-18", views: 3500 },
-  { id: 5, title: "Healthcare Reform Bill Proposed", category: "Health", author: "Suresh Reddy", status: "Under Review", date: "-", views: 0 },
-];
-
-const sampleCategories = [
-  { id: 1, name: "Politics", articles: 42, color: "#ff5733" },
-  { id: 2, name: "Technology", articles: 36, color: "#33ff57" },
-  { id: 3, name: "Sports", articles: 28, color: "#3357ff" },
-  { id: 4, name: "Entertainment", articles: 31, color: "#f033ff" },
-  { id: 5, name: "Education", articles: 19, color: "#ff9933" },
-  { id: 6, name: "Health", articles: 23, color: "#33ffec" },
-  { id: 7, name: "World", articles: 27, color: "#9fff33" },
-  { id: 8, name: "Business", articles: 34, color: "#ff33a8" },
-];
-
-const sampleComments = [
-  { id: 1, article: "New Policy Reform Announced", author: "Ankit Patel", content: "This is a much-needed reform...", status: "Approved", date: "2023-05-15" },
-  { id: 2, article: "Stock Market Hits All-Time High", author: "Neha Singh", content: "I'm skeptical about the sustainability...", status: "Pending", date: "2023-05-17" },
-  { id: 3, article: "Indian Cricket Team Announces Squad", author: "Rahul Mehta", content: "They should have included...", status: "Approved", date: "2023-05-18" },
-  { id: 4, article: "New Policy Reform Announced", author: "Sunita Patel", content: "This government keeps promising...", status: "Rejected", date: "2023-05-16" },
-  { id: 5, article: "Healthcare Reform Bill Proposed", author: "Dr. Kapoor", content: "From a medical professional's perspective...", status: "Pending", date: "2023-05-18" },
-];
-
-// Analytics data
+// Sample data for admin dashboard
 const analyticsData = {
-  visitors: {
-    today: 1245,
-    yesterday: 1120,
-    thisWeek: 8765,
-    thisMonth: 34521,
-    total: 256789
-  },
-  pageViews: {
-    today: 3512,
-    yesterday: 3155,
-    thisWeek: 23421,
-    thisMonth: 98752,
-    total: 789543
-  },
   topArticles: [
-    { title: "Indian Cricket Team Announces Squad", views: 3500, category: "Sports" },
-    { title: "Stock Market Hits All-Time High", views: 3120, category: "Business" },
-    { title: "Bollywood Blockbuster Breaks Records", views: 2850, category: "Entertainment" },
-    { title: "New Medical Research Breakthrough", views: 2340, category: "Health" },
-    { title: "Global Summit on Climate Change", views: 2150, category: "World" }
+    { title: "PM Inaugurates New Metro Line", category: "Politics", views: 24587 },
+    { title: "Tech Giants Announce AI Partnership", category: "Technology", views: 19354 },
+    { title: "Team India's Historic Win", category: "Sports", views: 18965 },
+    { title: "Budget 2023: Key Highlights", category: "Business", views: 15472 },
+    { title: "New Education Policy Impact", category: "Education", views: 12198 }
   ],
   topCategories: [
-    { name: "Politics", views: 12450 },
-    { name: "Sports", views: 11320 },
-    { name: "Business", views: 9875 },
-    { name: "Technology", views: 8940 },
-    { name: "Entertainment", views: 7650 }
-  ],
-  userEngagement: {
-    averageTimeOnPage: "3m 24s",
-    bounceRate: "32%",
-    returnVisitors: "45%",
-    newVisitors: "55%"
-  }
+    { name: "Politics", views: 145897 },
+    { name: "Technology", views: 121543 },
+    { name: "Sports", views: 98765 },
+    { name: "Entertainment", views: 87654 },
+    { name: "Business", views: 76543 }
+  ]
 };
 
+// Sample articles data
+const articlesData = [
+  { 
+    id: 1, 
+    title: "PM Inaugurates New Metro Line", 
+    category: "Politics",
+    author: "Priya Sharma",
+    publishDate: "2023-07-15",
+    status: "Published",
+    views: 24587
+  },
+  { 
+    id: 2, 
+    title: "Tech Giants Announce AI Partnership", 
+    category: "Technology",
+    author: "Arjun Reddy",
+    publishDate: "2023-07-14",
+    status: "Published",
+    views: 19354
+  },
+  { 
+    id: 3, 
+    title: "Team India's Historic Win", 
+    category: "Sports",
+    author: "Rahul Verma",
+    publishDate: "2023-07-13",
+    status: "Published",
+    views: 18965
+  },
+  { 
+    id: 4, 
+    title: "Budget 2023: Key Highlights", 
+    category: "Business",
+    author: "Neha Gupta",
+    publishDate: "2023-07-12",
+    status: "Published",
+    views: 15472
+  },
+  { 
+    id: 5, 
+    title: "Upcoming Bollywood Releases", 
+    category: "Entertainment",
+    author: "Karan Malhotra",
+    publishDate: "2023-07-11",
+    status: "Draft",
+    views: 0
+  }
+];
+
 const AdminPortal = () => {
-  const [activeTab, setActiveTab] = useState("dashboard");
   const [isLoaded, setIsLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState("dashboard");
+  const [articles, setArticles] = useState(articlesData);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [categoryFilter, setCategoryFilter] = useState("all");
   const { toast } = useToast();
-  
+
   useEffect(() => {
     // Simulate loading
     const timer = setTimeout(() => {
       setIsLoaded(true);
-      
-      // Welcome toast for admin
       toast({
         title: "Welcome to Admin Portal",
-        description: "You are logged in as Administrator.",
+        description: "You've successfully logged in as administrator.",
       });
-    }, 300);
+    }, 600);
+    
+    // Update page title
+    document.title = "Admin Portal | HindPrabhari";
     
     return () => clearTimeout(timer);
   }, [toast]);
 
-  const handleDeleteUser = (userId: number) => {
-    toast({
-      title: "User Deleted",
-      description: `User ID ${userId} has been deleted.`,
-    });
-  };
-
-  const handleDeleteArticle = (articleId: number) => {
+  const handleDeleteArticle = (id: number) => {
+    setArticles(articles.filter(article => article.id !== id));
     toast({
       title: "Article Deleted",
-      description: `Article ID ${articleId} has been deleted.`,
+      description: "The article has been successfully deleted.",
     });
   };
 
-  const handleEditArticle = (articleId: number) => {
+  const handleStatusChange = (id: number, newStatus: string) => {
+    setArticles(articles.map(article => 
+      article.id === id ? { ...article, status: newStatus } : article
+    ));
     toast({
-      title: "Edit Article",
-      description: `Editing article ID ${articleId}.`,
-    });
-  };
-
-  const handleCreateArticle = () => {
-    toast({
-      title: "Create New Article",
-      description: "Opening article editor.",
+      title: "Status Updated",
+      description: `Article status changed to ${newStatus}.`,
     });
   };
 
   const handleLogout = () => {
     toast({
       title: "Logged Out",
-      description: "You have been logged out of the admin panel.",
+      description: "You have been successfully logged out.",
     });
+    // In a real app, this would redirect to login page
   };
 
-  // Filter articles based on search term and status
-  const filterArticles = () => {
-    return sampleArticles.filter(article => {
-      const matchesSearch = article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                            article.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                            article.author.toLowerCase().includes(searchTerm.toLowerCase());
-      
-      const matchesStatus = statusFilter === "all" || article.status.toLowerCase() === statusFilter.toLowerCase();
-      
-      return matchesSearch && matchesStatus;
-    });
-  };
-
-  // Filter users based on search term
-  const filterUsers = () => {
-    return sampleUsers.filter(user => 
-      user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.role.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  };
-
-  // Filter comments based on search term
-  const filterComments = () => {
-    return sampleComments.filter(comment => 
-      comment.article.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      comment.author.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      comment.content.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  };
+  // Filtered articles based on search term and filters
+  const filteredArticles = articles.filter(article => {
+    const matchesSearch = article.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                         article.author.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesStatus = statusFilter === "all" || article.status === statusFilter;
+    const matchesCategory = categoryFilter === "all" || article.category === categoryFilter;
+    
+    return matchesSearch && matchesStatus && matchesCategory;
+  });
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -273,6 +238,14 @@ const AdminPortal = () => {
                         Users
                       </Button>
                       <Button 
+                        variant={activeTab === "media" ? "default" : "ghost"} 
+                        className="justify-start rounded-none h-12"
+                        onClick={() => setActiveTab("media")}
+                      >
+                        <Image className="h-5 w-5 mr-2" />
+                        Media
+                      </Button>
+                      <Button 
                         variant={activeTab === "settings" ? "default" : "ghost"} 
                         className="justify-start rounded-none h-12"
                         onClick={() => setActiveTab("settings")}
@@ -283,7 +256,7 @@ const AdminPortal = () => {
                       <Separator />
                       <Button 
                         variant="ghost" 
-                        className="justify-start rounded-none h-12 text-destructive hover:text-destructive hover:bg-destructive/10"
+                        className="justify-start rounded-none h-12 text-red-500 hover:text-red-600 hover:bg-red-100 mt-auto"
                         onClick={handleLogout}
                       >
                         <LogOut className="h-5 w-5 mr-2" />
@@ -294,680 +267,314 @@ const AdminPortal = () => {
                 </Card>
               </div>
               
-              {/* Main Content Area */}
+              {/* Main Content */}
               <div className="lg:col-span-9 xl:col-span-10">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>
-                      {activeTab === "dashboard" && "Dashboard"}
-                      {activeTab === "articles" && "Manage Articles"}
-                      {activeTab === "categories" && "Manage Categories"}
-                      {activeTab === "comments" && "Manage Comments"}
-                      {activeTab === "users" && "Manage Users"}
-                      {activeTab === "settings" && "Settings"}
-                    </CardTitle>
-                    <CardDescription>
-                      {activeTab === "dashboard" && "Overview of your site's performance and analytics."}
-                      {activeTab === "articles" && "Create, edit, and manage your articles."}
-                      {activeTab === "categories" && "Manage article categories."}
-                      {activeTab === "comments" && "Moderate and manage user comments."}
-                      {activeTab === "users" && "Manage user accounts and permissions."}
-                      {activeTab === "settings" && "Configure site settings and preferences."}
-                    </CardDescription>
-                  </CardHeader>
-                  
-                  <CardContent>
-                    {/* Dashboard Tab */}
-                    {activeTab === "dashboard" && (
-                      <div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                          <Card>
-                            <CardHeader className="pb-2">
-                              <CardTitle className="text-sm font-medium text-muted-foreground">Total Visitors</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                              <div className="text-2xl font-bold">{analyticsData.visitors.total.toLocaleString()}</div>
-                              <p className="text-xs text-muted-foreground mt-1">
-                                <span className="text-emerald-500">↑ 12.5%</span> from last month
-                              </p>
-                            </CardContent>
-                          </Card>
-                          
-                          <Card>
-                            <CardHeader className="pb-2">
-                              <CardTitle className="text-sm font-medium text-muted-foreground">Page Views</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                              <div className="text-2xl font-bold">{analyticsData.pageViews.total.toLocaleString()}</div>
-                              <p className="text-xs text-muted-foreground mt-1">
-                                <span className="text-emerald-500">↑ 8.3%</span> from last month
-                              </p>
-                            </CardContent>
-                          </Card>
-                          
-                          <Card>
-                            <CardHeader className="pb-2">
-                              <CardTitle className="text-sm font-medium text-muted-foreground">Avg. Time on Page</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                              <div className="text-2xl font-bold">{analyticsData.userEngagement.averageTimeOnPage}</div>
-                              <p className="text-xs text-muted-foreground mt-1">
-                                <span className="text-emerald-500">↑ 5.2%</span> from last month
-                              </p>
-                            </CardContent>
-                          </Card>
-                          
-                          <Card>
-                            <CardHeader className="pb-2">
-                              <CardTitle className="text-sm font-medium text-muted-foreground">Bounce Rate</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                              <div className="text-2xl font-bold">{analyticsData.userEngagement.bounceRate}</div>
-                              <p className="text-xs text-muted-foreground mt-1">
-                                <span className="text-rose-500">↑ 2.1%</span> from last month
-                              </p>
-                            </CardContent>
-                          </Card>
-                        </div>
-                        
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                          <Card>
-                            <CardHeader>
-                              <CardTitle className="text-lg">Top Articles</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                              <ul className="space-y-4">
-                                {analyticsData.topArticles.map((article, index) => (
-                                  <li key={index} className="flex justify-between items-center">
-                                    <div>
-                                      <p className="font-medium text-sm">{article.title}</p>
-                                      <p className="text-xs text-muted-foreground">{article.category}</p>
-                                    </div>
-                                    <div className="flex items-center">
-                                      <Eye className="h-3.5 w-3.5 mr-1 text-muted-foreground" />
-                                      <span className="text-sm">{article.views.toLocaleString()}</span>
-                                    </div>
-                                  </li>
-                                ))}
-                              </ul>
-                            </CardContent>
-                          </Card>
-                          
-                          <Card>
-                            <CardHeader>
-                              <CardTitle className="text-lg">Top Categories</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                              <ul className="space-y-4">
-                                {analyticsData.topCategories.map((category, index) => (
-                                  <li key={index} className="flex justify-between items-center">
-                                    <div className="flex items-center">
-                                      <div 
-                                        className="w-3 h-3 rounded-full mr-2" 
-                                        style={{ 
-                                          backgroundColor: sampleCategories.find(c => c.name === category.name)?.color || "#888" 
-                                        }}
-                                      ></div>
-                                      <p className="font-medium text-sm">{category.name}</p>
-                                    </div>
-                                    <div className="flex items-center">
-                                      <Eye className="h-3.5 w-3.5 mr-1 text-muted-foreground" />
-                                      <span className="text-sm">{category.views.toLocaleString()}</span>
-                                    </div>
-                                  </li>
-                                ))}
-                              </ul>
-                            </CardContent>
-                          </Card>
-                        </div>
-                        
-                        <Card>
-                          <CardHeader>
-                            <CardTitle className="text-lg">Recent Activity</CardTitle>
-                          </CardHeader>
-                          <CardContent>
-                            <div className="relative">
-                              <div className="absolute h-full w-px bg-muted left-2.5 top-0"></div>
-                              <ul className="space-y-4 relative">
-                                <li className="pl-6 relative">
-                                  <div className="absolute left-0 top-2 w-5 h-5 rounded-full bg-primary flex items-center justify-center">
-                                    <FileText className="h-3 w-3 text-primary-foreground" />
-                                  </div>
-                                  <p className="text-sm">New article published: <span className="font-medium">Stock Market Hits All-Time High</span></p>
-                                  <p className="text-xs text-muted-foreground">2 hours ago</p>
-                                </li>
-                                <li className="pl-6 relative">
-                                  <div className="absolute left-0 top-2 w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center">
-                                    <MessageSquare className="h-3 w-3 text-white" />
-                                  </div>
-                                  <p className="text-sm">New comment by <span className="font-medium">Dr. Kapoor</span> on <span className="font-medium">Healthcare Reform Bill Proposed</span></p>
-                                  <p className="text-xs text-muted-foreground">4 hours ago</p>
-                                </li>
-                                <li className="pl-6 relative">
-                                  <div className="absolute left-0 top-2 w-5 h-5 rounded-full bg-green-500 flex items-center justify-center">
-                                    <Users className="h-3 w-3 text-white" />
-                                  </div>
-                                  <p className="text-sm">New user registered: <span className="font-medium">Ananya Patel</span></p>
-                                  <p className="text-xs text-muted-foreground">6 hours ago</p>
-                                </li>
-                                <li className="pl-6 relative">
-                                  <div className="absolute left-0 top-2 w-5 h-5 rounded-full bg-amber-500 flex items-center justify-center">
-                                    <Pencil className="h-3 w-3 text-white" />
-                                  </div>
-                                  <p className="text-sm">Article edited: <span className="font-medium">New Policy Reform Announced</span></p>
-                                  <p className="text-xs text-muted-foreground">8 hours ago</p>
-                                </li>
-                                <li className="pl-6 relative">
-                                  <div className="absolute left-0 top-2 w-5 h-5 rounded-full bg-purple-500 flex items-center justify-center">
-                                    <Tag className="h-3 w-3 text-white" />
-                                  </div>
-                                  <p className="text-sm">Category created: <span className="font-medium">Science & Technology</span></p>
-                                  <p className="text-xs text-muted-foreground">Yesterday</p>
-                                </li>
-                              </ul>
-                            </div>
-                          </CardContent>
-                        </Card>
-                      </div>
-                    )}
+                {/* Dashboard Tab */}
+                {activeTab === "dashboard" && (
+                  <div>
+                    <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
                     
-                    {/* Articles Tab */}
-                    {activeTab === "articles" && (
-                      <div>
-                        <div className="flex flex-col md:flex-row justify-between md:items-center mb-6 gap-4">
-                          <div className="relative w-full md:w-72">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                            <Input
-                              placeholder="Search articles..."
-                              className="pl-9"
+                    {/* Stats Cards */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                      <Card>
+                        <CardHeader className="pb-2">
+                          <CardTitle className="text-sm font-medium text-muted-foreground">
+                            Total Articles
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="text-3xl font-bold">254</div>
+                          <p className="text-xs text-muted-foreground mt-1">
+                            <span className="text-green-500">+12</span> from last month
+                          </p>
+                        </CardContent>
+                      </Card>
+                      
+                      <Card>
+                        <CardHeader className="pb-2">
+                          <CardTitle className="text-sm font-medium text-muted-foreground">
+                            Total Users
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="text-3xl font-bold">8,652</div>
+                          <p className="text-xs text-muted-foreground mt-1">
+                            <span className="text-green-500">+23%</span> from last month
+                          </p>
+                        </CardContent>
+                      </Card>
+                      
+                      <Card>
+                        <CardHeader className="pb-2">
+                          <CardTitle className="text-sm font-medium text-muted-foreground">
+                            Page Views
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="text-3xl font-bold">98.7K</div>
+                          <p className="text-xs text-muted-foreground mt-1">
+                            <span className="text-green-500">+32%</span> from last month
+                          </p>
+                        </CardContent>
+                      </Card>
+                      
+                      <Card>
+                        <CardHeader className="pb-2">
+                          <CardTitle className="text-sm font-medium text-muted-foreground">
+                            Comments
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="text-3xl font-bold">1,352</div>
+                          <p className="text-xs text-muted-foreground mt-1">
+                            <span className="text-red-500">-8%</span> from last month
+                          </p>
+                        </CardContent>
+                      </Card>
+                    </div>
+                    
+                    {/* Charts and Tables */}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                      <Card>
+                        <CardHeader>
+                          <CardTitle>Top Articles</CardTitle>
+                          <CardDescription>
+                            Most viewed articles this month
+                          </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                          <Table>
+                            <TableHeader>
+                              <TableRow>
+                                <TableHead>Title</TableHead>
+                                <TableHead className="text-right">Views</TableHead>
+                              </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                              {analyticsData.topArticles.map((article, index) => (
+                                <TableRow key={index}>
+                                  <TableCell>
+                                    <div className="font-medium">{article.title}</div>
+                                    <div className="text-xs text-muted-foreground">{article.category}</div>
+                                  </TableCell>
+                                  <TableCell className="text-right">{article.views.toLocaleString()}</TableCell>
+                                </TableRow>
+                              ))}
+                            </TableBody>
+                          </Table>
+                        </CardContent>
+                      </Card>
+                      
+                      <Card>
+                        <CardHeader>
+                          <CardTitle>Top Categories</CardTitle>
+                          <CardDescription>
+                            Most popular categories by views
+                          </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                          <Table>
+                            <TableHeader>
+                              <TableRow>
+                                <TableHead>Category</TableHead>
+                                <TableHead className="text-right">Views</TableHead>
+                              </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                              {analyticsData.topCategories.map((category, index) => (
+                                <TableRow key={index}>
+                                  <TableCell className="font-medium">{category.name}</TableCell>
+                                  <TableCell className="text-right">{category.views.toLocaleString()}</TableCell>
+                                </TableRow>
+                              ))}
+                            </TableBody>
+                          </Table>
+                        </CardContent>
+                      </Card>
+                    </div>
+                  </div>
+                )}
+                
+                {/* Articles Tab */}
+                {activeTab === "articles" && (
+                  <div>
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
+                      <h1 className="text-3xl font-bold">Articles</h1>
+                      <Button className="mt-2 sm:mt-0">
+                        <Plus className="h-5 w-5 mr-1" />
+                        New Article
+                      </Button>
+                    </div>
+                    
+                    <Card className="mb-6">
+                      <CardContent className="p-4">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                          <div className="relative">
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                            <Input 
+                              placeholder="Search articles..." 
+                              className="pl-10"
                               value={searchTerm}
                               onChange={(e) => setSearchTerm(e.target.value)}
                             />
                           </div>
-                          
-                          <div className="flex items-center gap-4">
-                            <Select value={statusFilter} onValueChange={setStatusFilter}>
-                              <SelectTrigger className="w-32">
-                                <SelectValue placeholder="Status" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="all">All Status</SelectItem>
-                                <SelectItem value="published">Published</SelectItem>
-                                <SelectItem value="draft">Draft</SelectItem>
-                                <SelectItem value="under review">Under Review</SelectItem>
-                              </SelectContent>
-                            </Select>
-                            
-                            <Button onClick={handleCreateArticle}>
-                              <Plus className="h-4 w-4 mr-2" />
-                              New Article
-                            </Button>
-                          </div>
+                          <Select value={statusFilter} onValueChange={setStatusFilter}>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Filter by status" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="all">All Statuses</SelectItem>
+                              <SelectItem value="Published">Published</SelectItem>
+                              <SelectItem value="Draft">Draft</SelectItem>
+                              <SelectItem value="Archived">Archived</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <Select value={categoryFilter} onValueChange={setCategoryFilter}>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Filter by category" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="all">All Categories</SelectItem>
+                              <SelectItem value="Politics">Politics</SelectItem>
+                              <SelectItem value="Technology">Technology</SelectItem>
+                              <SelectItem value="Sports">Sports</SelectItem>
+                              <SelectItem value="Business">Business</SelectItem>
+                              <SelectItem value="Entertainment">Entertainment</SelectItem>
+                              <SelectItem value="Education">Education</SelectItem>
+                              <SelectItem value="Health">Health</SelectItem>
+                            </SelectContent>
+                          </Select>
                         </div>
-                        
+                      </CardContent>
+                    </Card>
+                    
+                    <Card>
+                      <CardContent className="p-0">
                         <Table>
                           <TableHeader>
                             <TableRow>
-                              <TableHead className="w-[300px]">Title</TableHead>
+                              <TableHead>Title</TableHead>
                               <TableHead>Category</TableHead>
                               <TableHead>Author</TableHead>
-                              <TableHead>Status</TableHead>
                               <TableHead>Date</TableHead>
-                              <TableHead className="text-right">Views</TableHead>
-                              <TableHead className="w-[100px]">Actions</TableHead>
+                              <TableHead>Status</TableHead>
+                              <TableHead className="text-right">Actions</TableHead>
                             </TableRow>
                           </TableHeader>
                           <TableBody>
-                            {filterArticles().length > 0 ? (
-                              filterArticles().map((article) => (
+                            {filteredArticles.length === 0 ? (
+                              <TableRow>
+                                <TableCell colSpan={6} className="text-center py-8">
+                                  No articles found matching your filters.
+                                </TableCell>
+                              </TableRow>
+                            ) : (
+                              filteredArticles.map((article) => (
                                 <TableRow key={article.id}>
-                                  <TableCell className="font-medium">{article.title}</TableCell>
+                                  <TableCell>
+                                    <div className="font-medium">{article.title}</div>
+                                    <div className="text-xs text-muted-foreground">ID: {article.id}</div>
+                                  </TableCell>
                                   <TableCell>{article.category}</TableCell>
                                   <TableCell>{article.author}</TableCell>
+                                  <TableCell>{article.publishDate}</TableCell>
                                   <TableCell>
-                                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                                      article.status === "Published" ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300" :
-                                      article.status === "Draft" ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300" :
-                                      "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300"
-                                    }`}>
+                                    <div className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                                      ${article.status === 'Published' ? 'bg-green-100 text-green-800' : ''}
+                                      ${article.status === 'Draft' ? 'bg-yellow-100 text-yellow-800' : ''}
+                                      ${article.status === 'Archived' ? 'bg-gray-100 text-gray-800' : ''}
+                                    `}>
                                       {article.status}
-                                    </span>
-                                  </TableCell>
-                                  <TableCell>{article.date}</TableCell>
-                                  <TableCell className="text-right">{article.views}</TableCell>
-                                  <TableCell>
-                                    <DropdownMenu>
-                                      <DropdownMenuTrigger asChild>
-                                        <Button variant="ghost" size="icon">
-                                          <MoreHorizontal className="h-4 w-4" />
-                                        </Button>
-                                      </DropdownMenuTrigger>
-                                      <DropdownMenuContent align="end">
-                                        <DropdownMenuItem onClick={() => handleEditArticle(article.id)}>
-                                          <Pencil className="h-4 w-4 mr-2" />
-                                          Edit
-                                        </DropdownMenuItem>
-                                        <DropdownMenuItem>
-                                          <Eye className="h-4 w-4 mr-2" />
-                                          Preview
-                                        </DropdownMenuItem>
-                                        <DropdownMenuSeparator />
-                                        <DropdownMenuItem onClick={() => handleDeleteArticle(article.id)} className="text-destructive focus:text-destructive">
-                                          <Trash className="h-4 w-4 mr-2" />
-                                          Delete
-                                        </DropdownMenuItem>
-                                      </DropdownMenuContent>
-                                    </DropdownMenu>
-                                  </TableCell>
-                                </TableRow>
-                              ))
-                            ) : (
-                              <TableRow>
-                                <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
-                                  No articles found
-                                </TableCell>
-                              </TableRow>
-                            )}
-                          </TableBody>
-                        </Table>
-                      </div>
-                    )}
-                    
-                    {/* Categories Tab */}
-                    {activeTab === "categories" && (
-                      <div>
-                        <div className="flex justify-between items-center mb-6">
-                          <div className="relative w-72">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                            <Input
-                              placeholder="Search categories..."
-                              className="pl-9"
-                              value={searchTerm}
-                              onChange={(e) => setSearchTerm(e.target.value)}
-                            />
-                          </div>
-                          
-                          <Button>
-                            <Plus className="h-4 w-4 mr-2" />
-                            New Category
-                          </Button>
-                        </div>
-                        
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                          {sampleCategories
-                            .filter(cat => cat.name.toLowerCase().includes(searchTerm.toLowerCase()))
-                            .map((category) => (
-                              <Card key={category.id}>
-                                <CardHeader className="pb-2 flex flex-row items-center justify-between space-y-0">
-                                  <div className="flex space-x-2 items-center">
-                                    <div 
-                                      className="w-4 h-4 rounded-full" 
-                                      style={{ backgroundColor: category.color }}
-                                    ></div>
-                                    <CardTitle className="text-lg">{category.name}</CardTitle>
-                                  </div>
-                                  <DropdownMenu>
-                                    <DropdownMenuTrigger asChild>
-                                      <Button variant="ghost" size="icon">
-                                        <MoreHorizontal className="h-4 w-4" />
-                                      </Button>
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent align="end">
-                                      <DropdownMenuItem>
-                                        <Pencil className="h-4 w-4 mr-2" />
-                                        Edit
-                                      </DropdownMenuItem>
-                                      <DropdownMenuSeparator />
-                                      <DropdownMenuItem className="text-destructive focus:text-destructive">
-                                        <Trash className="h-4 w-4 mr-2" />
-                                        Delete
-                                      </DropdownMenuItem>
-                                    </DropdownMenuContent>
-                                  </DropdownMenu>
-                                </CardHeader>
-                                <CardContent>
-                                  <div className="text-sm text-muted-foreground">
-                                    {category.articles} articles
-                                  </div>
-                                </CardContent>
-                                <CardFooter className="pt-0">
-                                  <Button variant="outline" size="sm" className="w-full">
-                                    View Articles
-                                  </Button>
-                                </CardFooter>
-                              </Card>
-                            ))}
-                        </div>
-                      </div>
-                    )}
-                    
-                    {/* Comments Tab */}
-                    {activeTab === "comments" && (
-                      <div>
-                        <div className="relative w-full md:w-72 mb-6">
-                          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                          <Input
-                            placeholder="Search comments..."
-                            className="pl-9"
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                          />
-                        </div>
-                        
-                        <Tabs defaultValue="all">
-                          <TabsList className="mb-4">
-                            <TabsTrigger value="all">All</TabsTrigger>
-                            <TabsTrigger value="pending">Pending</TabsTrigger>
-                            <TabsTrigger value="approved">Approved</TabsTrigger>
-                            <TabsTrigger value="rejected">Rejected</TabsTrigger>
-                          </TabsList>
-                          
-                          <TabsContent value="all">
-                            <Table>
-                              <TableHeader>
-                                <TableRow>
-                                  <TableHead className="w-[300px]">Comment</TableHead>
-                                  <TableHead>Article</TableHead>
-                                  <TableHead>Author</TableHead>
-                                  <TableHead>Status</TableHead>
-                                  <TableHead>Date</TableHead>
-                                  <TableHead className="w-[100px]">Actions</TableHead>
-                                </TableRow>
-                              </TableHeader>
-                              <TableBody>
-                                {filterComments().length > 0 ? (
-                                  filterComments().map((comment) => (
-                                    <TableRow key={comment.id}>
-                                      <TableCell className="font-medium truncate max-w-xs">{comment.content}</TableCell>
-                                      <TableCell>{comment.article}</TableCell>
-                                      <TableCell>{comment.author}</TableCell>
-                                      <TableCell>
-                                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                                          comment.status === "Approved" ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300" :
-                                          comment.status === "Pending" ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300" :
-                                          "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300"
-                                        }`}>
-                                          {comment.status}
-                                        </span>
-                                      </TableCell>
-                                      <TableCell>{comment.date}</TableCell>
-                                      <TableCell>
-                                        <DropdownMenu>
-                                          <DropdownMenuTrigger asChild>
-                                            <Button variant="ghost" size="icon">
-                                              <MoreHorizontal className="h-4 w-4" />
-                                            </Button>
-                                          </DropdownMenuTrigger>
-                                          <DropdownMenuContent align="end">
-                                            <DropdownMenuItem>
-                                              <Eye className="h-4 w-4 mr-2" />
-                                              View
-                                            </DropdownMenuItem>
-                                            <DropdownMenuItem>
-                                              <Pencil className="h-4 w-4 mr-2" />
-                                              Edit
-                                            </DropdownMenuItem>
-                                            <DropdownMenuSeparator />
-                                            <DropdownMenuItem className="text-destructive focus:text-destructive">
-                                              <Trash className="h-4 w-4 mr-2" />
-                                              Delete
-                                            </DropdownMenuItem>
-                                          </DropdownMenuContent>
-                                        </DropdownMenu>
-                                      </TableCell>
-                                    </TableRow>
-                                  ))
-                                ) : (
-                                  <TableRow>
-                                    <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
-                                      No comments found
-                                    </TableCell>
-                                  </TableRow>
-                                )}
-                              </TableBody>
-                            </Table>
-                          </TabsContent>
-                          
-                          <TabsContent value="pending">
-                            <Table>
-                              <TableHeader>
-                                <TableRow>
-                                  <TableHead className="w-[300px]">Comment</TableHead>
-                                  <TableHead>Article</TableHead>
-                                  <TableHead>Author</TableHead>
-                                  <TableHead>Date</TableHead>
-                                  <TableHead className="w-[200px]">Actions</TableHead>
-                                </TableRow>
-                              </TableHeader>
-                              <TableBody>
-                                {sampleComments
-                                  .filter(comment => comment.status === "Pending" && comment.content.toLowerCase().includes(searchTerm.toLowerCase()))
-                                  .map((comment) => (
-                                    <TableRow key={comment.id}>
-                                      <TableCell className="font-medium truncate max-w-xs">{comment.content}</TableCell>
-                                      <TableCell>{comment.article}</TableCell>
-                                      <TableCell>{comment.author}</TableCell>
-                                      <TableCell>{comment.date}</TableCell>
-                                      <TableCell>
-                                        <div className="flex space-x-2">
-                                          <Button variant="outline" size="sm" className="h-8 text-green-600">
-                                            Approve
-                                          </Button>
-                                          <Button variant="outline" size="sm" className="h-8 text-red-600">
-                                            Reject
-                                          </Button>
-                                          <Button variant="ghost" size="icon" className="h-8 w-8">
-                                            <Trash className="h-4 w-4" />
-                                          </Button>
-                                        </div>
-                                      </TableCell>
-                                    </TableRow>
-                                  ))}
-                              </TableBody>
-                            </Table>
-                          </TabsContent>
-                          
-                          <TabsContent value="approved">
-                            {/* Similar table for approved comments */}
-                          </TabsContent>
-                          
-                          <TabsContent value="rejected">
-                            {/* Similar table for rejected comments */}
-                          </TabsContent>
-                        </Tabs>
-                      </div>
-                    )}
-                    
-                    {/* Users Tab */}
-                    {activeTab === "users" && (
-                      <div>
-                        <div className="flex justify-between items-center mb-6">
-                          <div className="relative w-72">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                            <Input
-                              placeholder="Search users..."
-                              className="pl-9"
-                              value={searchTerm}
-                              onChange={(e) => setSearchTerm(e.target.value)}
-                            />
-                          </div>
-                          
-                          <Button>
-                            <Plus className="h-4 w-4 mr-2" />
-                            New User
-                          </Button>
-                        </div>
-                        
-                        <Table>
-                          <TableHeader>
-                            <TableRow>
-                              <TableHead className="w-[250px]">Name</TableHead>
-                              <TableHead>Email</TableHead>
-                              <TableHead>Role</TableHead>
-                              <TableHead>Status</TableHead>
-                              <TableHead>Last Active</TableHead>
-                              <TableHead className="w-[100px]">Actions</TableHead>
-                            </TableRow>
-                          </TableHeader>
-                          <TableBody>
-                            {filterUsers().length > 0 ? (
-                              filterUsers().map((user) => (
-                                <TableRow key={user.id}>
-                                  <TableCell className="font-medium">
-                                    <div className="flex items-center space-x-2">
-                                      <Avatar className="h-8 w-8">
-                                        <AvatarFallback>{user.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
-                                      </Avatar>
-                                      <span>{user.name}</span>
                                     </div>
                                   </TableCell>
-                                  <TableCell>{user.email}</TableCell>
-                                  <TableCell>{user.role}</TableCell>
-                                  <TableCell>
-                                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                                      user.status === "Active" ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300" :
-                                      "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300"
-                                    }`}>
-                                      {user.status}
-                                    </span>
-                                  </TableCell>
-                                  <TableCell>{user.lastActive}</TableCell>
-                                  <TableCell>
-                                    <DropdownMenu>
-                                      <DropdownMenuTrigger asChild>
-                                        <Button variant="ghost" size="icon">
-                                          <MoreHorizontal className="h-4 w-4" />
-                                        </Button>
-                                      </DropdownMenuTrigger>
-                                      <DropdownMenuContent align="end">
-                                        <DropdownMenuItem>
-                                          <Pencil className="h-4 w-4 mr-2" />
-                                          Edit
-                                        </DropdownMenuItem>
-                                        <DropdownMenuItem>
-                                          <FileText className="h-4 w-4 mr-2" />
-                                          View Articles
-                                        </DropdownMenuItem>
-                                        <DropdownMenuSeparator />
-                                        <DropdownMenuItem onClick={() => handleDeleteUser(user.id)} className="text-destructive focus:text-destructive">
-                                          <Trash className="h-4 w-4 mr-2" />
-                                          Delete
-                                        </DropdownMenuItem>
-                                      </DropdownMenuContent>
-                                    </DropdownMenu>
+                                  <TableCell className="text-right">
+                                    <div className="flex justify-end">
+                                      <Button variant="ghost" size="icon" className="h-8 w-8">
+                                        <Eye className="h-4 w-4" />
+                                      </Button>
+                                      <Button variant="ghost" size="icon" className="h-8 w-8">
+                                        <Pencil className="h-4 w-4" />
+                                      </Button>
+                                      <DropdownMenu>
+                                        <DropdownMenuTrigger asChild>
+                                          <Button variant="ghost" size="icon" className="h-8 w-8">
+                                            <Sliders className="h-4 w-4" />
+                                          </Button>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent align="end">
+                                          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                          <DropdownMenuSeparator />
+                                          {article.status !== "Published" && (
+                                            <DropdownMenuItem onClick={() => handleStatusChange(article.id, "Published")}>
+                                              Publish
+                                            </DropdownMenuItem>
+                                          )}
+                                          {article.status !== "Draft" && (
+                                            <DropdownMenuItem onClick={() => handleStatusChange(article.id, "Draft")}>
+                                              Move to Draft
+                                            </DropdownMenuItem>
+                                          )}
+                                          {article.status !== "Archived" && (
+                                            <DropdownMenuItem onClick={() => handleStatusChange(article.id, "Archived")}>
+                                              Archive
+                                            </DropdownMenuItem>
+                                          )}
+                                          <DropdownMenuSeparator />
+                                          <DropdownMenuItem 
+                                            onClick={() => handleDeleteArticle(article.id)}
+                                            className="text-red-600"
+                                          >
+                                            Delete
+                                          </DropdownMenuItem>
+                                        </DropdownMenuContent>
+                                      </DropdownMenu>
+                                    </div>
                                   </TableCell>
                                 </TableRow>
                               ))
-                            ) : (
-                              <TableRow>
-                                <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
-                                  No users found
-                                </TableCell>
-                              </TableRow>
                             )}
                           </TableBody>
                         </Table>
-                      </div>
-                    )}
-                    
-                    {/* Settings Tab */}
-                    {activeTab === "settings" && (
-                      <div className="space-y-6">
-                        <div>
-                          <h3 className="text-lg font-medium mb-4">General Settings</h3>
-                          <div className="space-y-4">
-                            <div className="grid gap-2">
-                              <label htmlFor="site-title" className="text-sm font-medium">
-                                Site Title
-                              </label>
-                              <Input id="site-title" defaultValue="HindPrabhari" />
-                            </div>
-                            <div className="grid gap-2">
-                              <label htmlFor="site-description" className="text-sm font-medium">
-                                Site Description
-                              </label>
-                              <Input id="site-description" defaultValue="The Pulse of Bharat - Truth in Every Story" />
-                            </div>
-                          </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                )}
+                
+                {/* Categories Tab */}
+                {activeTab === "categories" && (
+                  <div>
+                    <h1 className="text-3xl font-bold mb-6">Categories</h1>
+                    <p className="text-muted-foreground mb-6">Manage your content categories here.</p>
+                    <Card>
+                      <CardContent className="p-6">
+                        <div className="text-center py-12">
+                          <LayoutDashboard className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+                          <h3 className="text-lg font-medium mb-2">Category Management</h3>
+                          <p className="text-muted-foreground mb-4">This feature is coming soon.</p>
+                          <Button>Get Notified</Button>
                         </div>
-                        
-                        <Separator />
-                        
-                        <div>
-                          <h3 className="text-lg font-medium mb-4">Appearance</h3>
-                          <div className="space-y-4">
-                            <div className="grid gap-2">
-                              <label htmlFor="theme" className="text-sm font-medium">
-                                Default Theme
-                              </label>
-                              <Select defaultValue="system">
-                                <SelectTrigger id="theme">
-                                  <SelectValue placeholder="Select theme" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                  <SelectItem value="light">Light</SelectItem>
-                                  <SelectItem value="dark">Dark</SelectItem>
-                                  <SelectItem value="system">System</SelectItem>
-                                </SelectContent>
-                              </Select>
-                            </div>
-                            <div className="grid gap-2">
-                              <label htmlFor="primary-color" className="text-sm font-medium">
-                                Primary Color
-                              </label>
-                              <Select defaultValue="orange">
-                                <SelectTrigger id="primary-color">
-                                  <SelectValue placeholder="Select color" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                  <SelectItem value="orange">Orange</SelectItem>
-                                  <SelectItem value="blue">Blue</SelectItem>
-                                  <SelectItem value="green">Green</SelectItem>
-                                  <SelectItem value="purple">Purple</SelectItem>
-                                  <SelectItem value="red">Red</SelectItem>
-                                </SelectContent>
-                              </Select>
-                            </div>
-                          </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                )}
+                
+                {/* Other tabs with placeholder content */}
+                {(activeTab === "comments" || activeTab === "users" || activeTab === "media" || activeTab === "settings") && (
+                  <div>
+                    <h1 className="text-3xl font-bold mb-6">{activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}</h1>
+                    <p className="text-muted-foreground mb-6">This section is under development.</p>
+                    <Card>
+                      <CardContent className="p-6">
+                        <div className="text-center py-12">
+                          <LayoutDashboard className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+                          <h3 className="text-lg font-medium mb-2">Coming Soon</h3>
+                          <p className="text-muted-foreground mb-4">This feature is being built and will be available soon.</p>
+                          <Button>Get Notified</Button>
                         </div>
-                        
-                        <Separator />
-                        
-                        <div>
-                          <h3 className="text-lg font-medium mb-4">Content Settings</h3>
-                          <div className="space-y-4">
-                            <div className="grid gap-2">
-                              <label htmlFor="articles-per-page" className="text-sm font-medium">
-                                Articles Per Page
-                              </label>
-                              <Input id="articles-per-page" type="number" defaultValue="10" />
-                            </div>
-                            <div className="grid gap-2">
-                              <label htmlFor="comments-moderation" className="text-sm font-medium">
-                                Comments Moderation
-                              </label>
-                              <Select defaultValue="approve-all">
-                                <SelectTrigger id="comments-moderation">
-                                  <SelectValue placeholder="Select moderation level" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                  <SelectItem value="approve-all">Approve All Comments</SelectItem>
-                                  <SelectItem value="moderate-first">Moderate First Comment</SelectItem>
-                                  <SelectItem value="moderate-all">Moderate All Comments</SelectItem>
-                                </SelectContent>
-                              </Select>
-                            </div>
-                          </div>
-                        </div>
-                        
-                        <div className="flex justify-end space-x-4">
-                          <Button variant="outline">Cancel</Button>
-                          <Button>Save Changes</Button>
-                        </div>
-                      </div>
-                    )}
-                  </CardContent>
-                </Card>
+                      </CardContent>
+                    </Card>
+                  </div>
+                )}
               </div>
             </div>
           </div>
