@@ -3,6 +3,7 @@ import { Home, TrendingUp, Clock, Mail } from "lucide-react";
 import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Link } from "react-router-dom";
 
 interface CategoryItem {
   name: string;
@@ -43,52 +44,58 @@ const MobileNavigation = ({
           />
         </form>
         <nav className="flex flex-col space-y-4">
-          <Button 
-            variant="ghost"
-            className="justify-start px-3 py-2 text-sm font-medium hover:text-primary flex items-center rounded-lg" 
-            onClick={() => scrollToSection("home")}
-          >
-            <Home className="mr-2 h-6 w-6" />
-            Home
-          </Button>
-          <Button 
-            variant="ghost"
-            className="justify-start px-3 py-2 text-sm font-medium hover:text-primary flex items-center rounded-lg" 
-            onClick={() => scrollToSection("trending")}
-          >
-            <TrendingUp className="mr-2 h-6 w-6" />
-            Trending
-          </Button>
-          <Button 
-            variant="ghost"
-            className="justify-start px-3 py-2 text-sm font-medium hover:text-primary flex items-center rounded-lg" 
-            onClick={() => scrollToSection("latest")}
-          >
-            <Clock className="mr-2 h-6 w-6" />
-            Latest
-          </Button>
+          <Link to="/" className="w-full">
+            <Button 
+              variant="ghost"
+              className="justify-start px-3 py-2 text-sm font-medium hover:text-primary flex items-center rounded-lg w-full" 
+            >
+              <Home className="mr-2 h-6 w-6" />
+              Home
+            </Button>
+          </Link>
+          
+          <Link to="/trending" className="w-full">
+            <Button 
+              variant="ghost"
+              className="justify-start px-3 py-2 text-sm font-medium hover:text-primary flex items-center rounded-lg w-full" 
+            >
+              <TrendingUp className="mr-2 h-6 w-6" />
+              Trending
+            </Button>
+          </Link>
+          
+          <Link to="/articles" className="w-full">
+            <Button 
+              variant="ghost"
+              className="justify-start px-3 py-2 text-sm font-medium hover:text-primary flex items-center rounded-lg w-full" 
+            >
+              <Clock className="mr-2 h-6 w-6" />
+              Latest
+            </Button>
+          </Link>
           
           <div className="px-3 py-2 text-sm font-medium border-b">Categories</div>
           
           {categories.map((category) => (
-            <Button
-              key={category.path}
-              variant="ghost"
-              className="justify-start px-6 py-1.5 text-sm font-medium hover:text-primary rounded-lg" 
-              onClick={() => scrollToSection(category.id)}
-            >
-              {category.name}
-            </Button>
+            <Link to={category.path} key={category.path} className="w-full">
+              <Button
+                variant="ghost"
+                className="justify-start px-6 py-1.5 text-sm font-medium hover:text-primary rounded-lg w-full" 
+              >
+                {category.name}
+              </Button>
+            </Link>
           ))}
           
-          <Button 
-            variant="ghost"
-            className="justify-start px-3 py-2 text-sm font-medium hover:text-primary flex items-center rounded-lg" 
-            onClick={() => scrollToSection("contact")}
-          >
-            <Mail className="mr-2 h-6 w-6" />
-            Contact
-          </Button>
+          <Link to="/contact" className="w-full">
+            <Button 
+              variant="ghost"
+              className="justify-start px-3 py-2 text-sm font-medium hover:text-primary flex items-center rounded-lg w-full" 
+            >
+              <Mail className="mr-2 h-6 w-6" />
+              Contact
+            </Button>
+          </Link>
         </nav>
       </div>
     </div>
