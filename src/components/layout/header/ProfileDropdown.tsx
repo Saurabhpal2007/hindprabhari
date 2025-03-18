@@ -1,5 +1,4 @@
 
-import { User, LogIn, Settings, Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -9,66 +8,88 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useToast } from "@/components/ui/use-toast";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Link } from "react-router-dom";
+import { 
+  Settings, 
+  User, 
+  LogOut, 
+  ChevronDown, 
+  Bell, 
+  LogIn
+} from "lucide-react";
+import { useUser, useClerk } from "@clerk/clerk-react";
 
-interface ProfileDropdownProps {
-  theme: "light" | "dark";
-  toggleTheme: () => void;
-}
-
-const ProfileDropdown = ({ theme, toggleTheme }: ProfileDropdownProps) => {
-  const { toast } = useToast();
-
-  const handleLogin = () => {
-    toast({
-      title: "Login",
-      description: "Login functionality will be implemented soon.",
-    });
+const ProfileDropdown = () => {
+  const { user, isSignedIn, isLoaded } = useUser();
+  const { signOut } = useClerk();
+  
+  const handleSignOut = () => {
+    signOut();
   };
-
-  const handleAdminAccess = () => {
-    toast({
-      title: "Admin Access",
-      description: "Admin functionality will be implemented soon.",
-    });
-  };
-
+  
+  // Show login button if not signed in
+  if (isLoaded && !isSignedIn) {
+    return (
+      <div className="flex items-center gap-2">
+        <Link to="/login">
+          <Button variant="ghost" size="sm" className="font-medium">
+            <LogIn className="mr-2 h-4 w-4" />
+            Login
+          </Button>
+        </Link>
+        <Link to="/signup">
+          <Button size="sm" className="font-medium">
+            Sign Up
+          </Button>
+        </Link>
+      </div>
+    );
+  }
+  
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button 
-          variant="ghost" 
-          size="icon"
-          className="rounded-full bg-muted/50 hover:bg-muted h-10 w-10"
-          aria-label="Profile options"
-        >
-          <User className="h-7 w-7" />
+        <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+          <Avatar className="h-8 w-8">
+            {user?.imageUrl ? (
+              <AvatarImage src={user.imageUrl} alt={user.firstName || "User"} />
+            ) : (
+              <AvatarFallback>
+                {user?.firstName?.[0] || user?.emailAddresses?.[0]?.emailAddress?.[0] || "U"}
+              </AvatarFallback>
+            )}
+          </Avatar>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-56 rounded-xl">
-        <DropdownMenuLabel>My Profile</DropdownMenuLabel>
+      <DropdownMenuContent className="w-56" align="end" forceMount>
+        <DropdownMenuLabel className="font-normal">
+          <div className="flex flex-col space-y-1">
+            <p className="text-sm font-medium leading-none">
+              {user?.firstName} {user?.lastName}
+            </p>
+            <p className="text-xs leading-none text-muted-foreground">
+              {user?.primaryEmailAddress?.emailAddress}
+            </p>
+          </div>
+        </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={handleLogin} className="rounded-lg focus:bg-accent">
-          <LogIn className="mr-2 h-5 w-5" />
-          <span>Account</span>
+        <DropdownMenuItem>
+          <User className="mr-2 h-4 w-4" />
+          <span>Profile</span>
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={handleAdminAccess} className="rounded-lg focus:bg-accent">
-          <Settings className="mr-2 h-5 w-5" />
-          <span>Admin</span>
+        <DropdownMenuItem>
+          <Settings className="mr-2 h-4 w-4" />
+          <span>Settings</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <Bell className="mr-2 h-4 w-4" />
+          <span>Notifications</span>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={toggleTheme} className="rounded-lg focus:bg-accent">
-          {theme === "light" ? (
-            <>
-              <Moon className="mr-2 h-5 w-5" />
-              <span>Dark Mode</span>
-            </>
-          ) : (
-            <>
-              <Sun className="mr-2 h-5 w-5" />
-              <span>Light Mode</span>
-            </>
-          )}
+        <DropdownMenuItem onClick={handleSignOut}>
+          <LogOut className="mr-2 h-4 w-4" />
+          <span>Log out</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

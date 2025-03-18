@@ -1,6 +1,6 @@
 
 #root {
-  margin: 0 auto;
+  margin: 0;
   width: 100%;
   text-align: center;
 }
@@ -39,4 +39,22 @@
 
 .read-the-docs {
   color: #888;
+}
+
+/* Fix for horizontal scrolling */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Mobile optimizations */
+@media (max-width: 640px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
 }
