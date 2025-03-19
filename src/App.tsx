@@ -7,6 +7,10 @@ import ArticlePage from './pages/ArticlePage';
 import AllArticlesPage from './pages/AllArticlesPage';
 import AdminPortal from './pages/AdminPortal';
 import NotFound from './pages/NotFound';
+import PrivacyPage from './pages/PrivacyPage';
+import TermsPage from './pages/TermsPage';
+import CookiesPage from './pages/CookiesPage';
+import SitemapPage from './pages/SitemapPage';
 import AIPopup from './components/ai/AIPopup';
 import './App.css';
 

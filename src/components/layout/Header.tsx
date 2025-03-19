@@ -3,9 +3,9 @@ import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/components/ui/use-theme";
 import { Link, useLocation } from "react-router-dom";
-import Logo from "./Logo";
+import Logo from "./header/Logo";
 import SearchBar from "../common/SearchBar";
-import ThemeToggle from "./ThemeToggle";
+import ThemeToggle from "./header/ThemeToggle";
 import AIButton from "./header/AIButton";
 import ProfileDropdown from "./header/ProfileDropdown";
 import DesktopNavigation from "./header/DesktopNavigation";
@@ -23,7 +23,7 @@ const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const location = useLocation();
-  const { theme } = useTheme();
+  const { theme, toggleTheme } = useTheme();
 
   const categories: CategoryItem[] = [
     { name: "Politics", path: "/politics", id: "politics" },
@@ -91,7 +91,7 @@ const Header = () => {
             <AIAccessButton />
             <ThemeToggle />
             <AIButton />
-            <ProfileDropdown />
+            <ProfileDropdown theme={theme} toggleTheme={toggleTheme} />
             <Button 
               variant="ghost" 
               size="icon" 
