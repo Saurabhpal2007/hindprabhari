@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
 import { Button } from "@/components/ui/button";
@@ -18,13 +18,12 @@ import {
   LayoutDashboard, 
   LogOut, 
   Image, 
-  Folder, 
   Eye,
-  PanelLeft,
-  PanelRight,
   Sliders,
   MessageSquare,
-  Search
+  Search,
+  Bot,
+  Sparkles
 } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
@@ -46,6 +45,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import AISettings from "../components/ai/AISettings";
 
 // Sample data for admin dashboard
 const sampleDashboardData = {
@@ -154,6 +154,7 @@ const AdminPortal = () => {
   const [articleStatusFilter, setArticleStatusFilter] = useState("all");
   const [isLoaded, setIsLoaded] = useState(false);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   useEffect(() => {
     document.title = "Admin Portal | HindPrabhari";
@@ -198,6 +199,9 @@ const AdminPortal = () => {
       title: "Logout",
       description: "You have been logged out.",
     });
+    setTimeout(() => {
+      navigate('/');
+    }, 1500);
   };
 
   const getFilteredArticles = () => {
@@ -285,6 +289,14 @@ const AdminPortal = () => {
                     >
                       <Image className="h-5 w-5 mr-2" />
                       Media
+                    </Button>
+                    <Button 
+                      variant={activeTab === "ai" ? "default" : "ghost"} 
+                      className="justify-start rounded-none h-12"
+                      onClick={() => setActiveTab("ai")}
+                    >
+                      <Bot className="h-5 w-5 mr-2" />
+                      AI Features
                     </Button>
                     <Button 
                       variant={activeTab === "settings" ? "default" : "ghost"} 
@@ -563,7 +575,33 @@ const AdminPortal = () => {
               {activeTab === "categories" && (
                 <div>
                   <h1 className="text-3xl font-bold mb-6">Categories</h1>
-                  <p>Manage article categories here.</p>
+                  <Card className="p-6">
+                    <p className="mb-4">Manage article categories here.</p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {analyticsData.topCategories.map((category, index) => (
+                        <Card key={index} className="p-4">
+                          <div className="flex justify-between items-center">
+                            <h3 className="font-medium">{category.name}</h3>
+                            <div className="flex space-x-2">
+                              <Button variant="outline" size="sm">
+                                <Pencil className="h-4 w-4" />
+                              </Button>
+                              <Button variant="outline" size="sm" className="text-red-500">
+                                <Trash className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </div>
+                          <p className="text-sm text-muted-foreground mt-2">
+                            {category.views.toLocaleString()} total views
+                          </p>
+                        </Card>
+                      ))}
+                    </div>
+                    <Button className="mt-6">
+                      <Plus className="mr-2 h-4 w-4" />
+                      Add Category
+                    </Button>
+                  </Card>
                 </div>
               )}
               
@@ -571,7 +609,66 @@ const AdminPortal = () => {
               {activeTab === "comments" && (
                 <div>
                   <h1 className="text-3xl font-bold mb-6">Comments</h1>
-                  <p>Moderate and manage user comments.</p>
+                  <Card className="p-6">
+                    <p>Moderate and manage user comments here.</p>
+                    <div className="mt-6">
+                      <Table>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead>User</TableHead>
+                            <TableHead>Comment</TableHead>
+                            <TableHead>Article</TableHead>
+                            <TableHead>Date</TableHead>
+                            <TableHead>Status</TableHead>
+                            <TableHead className="text-right">Actions</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {Array.from({ length:
+                           5 }).map((_, index) => (
+                            <TableRow key={index}>
+                              <TableCell>
+                                <div className="flex items-center">
+                                  <Avatar className="h-6 w-6 mr-2">
+                                    <AvatarFallback>{`U${index+1}`}</AvatarFallback>
+                                  </Avatar>
+                                  <span>User {index+1}</span>
+                                </div>
+                              </TableCell>
+                              <TableCell className="max-w-xs truncate">
+                                This is a sample comment that could be longer but is truncated here...
+                              </TableCell>
+                              <TableCell className="truncate">
+                                Sample Article Title {index+1}
+                              </TableCell>
+                              <TableCell>2023-08-{10+index}</TableCell>
+                              <TableCell>
+                                <div className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                                  index % 3 === 0 
+                                    ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100' 
+                                    : index % 3 === 1
+                                      ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-100' 
+                                      : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100'
+                                }`}>
+                                  {index % 3 === 0 ? 'Approved' : index % 3 === 1 ? 'Pending' : 'Rejected'}
+                                </div>
+                              </TableCell>
+                              <TableCell className="text-right">
+                                <div className="flex justify-end space-x-2">
+                                  <Button variant="outline" size="sm">
+                                    <Eye className="h-4 w-4" />
+                                  </Button>
+                                  <Button variant="outline" size="sm" className="text-red-500">
+                                    <Trash className="h-4 w-4" />
+                                  </Button>
+                                </div>
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </div>
+                  </Card>
                 </div>
               )}
               
@@ -579,7 +676,81 @@ const AdminPortal = () => {
               {activeTab === "users" && (
                 <div>
                   <h1 className="text-3xl font-bold mb-6">Users</h1>
-                  <p>Manage user accounts and permissions.</p>
+                  <Card className="p-6">
+                    <div className="flex justify-between items-center mb-6">
+                      <h2 className="text-xl font-semibold">User Management</h2>
+                      <Button>
+                        <Plus className="mr-2 h-4 w-4" />
+                        Add User
+                      </Button>
+                    </div>
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Name</TableHead>
+                          <TableHead>Email</TableHead>
+                          <TableHead>Role</TableHead>
+                          <TableHead>Status</TableHead>
+                          <TableHead>Joined Date</TableHead>
+                          <TableHead className="text-right">Actions</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {Array.from({ length: 5 }).map((_, index) => (
+                          <TableRow key={index}>
+                            <TableCell>
+                              <div className="flex items-center">
+                                <Avatar className="h-8 w-8 mr-2">
+                                  <AvatarFallback>{`U${index+1}`}</AvatarFallback>
+                                </Avatar>
+                                <span>User Name {index+1}</span>
+                              </div>
+                            </TableCell>
+                            <TableCell>user{index+1}@example.com</TableCell>
+                            <TableCell>
+                              {index === 0 ? 'Admin' : index === 1 ? 'Editor' : 'Subscriber'}
+                            </TableCell>
+                            <TableCell>
+                              <div className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                                index % 2 === 0 
+                                  ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100' 
+                                  : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-100'
+                              }`}>
+                                {index % 2 === 0 ? 'Active' : 'Inactive'}
+                              </div>
+                            </TableCell>
+                            <TableCell>2023-0{index+1}-01</TableCell>
+                            <TableCell className="text-right">
+                              <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                  <Button variant="ghost" size="icon">
+                                    <Sliders className="h-4 w-4" />
+                                  </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end">
+                                  <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                  <DropdownMenuSeparator />
+                                  <DropdownMenuItem>
+                                    <Pencil className="mr-2 h-4 w-4" />
+                                    <span>Edit</span>
+                                  </DropdownMenuItem>
+                                  <DropdownMenuItem>
+                                    <Eye className="mr-2 h-4 w-4" />
+                                    <span>View Profile</span>
+                                  </DropdownMenuItem>
+                                  <DropdownMenuSeparator />
+                                  <DropdownMenuItem className="text-red-600">
+                                    <Trash className="mr-2 h-4 w-4" />
+                                    <span>Delete</span>
+                                  </DropdownMenuItem>
+                                </DropdownMenuContent>
+                              </DropdownMenu>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </Card>
                 </div>
               )}
               
@@ -587,7 +758,146 @@ const AdminPortal = () => {
               {activeTab === "media" && (
                 <div>
                   <h1 className="text-3xl font-bold mb-6">Media</h1>
-                  <p>Upload and manage media files.</p>
+                  <Card className="p-6">
+                    <p className="mb-6">Upload and manage media files here.</p>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                      {Array.from({ length: 8 }).map((_, index) => (
+                        <Card key={index} className="overflow-hidden">
+                          <div className="aspect-square bg-gray-200 flex items-center justify-center">
+                            <Image className="h-12 w-12 text-gray-400" />
+                          </div>
+                          <div className="p-2">
+                            <p className="text-sm truncate">image-{index+1}.jpg</p>
+                            <p className="text-xs text-muted-foreground">120 KB</p>
+                          </div>
+                        </Card>
+                      ))}
+                    </div>
+                    <Button className="mt-6">
+                      <Plus className="mr-2 h-4 w-4" />
+                      Upload Media
+                    </Button>
+                  </Card>
+                </div>
+              )}
+              
+              {/* AI Features Tab */}
+              {activeTab === "ai" && (
+                <div>
+                  <h1 className="text-3xl font-bold mb-6">AI Features</h1>
+                  <div className="grid grid-cols-1 gap-6">
+                    <Card>
+                      <CardHeader>
+                        <CardTitle>AI Settings</CardTitle>
+                        <CardDescription>
+                          Configure AI assistant and smart search features
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <AISettings />
+                      </CardContent>
+                    </Card>
+                    
+                    <Card>
+                      <CardHeader>
+                        <CardTitle>AI Content Generation</CardTitle>
+                        <CardDescription>
+                          Generate content using AI
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-4">
+                          <div>
+                            <label className="block text-sm font-medium mb-1">
+                              Content Type
+                            </label>
+                            <Select defaultValue="article">
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select content type" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="article">Article</SelectItem>
+                                <SelectItem value="headline">Headline</SelectItem>
+                                <SelectItem value="summary">Summary</SelectItem>
+                                <SelectItem value="social">Social Media Post</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                          
+                          <div>
+                            <label className="block text-sm font-medium mb-1">
+                              Topic/Keywords
+                            </label>
+                            <Input placeholder="Enter topic or keywords" />
+                          </div>
+                          
+                          <div>
+                            <label className="block text-sm font-medium mb-1">
+                              Tone
+                            </label>
+                            <Select defaultValue="informative">
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select tone" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="informative">Informative</SelectItem>
+                                <SelectItem value="formal">Formal</SelectItem>
+                                <SelectItem value="casual">Casual</SelectItem>
+                                <SelectItem value="persuasive">Persuasive</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                          
+                          <Button className="w-full">
+                            <Sparkles className="mr-2 h-4 w-4" />
+                            Generate Content
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                    
+                    <Card>
+                      <CardHeader>
+                        <CardTitle>AI Usage Analytics</CardTitle>
+                        <CardDescription>
+                          Monitor AI feature usage
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+                          <div className="bg-background border rounded-lg p-4">
+                            <h3 className="text-sm font-medium text-muted-foreground mb-1">
+                              AI Queries
+                            </h3>
+                            <p className="text-2xl font-bold">1,245</p>
+                            <p className="text-xs text-muted-foreground">Last 30 days</p>
+                          </div>
+                          
+                          <div className="bg-background border rounded-lg p-4">
+                            <h3 className="text-sm font-medium text-muted-foreground mb-1">
+                              Content Generated
+                            </h3>
+                            <p className="text-2xl font-bold">87</p>
+                            <p className="text-xs text-muted-foreground">Last 30 days</p>
+                          </div>
+                          
+                          <div className="bg-background border rounded-lg p-4">
+                            <h3 className="text-sm font-medium text-muted-foreground mb-1">
+                              API Usage
+                            </h3>
+                            <p className="text-2xl font-bold">76%</p>
+                            <p className="text-xs text-muted-foreground">Of monthly limit</p>
+                          </div>
+                        </div>
+                        
+                        <div className="text-center">
+                          <Button variant="outline">
+                            View Detailed Analytics
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
                 </div>
               )}
               
@@ -595,7 +905,95 @@ const AdminPortal = () => {
               {activeTab === "settings" && (
                 <div>
                   <h1 className="text-3xl font-bold mb-6">Settings</h1>
-                  <p>Configure website settings.</p>
+                  <Card className="mb-6">
+                    <CardHeader>
+                      <CardTitle>General Settings</CardTitle>
+                      <CardDescription>Configure website settings</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                      <div className="grid grid-cols-1 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium mb-1">Site Title</label>
+                          <Input defaultValue="HindPrabhari" />
+                        </div>
+                        
+                        <div>
+                          <label className="block text-sm font-medium mb-1">Site Description</label>
+                          <Input defaultValue="The Pulse of Bharat - Truth in Every Story" />
+                        </div>
+                        
+                        <div>
+                          <label className="block text-sm font-medium mb-1">Language</label>
+                          <Select defaultValue="en">
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select language" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="en">English</SelectItem>
+                              <SelectItem value="hi">Hindi</SelectItem>
+                              <SelectItem value="bn">Bengali</SelectItem>
+                              <SelectItem value="ta">Tamil</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      </div>
+                    </CardContent>
+                    <CardFooter>
+                      <Button>Save Changes</Button>
+                    </CardFooter>
+                  </Card>
+                  
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Appearance</CardTitle>
+                      <CardDescription>Customize site appearance</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                      <div className="grid grid-cols-1 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium mb-1">Theme Mode</label>
+                          <Select defaultValue="system">
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select theme mode" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="light">Light</SelectItem>
+                              <SelectItem value="dark">Dark</SelectItem>
+                              <SelectItem value="system">System</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        
+                        <div>
+                          <label className="block text-sm font-medium mb-1">Primary Color</label>
+                          <div className="flex space-x-2">
+                            <div className="w-6 h-6 rounded-full bg-blue-600 border cursor-pointer" />
+                            <div className="w-6 h-6 rounded-full bg-purple-600 border cursor-pointer" />
+                            <div className="w-6 h-6 rounded-full bg-red-600 border cursor-pointer" />
+                            <div className="w-6 h-6 rounded-full bg-green-600 border cursor-pointer" />
+                            <div className="w-6 h-6 rounded-full bg-orange-600 border cursor-pointer" />
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <label className="block text-sm font-medium mb-1">Font Size</label>
+                          <Select defaultValue="medium">
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select font size" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="small">Small</SelectItem>
+                              <SelectItem value="medium">Medium</SelectItem>
+                              <SelectItem value="large">Large</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      </div>
+                    </CardContent>
+                    <CardFooter>
+                      <Button>Apply Changes</Button>
+                    </CardFooter>
+                  </Card>
                 </div>
               )}
             </div>

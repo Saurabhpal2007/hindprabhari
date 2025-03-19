@@ -1,5 +1,5 @@
 
-import { Home, FileText, Video, TrendingUp, Clock, Mail, Search } from "lucide-react";
+import { Home, TrendingUp, Clock, Grid, Mail, Search, Video } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
@@ -53,23 +53,23 @@ const MobileNavigation = ({
             </Button>
           </Link>
           
-          <Link to="/opinion" className="w-full">
+          <Link to="/" className="w-full">
             <Button 
               variant="ghost"
               className="justify-start px-3 py-2 text-sm font-medium hover:text-primary flex items-center rounded-lg w-full" 
             >
-              <FileText className="mr-2 h-5 w-5" />
-              Opinion
+              <TrendingUp className="mr-2 h-5 w-5" />
+              Trending
             </Button>
           </Link>
           
-          <Link to="/videos" className="w-full">
+          <Link to="/" className="w-full">
             <Button 
               variant="ghost"
               className="justify-start px-3 py-2 text-sm font-medium hover:text-primary flex items-center rounded-lg w-full" 
             >
-              <Video className="mr-2 h-5 w-5" />
-              Videos
+              <Clock className="mr-2 h-5 w-5" />
+              Latest
             </Button>
           </Link>
           
@@ -86,7 +86,17 @@ const MobileNavigation = ({
             </Link>
           ))}
           
-          <Link to="#contact" onClick={() => scrollToSection("contact")} className="w-full">
+          <Link to="/videos" className="w-full">
+            <Button 
+              variant="ghost"
+              className="justify-start px-3 py-2 text-sm font-medium hover:text-primary flex items-center rounded-lg w-full" 
+            >
+              <Video className="mr-2 h-5 w-5" />
+              Videos
+            </Button>
+          </Link>
+          
+          <Link to="/contact" className="w-full">
             <Button 
               variant="ghost"
               className="justify-start px-3 py-2 text-sm font-medium hover:text-primary flex items-center rounded-lg w-full" 

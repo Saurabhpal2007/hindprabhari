@@ -1,5 +1,5 @@
 
-import { Home, TrendingUp, Clock, Grid, Mail, FileText, Video } from "lucide-react";
+import { Home, TrendingUp, Clock, Grid, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { 
@@ -40,25 +40,25 @@ const DesktopNavigation = ({ categories, scrollToSection }: DesktopNavigationPro
           </NavigationMenuItem>
           
           <NavigationMenuItem>
-            <Link to="/opinion">
+            <Link to="/">
               <Button 
                 variant="ghost"
                 className="px-3 py-2 text-sm font-medium hover:text-primary flex items-center rounded-full"
               >
-                <FileText className="mr-1.5 h-5 w-5" />
-                Opinion
+                <TrendingUp className="mr-1.5 h-5 w-5" />
+                Trending
               </Button>
             </Link>
           </NavigationMenuItem>
           
           <NavigationMenuItem>
-            <Link to="/videos">
+            <Link to="/">
               <Button 
                 variant="ghost"
                 className="px-3 py-2 text-sm font-medium hover:text-primary flex items-center rounded-full"
               >
-                <Video className="mr-1.5 h-5 w-5" />
-                Videos
+                <Clock className="mr-1.5 h-5 w-5" />
+                Latest
               </Button>
             </Link>
           </NavigationMenuItem>
@@ -85,7 +85,19 @@ const DesktopNavigation = ({ categories, scrollToSection }: DesktopNavigationPro
           </NavigationMenuItem>
           
           <NavigationMenuItem>
-            <Link to="#contact" onClick={() => scrollToSection("contact")}>
+            <Link to="/videos">
+              <Button 
+                variant="ghost"
+                className="px-3 py-2 text-sm font-medium hover:text-primary flex items-center rounded-full"
+              >
+                <Mail className="mr-1.5 h-5 w-5" />
+                Videos
+              </Button>
+            </Link>
+          </NavigationMenuItem>
+          
+          <NavigationMenuItem>
+            <Link to="/contact">
               <Button 
                 variant="ghost"
                 className="px-3 py-2 text-sm font-medium hover:text-primary flex items-center rounded-full"

@@ -3,9 +3,8 @@ import React, { useState, useEffect } from "react";
 import { Menu, X, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Logo from "./header/Logo";
-import ThemeToggle from "./header/ThemeToggle";
 import ProfileDropdown from "./header/ProfileDropdown";
 import DesktopNavigation from "./header/DesktopNavigation";
 import MobileNavigation from "./header/MobileNavigation";
@@ -22,6 +21,7 @@ const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const location = useLocation();
+  const navigate = useNavigate();
   const { toast } = useToast();
 
   const categories: CategoryItem[] = [
@@ -33,8 +33,6 @@ const Header = () => {
     { name: "Health", path: "/health", id: "health" },
     { name: "World", path: "/world", id: "world" },
     { name: "Business", path: "/business", id: "business" },
-    { name: "Opinion", path: "/opinion", id: "opinion" },
-    { name: "Videos", path: "/videos", id: "videos" },
   ];
 
   useEffect(() => {
@@ -71,9 +69,13 @@ const Header = () => {
   };
 
   const scrollToSection = (sectionId: string) => {
-    const section = document.getElementById(sectionId);
-    if (section) {
-      section.scrollIntoView({ behavior: "smooth" });
+    if (location.pathname !== '/') {
+      navigate('/', { state: { scrollTo: sectionId } });
+    } else {
+      const section = document.getElementById(sectionId);
+      if (section) {
+        section.scrollIntoView({ behavior: "smooth" });
+      }
     }
   };
 
@@ -82,7 +84,9 @@ const Header = () => {
       <div className="container mx-auto px-4">
         <div className="h-16 flex items-center justify-between">
           <div className="flex items-center">
-            <Logo />
+            <Link to="/">
+              <Logo />
+            </Link>
           </div>
           
           <DesktopNavigation 

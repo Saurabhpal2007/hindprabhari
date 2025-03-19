@@ -19,18 +19,17 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
-import AISettings from "@/components/ai/AISettings";
-import ChatInterface from "@/components/ai/ChatInterface";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import ChatInterface from "@/components/ai/ChatInterface";
 
 const ProfileDropdown = () => {
   const { toast } = useToast();
   const { isAIEnabled, toggleAI } = useAI();
   const { theme } = useTheme();
   const [chatOpen, setChatOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogin = () => {
     toast({
@@ -40,6 +39,7 @@ const ProfileDropdown = () => {
   };
 
   const handleAdminAccess = () => {
+    navigate('/admin');
     toast({
       title: "Admin Access",
       description: "Redirecting to admin portal.",
@@ -66,12 +66,10 @@ const ProfileDropdown = () => {
             <LogIn className="mr-2 h-5 w-5" />
             <span>Account</span>
           </DropdownMenuItem>
-          <Link to="/admin">
-            <DropdownMenuItem className="rounded-lg focus:bg-accent">
-              <Settings className="mr-2 h-5 w-5" />
-              <span>Admin</span>
-            </DropdownMenuItem>
-          </Link>
+          <DropdownMenuItem onClick={handleAdminAccess} className="rounded-lg focus:bg-accent">
+            <Settings className="mr-2 h-5 w-5" />
+            <span>Admin</span>
+          </DropdownMenuItem>
           
           <DropdownMenuSeparator />
           <DropdownMenuLabel>Preferences</DropdownMenuLabel>
@@ -79,24 +77,6 @@ const ProfileDropdown = () => {
           <DropdownMenuItem className="rounded-lg focus:bg-accent py-0">
             <ThemeToggle showIcon={true} showText={true} />
           </DropdownMenuItem>
-          
-          <Dialog>
-            <DialogTrigger asChild>
-              <DropdownMenuItem 
-                className="rounded-lg focus:bg-accent"
-                onSelect={(e) => e.preventDefault()}
-              >
-                <Sparkles className="mr-2 h-5 w-5" />
-                <span>AI Settings</span>
-              </DropdownMenuItem>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-md">
-              <DialogHeader>
-                <DialogTitle>AI Features</DialogTitle>
-              </DialogHeader>
-              <AISettings />
-            </DialogContent>
-          </Dialog>
           
           <DropdownMenuItem 
             className="rounded-lg focus:bg-accent"
