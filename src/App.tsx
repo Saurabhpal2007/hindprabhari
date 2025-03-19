@@ -26,7 +26,11 @@ function App() {
         <Route path="/health" element={<CategoryPage />} />
         <Route path="/world" element={<CategoryPage />} />
         <Route path="/business" element={<CategoryPage />} />
-        <Route path="/contact" element={<Index />} /> {/* Contact will scroll to section for now */}
+        <Route path="/contact" element={<Index />} />
+        <Route path="/privacy" element={<PrivacyPage />} />
+        <Route path="/terms" element={<TermsPage />} />
+        <Route path="/cookies" element={<CookiesPage />} />
+        <Route path="/sitemap" element={<SitemapPage />} />
         <Route path="/:category" element={<CategoryPage />} />
         <Route path="/admin" element={<AdminPortal />} />
         <Route path="*" element={<NotFound />} />
