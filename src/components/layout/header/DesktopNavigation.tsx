@@ -1,5 +1,5 @@
 
-import { Home, TrendingUp, Clock, Grid, Mail } from "lucide-react";
+import { Home, TrendingUp, Clock, Grid, Mail, FileText, Video } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { 
@@ -33,39 +33,39 @@ const DesktopNavigation = ({ categories, scrollToSection }: DesktopNavigationPro
                 variant="ghost"
                 className="px-3 py-2 text-sm font-medium hover:text-primary flex items-center rounded-full"
               >
-                <Home className="mr-1.5 h-6 w-6" />
+                <Home className="mr-1.5 h-5 w-5" />
                 Home
               </Button>
             </Link>
           </NavigationMenuItem>
           
           <NavigationMenuItem>
-            <Link to="/trending">
+            <Link to="/opinion">
               <Button 
                 variant="ghost"
                 className="px-3 py-2 text-sm font-medium hover:text-primary flex items-center rounded-full"
               >
-                <TrendingUp className="mr-1.5 h-6 w-6" />
-                Trending
+                <FileText className="mr-1.5 h-5 w-5" />
+                Opinion
               </Button>
             </Link>
           </NavigationMenuItem>
           
           <NavigationMenuItem>
-            <Link to="/articles">
+            <Link to="/videos">
               <Button 
                 variant="ghost"
                 className="px-3 py-2 text-sm font-medium hover:text-primary flex items-center rounded-full"
               >
-                <Clock className="mr-1.5 h-6 w-6" />
-                Latest
+                <Video className="mr-1.5 h-5 w-5" />
+                Videos
               </Button>
             </Link>
           </NavigationMenuItem>
           
           <NavigationMenuItem>
             <NavigationMenuTrigger className="text-sm font-medium rounded-full">
-              <Grid className="mr-1.5 h-6 w-6" />
+              <Grid className="mr-1.5 h-5 w-5" />
               Categories
             </NavigationMenuTrigger>
             <NavigationMenuContent className="bg-background/95 backdrop-blur-sm border p-2 rounded-xl">
@@ -85,12 +85,12 @@ const DesktopNavigation = ({ categories, scrollToSection }: DesktopNavigationPro
           </NavigationMenuItem>
           
           <NavigationMenuItem>
-            <Link to="/contact">
+            <Link to="#contact" onClick={() => scrollToSection("contact")}>
               <Button 
                 variant="ghost"
                 className="px-3 py-2 text-sm font-medium hover:text-primary flex items-center rounded-full"
               >
-                <Mail className="mr-1.5 h-6 w-6" />
+                <Mail className="mr-1.5 h-5 w-5" />
                 Contact
               </Button>
             </Link>

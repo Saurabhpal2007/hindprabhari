@@ -1,16 +1,15 @@
+
 import React, { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useTheme } from "@/components/ui/use-theme";
+import { Input } from "@/components/ui/input";
 import { Link, useLocation } from "react-router-dom";
 import Logo from "./header/Logo";
-import SearchBar from "../common/SearchBar";
 import ThemeToggle from "./header/ThemeToggle";
-import AIButton from "./header/AIButton";
 import ProfileDropdown from "./header/ProfileDropdown";
 import DesktopNavigation from "./header/DesktopNavigation";
 import MobileNavigation from "./header/MobileNavigation";
-import AIAccessButton from "./header/AIAccessButton";
+import { useToast } from "@/components/ui/use-toast";
 
 interface CategoryItem {
   name: string;
@@ -23,7 +22,7 @@ const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const location = useLocation();
-  const { theme, toggleTheme } = useTheme();
+  const { toast } = useToast();
 
   const categories: CategoryItem[] = [
     { name: "Politics", path: "/politics", id: "politics" },
@@ -34,6 +33,8 @@ const Header = () => {
     { name: "Health", path: "/health", id: "health" },
     { name: "World", path: "/world", id: "world" },
     { name: "Business", path: "/business", id: "business" },
+    { name: "Opinion", path: "/opinion", id: "opinion" },
+    { name: "Videos", path: "/videos", id: "videos" },
   ];
 
   useEffect(() => {
@@ -51,7 +52,7 @@ const Header = () => {
 
   useEffect(() => {
     setIsOpen(false);
-  }, [location.pathname, theme]);
+  }, [location.pathname]);
 
   const toggleMobileMenu = () => {
     setIsOpen(!isOpen);
@@ -60,7 +61,12 @@ const Header = () => {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      alert(`Searching for: ${searchQuery}`);
+      toast({
+        title: "Search Results",
+        description: `Showing results for: "${searchQuery}"`,
+      });
+      // In a real app, we would navigate to search results page
+      // navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
     }
   };
 
@@ -84,14 +90,21 @@ const Header = () => {
             scrollToSection={scrollToSection} 
           />
 
+          <div className="hidden md:flex items-center mx-4 flex-1 max-w-xs">
+            <form onSubmit={handleSearch} className="relative w-full">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                type="text"
+                placeholder="Search..."
+                className="pl-9 h-9 rounded-full"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </form>
+          </div>
+          
           <div className="flex items-center space-x-2">
-            <div className="hidden md:flex">
-              <SearchBar />
-            </div>
-            <AIAccessButton />
-            <ThemeToggle />
-            <AIButton />
-            <ProfileDropdown theme={theme} toggleTheme={toggleTheme} />
+            <ProfileDropdown />
             <Button 
               variant="ghost" 
               size="icon" 

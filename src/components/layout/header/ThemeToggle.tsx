@@ -4,7 +4,19 @@ import { Button } from "@/components/ui/button";
 import { useTheme } from "@/components/ui/use-theme";
 import { useToast } from "@/components/ui/use-toast";
 
-const ThemeToggle = () => {
+interface ThemeToggleProps {
+  variant?: "default" | "outline" | "ghost" | "link" | "destructive" | "secondary";
+  size?: "default" | "sm" | "lg" | "icon";
+  showIcon?: boolean;
+  showText?: boolean;
+}
+
+const ThemeToggle = ({ 
+  variant = "ghost", 
+  size = "default",
+  showIcon = true, 
+  showText = false 
+}: ThemeToggleProps) => {
   const { theme, toggleTheme } = useTheme();
   const { toast } = useToast();
 
@@ -19,16 +31,23 @@ const ThemeToggle = () => {
 
   return (
     <Button 
-      variant="ghost" 
-      size="icon"
+      variant={variant} 
+      size={size}
       onClick={handleToggleTheme}
-      className="rounded-full"
+      className="w-full"
       aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
     >
-      {theme === "light" ? (
-        <Moon className="h-5 w-5" />
-      ) : (
-        <Sun className="h-5 w-5" />
+      {showIcon && (
+        theme === "light" ? (
+          <Moon className="h-5 w-5" />
+        ) : (
+          <Sun className="h-5 w-5" />
+        )
+      )}
+      {showText && (
+        <span className={showIcon ? "ml-2" : ""}>
+          {theme === "light" ? "Dark Mode" : "Light Mode"}
+        </span>
       )}
     </Button>
   );

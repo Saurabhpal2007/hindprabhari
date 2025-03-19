@@ -1,6 +1,5 @@
 
-import { Home, TrendingUp, Clock, Mail } from "lucide-react";
-import { Search } from "lucide-react";
+import { Home, FileText, Video, TrendingUp, Clock, Mail, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
@@ -49,28 +48,28 @@ const MobileNavigation = ({
               variant="ghost"
               className="justify-start px-3 py-2 text-sm font-medium hover:text-primary flex items-center rounded-lg w-full" 
             >
-              <Home className="mr-2 h-6 w-6" />
+              <Home className="mr-2 h-5 w-5" />
               Home
             </Button>
           </Link>
           
-          <Link to="/trending" className="w-full">
+          <Link to="/opinion" className="w-full">
             <Button 
               variant="ghost"
               className="justify-start px-3 py-2 text-sm font-medium hover:text-primary flex items-center rounded-lg w-full" 
             >
-              <TrendingUp className="mr-2 h-6 w-6" />
-              Trending
+              <FileText className="mr-2 h-5 w-5" />
+              Opinion
             </Button>
           </Link>
           
-          <Link to="/articles" className="w-full">
+          <Link to="/videos" className="w-full">
             <Button 
               variant="ghost"
               className="justify-start px-3 py-2 text-sm font-medium hover:text-primary flex items-center rounded-lg w-full" 
             >
-              <Clock className="mr-2 h-6 w-6" />
-              Latest
+              <Video className="mr-2 h-5 w-5" />
+              Videos
             </Button>
           </Link>
           
@@ -87,12 +86,12 @@ const MobileNavigation = ({
             </Link>
           ))}
           
-          <Link to="/contact" className="w-full">
+          <Link to="#contact" onClick={() => scrollToSection("contact")} className="w-full">
             <Button 
               variant="ghost"
               className="justify-start px-3 py-2 text-sm font-medium hover:text-primary flex items-center rounded-lg w-full" 
             >
-              <Mail className="mr-2 h-6 w-6" />
+              <Mail className="mr-2 h-5 w-5" />
               Contact
             </Button>
           </Link>

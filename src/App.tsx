@@ -1,6 +1,6 @@
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Toaster } from "@/components/ui/sonner";
+import { Toaster } from "@/components/ui/toaster";
 import Index from './pages/Index';
 import CategoryPage from './pages/CategoryPage';
 import ArticlePage from './pages/ArticlePage';
@@ -11,7 +11,9 @@ import PrivacyPage from './pages/PrivacyPage';
 import TermsPage from './pages/TermsPage';
 import CookiesPage from './pages/CookiesPage';
 import SitemapPage from './pages/SitemapPage';
-import AIPopup from './components/ai/AIPopup';
+import OpinionPage from './pages/OpinionPage';
+import VideosPage from './pages/VideosPage';
+import ChatBubble from './components/ai/ChatBubble';
 import './App.css';
 
 function App() {
@@ -21,7 +23,8 @@ function App() {
         <Route path="/" element={<Index />} />
         <Route path="/articles" element={<AllArticlesPage />} />
         <Route path="/article/:id" element={<ArticlePage />} />
-        <Route path="/trending" element={<AllArticlesPage />} />
+        <Route path="/opinion" element={<OpinionPage />} />
+        <Route path="/videos" element={<VideosPage />} />
         <Route path="/politics" element={<CategoryPage />} />
         <Route path="/technology" element={<CategoryPage />} />
         <Route path="/sports" element={<CategoryPage />} />
@@ -40,7 +43,7 @@ function App() {
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Toaster />
-      <AIPopup />
+      <ChatBubble />
     </Router>
   );
 }
