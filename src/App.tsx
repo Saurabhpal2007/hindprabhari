@@ -1,5 +1,6 @@
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Toaster } from "@/components/ui/sonner";
 import Index from './pages/Index';
 import CategoryPage from './pages/CategoryPage';
 import ArticlePage from './pages/ArticlePage';
@@ -29,6 +30,7 @@ function App() {
         <Route path="/admin" element={<AdminPortal />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+      <Toaster />
     </Router>
   );
 }

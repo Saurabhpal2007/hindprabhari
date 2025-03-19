@@ -10,12 +10,16 @@ import LatestNews from "../components/news/LatestNews";
 import AboutUsSection from "../components/home/AboutUsSection";
 import ContactSection from "../components/home/ContactSection";
 import SearchBar from "../components/common/SearchBar";
+import SmartSearch from "../components/ai/SmartSearch";
+import ChatBubble from "../components/ai/ChatBubble";
 import { useToast } from "../components/ui/use-toast";
 import { ArrowRight } from "lucide-react";
+import { useAI } from "@/context/AIContext";
 
 const Index = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const { toast } = useToast();
+  const { isAIEnabled } = useAI();
   
   useEffect(() => {
     // Simulate loading and then show welcome toast
@@ -71,7 +75,7 @@ const Index = () => {
             
             {/* Search Bar below hero */}
             <div className="container mx-auto py-8 px-4">
-              <SearchBar />
+              {isAIEnabled ? <SmartSearch /> : <SearchBar />}
             </div>
             
             <BreakingNews />
@@ -118,6 +122,7 @@ const Index = () => {
       </main>
       
       <Footer />
+      <ChatBubble />
     </div>
   );
 };
