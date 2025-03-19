@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
@@ -11,7 +10,6 @@ import AboutUsSection from "../components/home/AboutUsSection";
 import ContactSection from "../components/home/ContactSection";
 import SearchBar from "../components/common/SearchBar";
 import SmartSearch from "../components/ai/SmartSearch";
-import ChatBubble from "../components/ai/ChatBubble";
 import { useToast } from "../components/ui/use-toast";
 import { ArrowRight } from "lucide-react";
 import { useAI } from "@/context/AIContext";
@@ -22,7 +20,6 @@ const Index = () => {
   const { isAIEnabled } = useAI();
   
   useEffect(() => {
-    // Simulate loading and then show welcome toast
     const timer = setTimeout(() => {
       setIsLoaded(true);
       toast({
@@ -31,7 +28,6 @@ const Index = () => {
       });
     }, 500);
     
-    // Handle hash navigation for smooth scrolling
     const handleHashChange = () => {
       const hash = window.location.hash;
       if (hash) {
@@ -45,7 +41,6 @@ const Index = () => {
     
     window.addEventListener("hashchange", handleHashChange);
     
-    // Check for hash on initial load
     if (window.location.hash) {
       handleHashChange();
     }
@@ -56,7 +51,6 @@ const Index = () => {
     };
   }, [toast]);
 
-  // Handle smooth scrolling for in-page navigation
   const scrollToSection = (sectionId: string) => {
     const section = document.getElementById(sectionId);
     if (section) {
@@ -73,7 +67,6 @@ const Index = () => {
           <div id="home">
             <HeroSection />
             
-            {/* Search Bar below hero */}
             <div className="container mx-auto py-8 px-4">
               {isAIEnabled ? <SmartSearch /> : <SearchBar />}
             </div>
@@ -122,7 +115,6 @@ const Index = () => {
       </main>
       
       <Footer />
-      <ChatBubble />
     </div>
   );
 };

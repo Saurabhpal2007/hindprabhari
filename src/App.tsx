@@ -7,6 +7,7 @@ import ArticlePage from './pages/ArticlePage';
 import AllArticlesPage from './pages/AllArticlesPage';
 import AdminPortal from './pages/AdminPortal';
 import NotFound from './pages/NotFound';
+import AIPopup from './components/ai/AIPopup';
 import './App.css';
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Toaster />
+      <AIPopup />
     </Router>
   );
 }
