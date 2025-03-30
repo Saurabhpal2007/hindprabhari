@@ -35,6 +35,16 @@ const Header = () => {
     { name: "Business", path: "/business", id: "business" },
   ];
 
+  // Updated main navigation for the site
+  const mainNavigation = [
+    { name: "Home", path: "/", id: "home" },
+    { name: "Trending", path: "/trending", id: "trending" },
+    { name: "Latest", path: "/latest", id: "latest" },
+    { name: "Categories", path: "/categories", id: "categories" },
+    { name: "Videos", path: "/videos", id: "videos" },
+    { name: "Contact", path: "/contact", id: "contact" },
+  ];
+
   useEffect(() => {
     const handleScroll = () => {
       const scrollThreshold = 50;
@@ -84,13 +94,12 @@ const Header = () => {
       <div className="container mx-auto px-4">
         <div className="h-16 flex items-center justify-between">
           <div className="flex items-center">
-            <Link to="/">
-              <Logo />
-            </Link>
+            <Logo />
           </div>
           
           <DesktopNavigation 
-            categories={categories} 
+            categories={categories}
+            mainNavigation={mainNavigation}
             scrollToSection={scrollToSection} 
           />
 
@@ -124,6 +133,7 @@ const Header = () => {
       
       <MobileNavigation 
         categories={categories}
+        mainNavigation={mainNavigation}
         scrollToSection={scrollToSection}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}

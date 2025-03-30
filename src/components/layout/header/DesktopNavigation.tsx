@@ -1,15 +1,7 @@
 
-import { Home, TrendingUp, Clock, Grid, Mail } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
-import { 
-  NavigationMenu,
-  NavigationMenuList,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuContent,
-  NavigationMenuTrigger
-} from "@/components/ui/navigation-menu";
+import React from "react";
+import { NavLink } from "react-router-dom";
+import { cn } from "@/lib/utils";
 
 interface CategoryItem {
   name: string;
@@ -17,98 +9,87 @@ interface CategoryItem {
   id: string;
 }
 
+interface NavItem {
+  name: string;
+  path: string;
+  id: string;
+}
+
 interface DesktopNavigationProps {
   categories: CategoryItem[];
+  mainNavigation: NavItem[];
   scrollToSection: (sectionId: string) => void;
 }
 
-const DesktopNavigation = ({ categories, scrollToSection }: DesktopNavigationProps) => {
+const DesktopNavigation = ({
+  categories,
+  mainNavigation,
+  scrollToSection
+}: DesktopNavigationProps) => {
   return (
-    <nav className="hidden md:flex items-center">
-      <NavigationMenu>
-        <NavigationMenuList>
-          <NavigationMenuItem>
-            <Link to="/">
-              <Button 
-                variant="ghost"
-                className="px-3 py-2 text-sm font-medium hover:text-primary flex items-center rounded-full"
+    <nav className="hidden md:flex items-center space-x-1">
+      {mainNavigation.map((item) => (
+        <React.Fragment key={item.id}>
+          {item.id === "categories" ? (
+            <div className="group relative">
+              <NavLink
+                to={item.path}
+                className={({ isActive }) =>
+                  cn(
+                    "px-3 py-1.5 text-sm font-medium transition-colors hover:text-primary flex items-center rounded-md",
+                    isActive ? "text-primary" : ""
+                  )
+                }
               >
-                <Home className="mr-1.5 h-5 w-5" />
-                Home
-              </Button>
-            </Link>
-          </NavigationMenuItem>
-          
-          <NavigationMenuItem>
-            <Link to="/">
-              <Button 
-                variant="ghost"
-                className="px-3 py-2 text-sm font-medium hover:text-primary flex items-center rounded-full"
-              >
-                <TrendingUp className="mr-1.5 h-5 w-5" />
-                Trending
-              </Button>
-            </Link>
-          </NavigationMenuItem>
-          
-          <NavigationMenuItem>
-            <Link to="/">
-              <Button 
-                variant="ghost"
-                className="px-3 py-2 text-sm font-medium hover:text-primary flex items-center rounded-full"
-              >
-                <Clock className="mr-1.5 h-5 w-5" />
-                Latest
-              </Button>
-            </Link>
-          </NavigationMenuItem>
-          
-          <NavigationMenuItem>
-            <NavigationMenuTrigger className="text-sm font-medium rounded-full">
-              <Grid className="mr-1.5 h-5 w-5" />
-              Categories
-            </NavigationMenuTrigger>
-            <NavigationMenuContent className="bg-background/95 backdrop-blur-sm border p-2 rounded-xl">
-              <div className="grid grid-cols-2 gap-2 w-[400px] p-2">
+                {item.name}
+                <svg
+                  className="ml-1 h-3 w-3 text-muted-foreground transition-transform group-hover:rotate-180"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="m6 9 6 6 6-6" />
+                </svg>
+              </NavLink>
+              
+              <div className="absolute left-0 top-full z-10 mt-1 hidden w-56 overflow-hidden rounded-md border bg-popover p-1 shadow-md group-hover:block">
                 {categories.map((category) => (
-                  <Link to={category.path} key={category.path}>
-                    <Button
-                      variant="ghost" 
-                      className="justify-start rounded-lg hover:bg-accent w-full"
-                    >
-                      <span>{category.name}</span>
-                    </Button>
-                  </Link>
+                  <NavLink
+                    key={category.id}
+                    to={category.path}
+                    className={({ isActive }) =>
+                      cn(
+                        "block px-3 py-1.5 text-sm hover:bg-accent hover:text-accent-foreground rounded-md",
+                        isActive ? "bg-accent text-accent-foreground" : ""
+                      )
+                    }
+                  >
+                    {category.name}
+                  </NavLink>
                 ))}
               </div>
-            </NavigationMenuContent>
-          </NavigationMenuItem>
-          
-          <NavigationMenuItem>
-            <Link to="/videos">
-              <Button 
-                variant="ghost"
-                className="px-3 py-2 text-sm font-medium hover:text-primary flex items-center rounded-full"
-              >
-                <Mail className="mr-1.5 h-5 w-5" />
-                Videos
-              </Button>
-            </Link>
-          </NavigationMenuItem>
-          
-          <NavigationMenuItem>
-            <Link to="/contact">
-              <Button 
-                variant="ghost"
-                className="px-3 py-2 text-sm font-medium hover:text-primary flex items-center rounded-full"
-              >
-                <Mail className="mr-1.5 h-5 w-5" />
-                Contact
-              </Button>
-            </Link>
-          </NavigationMenuItem>
-        </NavigationMenuList>
-      </NavigationMenu>
+            </div>
+          ) : (
+            <NavLink
+              to={item.path}
+              className={({ isActive }) =>
+                cn(
+                  "px-3 py-1.5 text-sm font-medium transition-colors hover:text-primary rounded-md",
+                  isActive ? "text-primary" : ""
+                )
+              }
+            >
+              {item.name}
+            </NavLink>
+          )}
+        </React.Fragment>
+      ))}
     </nav>
   );
 };

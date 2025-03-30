@@ -6,12 +6,31 @@ import {
   Instagram, 
   Youtube, 
   Linkedin, 
-  ChevronRight 
+  ChevronRight,
+  Mail,
+  Phone,
+  MapPin
 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
+import { useState } from "react";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const { toast } = useToast();
+  const [email, setEmail] = useState("");
+  
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (email.trim()) {
+      toast({
+        title: "Newsletter Subscription",
+        description: "Thank you for subscribing to our newsletter!",
+      });
+      setEmail("");
+    }
+  };
   
   // Footer sections
   const sections = [
@@ -22,6 +41,9 @@ const Footer = () => {
         { name: "Technology", href: "/technology" },
         { name: "Sports", href: "/sports" },
         { name: "Entertainment", href: "/entertainment" },
+        { name: "Education", href: "/education" },
+        { name: "Health", href: "/health" },
+        { name: "World", href: "/world" },
         { name: "Business", href: "/business" }
       ]
     },
@@ -30,9 +52,10 @@ const Footer = () => {
       links: [
         { name: "Latest News", href: "/latest" },
         { name: "Trending Now", href: "/trending" },
+        { name: "Videos", href: "/videos" },
         { name: "Opinion", href: "/opinion" },
-        { name: "Explainers", href: "/explainers" },
-        { name: "Videos", href: "/videos" }
+        { name: "About Us", href: "/about" },
+        { name: "Contact", href: "/contact" }
       ]
     },
     {
@@ -41,19 +64,22 @@ const Footer = () => {
         { name: "About Us", href: "/about" },
         { name: "Contact", href: "/contact" },
         { name: "Careers", href: "/careers" },
+        { name: "Advertise", href: "/advertise" },
         { name: "Privacy Policy", href: "/privacy" },
-        { name: "Terms of Service", href: "/terms" }
+        { name: "Terms of Service", href: "/terms" },
+        { name: "Cookies Policy", href: "/cookies" },
+        { name: "Sitemap", href: "/sitemap" }
       ]
     }
   ];
   
   // Social media links
   const socialLinks = [
-    { name: "Facebook", icon: <Facebook className="h-5 w-5" />, href: "#" },
-    { name: "Twitter", icon: <Twitter className="h-5 w-5" />, href: "#" },
-    { name: "Instagram", icon: <Instagram className="h-5 w-5" />, href: "#" },
-    { name: "Youtube", icon: <Youtube className="h-5 w-5" />, href: "#" },
-    { name: "LinkedIn", icon: <Linkedin className="h-5 w-5" />, href: "#" }
+    { name: "Facebook", icon: <Facebook className="h-5 w-5" />, href: "https://facebook.com" },
+    { name: "Twitter", icon: <Twitter className="h-5 w-5" />, href: "https://twitter.com" },
+    { name: "Instagram", icon: <Instagram className="h-5 w-5" />, href: "https://instagram.com" },
+    { name: "Youtube", icon: <Youtube className="h-5 w-5" />, href: "https://youtube.com" },
+    { name: "LinkedIn", icon: <Linkedin className="h-5 w-5" />, href: "https://linkedin.com" }
   ];
 
   return (
@@ -63,16 +89,33 @@ const Footer = () => {
           {/* Brand section */}
           <div className="md:col-span-2">
             <Link to="/" className="inline-block mb-4">
-              <div className="relative">
-                <span className="text-2xl font-bold bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
-                  HindPrabhari
-                </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/30 to-orange-500/30 blur-lg -z-10"></div>
+              <div className="h-12 w-auto">
+                <img 
+                  src="/assets/logo-main.png" 
+                  alt="HindPrabhari" 
+                  className="h-full w-auto object-contain"
+                />
               </div>
             </Link>
             <p className="text-muted-foreground mb-6 max-w-md">
-              HindPrabhari is a modern, AI-driven news platform crafted to deliver a vibrant, user-centric experience with a focus on speed, accessibility, and visual appeal.
+              HindPrabhari is a modern news platform delivering the pulse of Bharat with a focus on accuracy, 
+              depth, and cultural relevance across politics, technology, sports, and more.
             </p>
+            
+            <div className="mb-6 space-y-2">
+              <div className="flex items-start">
+                <MapPin className="h-5 w-5 text-primary mt-0.5 mr-2" />
+                <span className="text-sm">123 News Street, New Delhi, 110001, India</span>
+              </div>
+              <div className="flex items-center">
+                <Phone className="h-5 w-5 text-primary mr-2" />
+                <span className="text-sm">+91 98765-43210</span>
+              </div>
+              <div className="flex items-center">
+                <Mail className="h-5 w-5 text-primary mr-2" />
+                <span className="text-sm">contact@hindprabhari.com</span>
+              </div>
+            </div>
             
             {/* Social links */}
             <div className="flex space-x-4">
@@ -121,20 +164,22 @@ const Footer = () => {
             <p className="text-muted-foreground text-sm mb-4">
               Subscribe to our newsletter for the latest news and updates.
             </p>
-            <form className="space-y-2">
-              <input 
-                type="email" 
-                placeholder="Your email" 
-                className="w-full px-3 py-2 text-sm rounded-md border focus:ring-2 focus:ring-primary focus:outline-none"
+            <form className="space-y-2" onSubmit={handleSubscribe}>
+              <Input
+                type="email"
+                placeholder="Your email"
+                className="w-full px-3 py-2 text-sm rounded-md border focus:ring-2 focus:ring-primary focus:border-primary focus:outline-none"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 aria-label="Email for newsletter"
                 required
               />
-              <button 
+              <Button 
                 type="submit" 
                 className="w-full py-2 px-4 bg-gradient-to-r from-yellow-500 to-orange-500 text-white rounded-md hover:from-yellow-600 hover:to-orange-600 transition-colors text-sm font-medium"
               >
                 Subscribe
-              </button>
+              </Button>
             </form>
           </div>
         </div>
@@ -143,15 +188,15 @@ const Footer = () => {
           <p className="text-muted-foreground text-sm mb-4 md:mb-0">
             © {currentYear} HindPrabhari. All rights reserved.
           </p>
-          <div className="flex space-x-6 text-sm">
+          <div className="flex flex-wrap justify-center gap-4 md:gap-6 text-sm">
             <Link to="/privacy" className="text-muted-foreground hover:text-foreground transition-colors">
-              Privacy
+              Privacy Policy
             </Link>
             <Link to="/terms" className="text-muted-foreground hover:text-foreground transition-colors">
-              Terms
+              Terms of Service
             </Link>
             <Link to="/cookies" className="text-muted-foreground hover:text-foreground transition-colors">
-              Cookies
+              Cookies Policy
             </Link>
             <Link to="/sitemap" className="text-muted-foreground hover:text-foreground transition-colors">
               Sitemap

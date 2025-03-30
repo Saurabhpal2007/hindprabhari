@@ -23,7 +23,8 @@ import {
   MessageSquare,
   Search,
   Bot,
-  Sparkles
+  Sparkles,
+  Database
 } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
@@ -46,6 +47,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import AISettings from "../components/ai/AISettings";
+import SupabaseDatabase from "../components/admin/SupabaseDatabase";
 
 // Sample data for admin dashboard
 const sampleDashboardData = {
@@ -289,6 +291,14 @@ const AdminPortal = () => {
                     >
                       <Image className="h-5 w-5 mr-2" />
                       Media
+                    </Button>
+                    <Button 
+                      variant={activeTab === "database" ? "default" : "ghost"} 
+                      className="justify-start rounded-none h-12"
+                      onClick={() => setActiveTab("database")}
+                    >
+                      <Database className="h-5 w-5 mr-2" />
+                      Database
                     </Button>
                     <Button 
                       variant={activeTab === "ai" ? "default" : "ghost"} 
@@ -624,8 +634,7 @@ const AdminPortal = () => {
                           </TableRow>
                         </TableHeader>
                         <TableBody>
-                          {Array.from({ length:
-                           5 }).map((_, index) => (
+                          {Array.from({ length: 5 }).map((_, index) => (
                             <TableRow key={index}>
                               <TableCell>
                                 <div className="flex items-center">
@@ -778,6 +787,14 @@ const AdminPortal = () => {
                       Upload Media
                     </Button>
                   </Card>
+                </div>
+              )}
+              
+              {/* Database Tab */}
+              {activeTab === "database" && (
+                <div>
+                  <h1 className="text-3xl font-bold mb-6">Database</h1>
+                  <SupabaseDatabase />
                 </div>
               )}
               

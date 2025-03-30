@@ -14,7 +14,11 @@ import SitemapPage from './pages/SitemapPage';
 import OpinionPage from './pages/OpinionPage';
 import VideosPage from './pages/VideosPage';
 import ContactPage from './pages/ContactPage';
+import AboutPage from './pages/AboutPage';
+import TrendingPage from './pages/TrendingPage';
+import LatestPage from './pages/LatestPage';
 import ChatBubble from './components/ai/ChatBubble';
+import CategoriesPage from './pages/CategoriesPage';
 import './App.css';
 
 function App() {
@@ -22,9 +26,13 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Index />} />
+        <Route path="/trending" element={<TrendingPage />} />
+        <Route path="/latest" element={<LatestPage />} />
         <Route path="/articles" element={<AllArticlesPage />} />
         <Route path="/article/:id" element={<ArticlePage />} />
         <Route path="/videos" element={<VideosPage />} />
+        <Route path="/categories" element={<CategoriesPage />} />
+        <Route path="/opinion" element={<OpinionPage />} />
         <Route path="/politics" element={<CategoryPage />} />
         <Route path="/technology" element={<CategoryPage />} />
         <Route path="/sports" element={<CategoryPage />} />
@@ -34,6 +42,7 @@ function App() {
         <Route path="/world" element={<CategoryPage />} />
         <Route path="/business" element={<CategoryPage />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/about" element={<AboutPage />} />
         <Route path="/privacy" element={<PrivacyPage />} />
         <Route path="/terms" element={<TermsPage />} />
         <Route path="/cookies" element={<CookiesPage />} />
