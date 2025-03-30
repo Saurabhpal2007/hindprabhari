@@ -2,9 +2,8 @@
 import { Home, Search, Video, Mail, Grid, Clock, TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Link, NavLink } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { cn } from "@/lib/utils";
 
 interface CategoryItem {
   name: string;
@@ -37,6 +36,9 @@ const MobileNavigation = ({
   handleSearch, 
   isOpen 
 }: MobileNavigationProps) => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  
   if (!isOpen) return null;
   
   const getIcon = (id: string) => {
@@ -58,8 +60,20 @@ const MobileNavigation = ({
     }
   };
 
+  const handleNavClick = (item: NavItem) => {
+    if (item.path === "/" && item.id !== "home") {
+      if (location.pathname === "/") {
+        scrollToSection(item.id);
+      } else {
+        navigate('/', { state: { scrollTo: item.id } });
+      }
+    } else {
+      navigate(item.path);
+    }
+  };
+
   return (
-    <div className="md:hidden bg-background/95 backdrop-blur-md border-t">
+    <div className="md:hidden bg-background/95 backdrop-blur-md border-t z-40">
       <div className="container mx-auto px-4 py-4">
         <form onSubmit={handleSearch} className="relative mb-4">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
@@ -85,29 +99,29 @@ const MobileNavigation = ({
                   <AccordionContent>
                     <div className="flex flex-col space-y-1 pl-9 pr-2 pb-2">
                       {categories.map((category) => (
-                        <Link to={category.path} key={category.path} className="w-full">
-                          <Button
-                            variant="ghost"
-                            className="justify-start px-3 py-1.5 text-sm font-medium hover:text-primary rounded-lg w-full" 
-                          >
-                            {category.name}
-                          </Button>
-                        </Link>
+                        <Button
+                          key={category.id}
+                          variant="ghost"
+                          className="justify-start px-3 py-1.5 text-sm font-medium hover:text-primary rounded-lg w-full h-auto"
+                          onClick={() => navigate(category.path)}
+                        >
+                          {category.name}
+                        </Button>
                       ))}
                     </div>
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
             ) : (
-              <Link to={item.path} key={item.path} className="w-full">
-                <Button 
-                  variant="ghost"
-                  className="justify-start px-3 py-2 text-sm font-medium hover:text-primary flex items-center rounded-lg w-full" 
-                >
-                  {getIcon(item.id)}
-                  {item.name}
-                </Button>
-              </Link>
+              <Button 
+                key={item.id}
+                variant="ghost"
+                className="justify-start px-3 py-2 text-sm font-medium hover:text-primary flex items-center rounded-lg w-full h-auto" 
+                onClick={() => handleNavClick(item)}
+              >
+                {getIcon(item.id)}
+                {item.name}
+              </Button>
             )
           ))}
         </nav>

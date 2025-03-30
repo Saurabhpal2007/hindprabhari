@@ -81,12 +81,15 @@ const Header = () => {
   const scrollToSection = (sectionId: string) => {
     if (location.pathname !== '/') {
       navigate('/', { state: { scrollTo: sectionId } });
-    } else {
+      return;
+    }
+    
+    setTimeout(() => {
       const section = document.getElementById(sectionId);
       if (section) {
         section.scrollIntoView({ behavior: "smooth" });
       }
-    }
+    }, 100);
   };
 
   return (

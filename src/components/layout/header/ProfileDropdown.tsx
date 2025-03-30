@@ -1,5 +1,5 @@
 
-import { User, LogIn, Settings, Bot, Sparkles, MessageCircle } from "lucide-react";
+import { User, LogIn, Settings, Bot, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -14,12 +14,6 @@ import { useAI } from "@/context/AIContext";
 import { useTheme } from "@/components/ui/use-theme";
 import { useState } from "react";
 import ThemeToggle from "./ThemeToggle";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Link, useNavigate } from "react-router-dom";
 import ChatInterface from "@/components/ai/ChatInterface";
@@ -56,7 +50,7 @@ const ProfileDropdown = () => {
             className="rounded-full bg-muted/50 hover:bg-muted h-10 w-10"
             aria-label="Profile options"
           >
-            <User className="h-7 w-7" />
+            <User className="h-5 w-5" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-56 rounded-xl">
@@ -87,16 +81,16 @@ const ProfileDropdown = () => {
           </DropdownMenuItem>
           
           {isAIEnabled && (
-            <SheetTrigger asChild>
-              <DropdownMenuItem 
-                className="rounded-lg focus:bg-accent"
-                onSelect={(e) => e.preventDefault()}
-                onClick={() => setChatOpen(true)}
-              >
-                <MessageCircle className="mr-2 h-5 w-5" />
-                <span>Chat with AI</span>
-              </DropdownMenuItem>
-            </SheetTrigger>
+            <DropdownMenuItem 
+              className="rounded-lg focus:bg-accent"
+              onSelect={(e) => {
+                e.preventDefault();
+                setChatOpen(true);
+              }}
+            >
+              <MessageCircle className="mr-2 h-5 w-5" />
+              <span>Chat with AI</span>
+            </DropdownMenuItem>
           )}
         </DropdownMenuContent>
       </DropdownMenu>

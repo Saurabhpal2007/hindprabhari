@@ -53,6 +53,7 @@
 /* Make sure images are properly sized and don't break layouts */
 img {
   max-width: 100%;
+  height: auto;
 }
 
 /* Improved aesthetics for cards and containers */
@@ -76,6 +77,8 @@ img {
 /* Proper spacing for sections */
 section {
   margin-bottom: 3rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
 /* Fix for hero section and logo alignment */
@@ -102,5 +105,57 @@ section {
     display: block;
     overflow-x: auto;
     white-space: nowrap;
+  }
+}
+
+/* Responsive text adjustments */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.75rem !important;
+  }
+  h2 {
+    font-size: 1.5rem !important;
+  }
+  h3 {
+    font-size: 1.25rem !important;
+  }
+}
+
+/* Improve mobile form elements */
+@media (max-width: 640px) {
+  input, select, textarea, button {
+    font-size: 16px !important; /* Prevents iOS zoom on focus */
+  }
+}
+
+/* Fix overlapping content on small screens */
+@media (max-width: 480px) {
+  .container {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+}
+
+/* Remove image color overlays in articles */
+.article-image img, 
+.trending-image img, 
+.latest-image img,
+.featured-image img {
+  filter: none !important;
+  mix-blend-mode: normal !important;
+}
+
+/* Button accessibility improvements */
+button, a {
+  transition: all 0.2s ease;
+}
+
+/* Improve touch targets on mobile */
+@media (max-width: 640px) {
+  button, 
+  .nav-link,
+  .clickable {
+    min-height: 44px;
+    min-width: 44px;
   }
 }

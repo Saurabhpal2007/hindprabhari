@@ -1,431 +1,237 @@
 
-import { useState } from "react";
-import { 
-  BarChart, 
-  Users, 
-  FileText, 
-  Settings, 
-  Database, 
-  Shield, 
-  BrainCircuit, 
-  Bell, 
-  Home 
-} from "lucide-react";
-import { useToast } from "@/components/ui/use-toast";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import React, { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Link } from "react-router-dom";
-import DatabaseManagement from "../components/admin/DatabaseManagement";
+import { useToast } from "@/components/ui/use-toast";
+import { BarChart3, Users, FileText, Settings, Shield, BellRing, Database, Bot } from "lucide-react";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
+import SupabaseDatabase from "@/components/admin/SupabaseDatabase";
+import ContentManagement from "@/components/admin/ContentManagement";
 
-// Importing the Logo component for consistent branding
-import Logo from "../components/layout/header/Logo";
-
-const AdminPortal = () => {
+const AdminPortal: React.FC = () => {
   const { toast } = useToast();
-  const [selectedTab, setSelectedTab] = useState("dashboard");
-  
-  const handleTabChange = (value: string) => {
-    setSelectedTab(value);
-    // Show toast for changing tabs - a small UI enhancement
-    toast({
-      title: `Navigated to ${value.charAt(0).toUpperCase() + value.slice(1)}`,
-      description: `You are now viewing the ${value} section.`,
-      duration: 2000,
-    });
-  };
+  const [activeTab, setActiveTab] = useState("dashboard");
+
+  // Mock data for dashboard statistics
+  const stats = [
+    { name: "Total Users", value: "1,234", icon: Users, color: "bg-blue-100 text-blue-800" },
+    { name: "Articles", value: "345", icon: FileText, color: "bg-green-100 text-green-800" },
+    { name: "Sessions", value: "5,678", icon: BarChart3, color: "bg-purple-100 text-purple-800" },
+    { name: "Alerts", value: "12", icon: BellRing, color: "bg-red-100 text-red-800" }
+  ];
 
   return (
-    <div className="flex h-screen bg-background">
-      {/* Sidebar */}
-      <div className="hidden md:flex w-64 flex-col bg-sidebar border-r">
-        <div className="p-4 flex items-center">
-          <div className="w-8 h-8 mr-2">
-            <img src="/assets/logo-main.png" alt="HindPrabhari Admin" className="w-full h-full object-contain" />
-          </div>
-          <h1 className="text-lg font-bold">HindPrabhari Admin</h1>
-        </div>
-        
-        <Separator />
-        
-        <nav className="flex-1 p-4 space-y-1">
-          <Button
-            variant={selectedTab === "dashboard" ? "secondary" : "ghost"}
-            className="w-full justify-start"
-            onClick={() => handleTabChange("dashboard")}
-          >
-            <BarChart className="h-4 w-4 mr-2" />
-            Dashboard
-          </Button>
-          <Button
-            variant={selectedTab === "users" ? "secondary" : "ghost"}
-            className="w-full justify-start"
-            onClick={() => handleTabChange("users")}
-          >
-            <Users className="h-4 w-4 mr-2" />
-            User Management
-          </Button>
-          <Button
-            variant={selectedTab === "content" ? "secondary" : "ghost"}
-            className="w-full justify-start"
-            onClick={() => handleTabChange("content")}
-          >
-            <FileText className="h-4 w-4 mr-2" />
-            Content Management
-          </Button>
-          <Button
-            variant={selectedTab === "database" ? "secondary" : "ghost"}
-            className="w-full justify-start"
-            onClick={() => handleTabChange("database")}
-          >
-            <Database className="h-4 w-4 mr-2" />
-            Database
-          </Button>
-          <Button
-            variant={selectedTab === "ai" ? "secondary" : "ghost"}
-            className="w-full justify-start"
-            onClick={() => handleTabChange("ai")}
-          >
-            <BrainCircuit className="h-4 w-4 mr-2" />
-            AI Features
-          </Button>
-          <Button
-            variant={selectedTab === "security" ? "secondary" : "ghost"}
-            className="w-full justify-start"
-            onClick={() => handleTabChange("security")}
-          >
-            <Shield className="h-4 w-4 mr-2" />
-            Security
-          </Button>
-          <Button
-            variant={selectedTab === "settings" ? "secondary" : "ghost"}
-            className="w-full justify-start"
-            onClick={() => handleTabChange("settings")}
-          >
-            <Settings className="h-4 w-4 mr-2" />
-            Settings
-          </Button>
-        </nav>
-        
-        <div className="p-4">
-          <Link to="/">
-            <Button variant="outline" className="w-full">
-              <Home className="h-4 w-4 mr-2" />
-              Back to Site
-            </Button>
-          </Link>
-        </div>
-      </div>
+    <div className="min-h-screen flex flex-col">
+      <Header />
       
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Top Bar */}
-        <header className="bg-background border-b p-4 flex items-center justify-between">
-          <div className="flex items-center md:hidden">
-            <Logo />
+      <main className="flex-grow py-6 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
+            <h1 className="text-2xl font-bold">Admin Portal</h1>
+            <p className="text-sm text-muted-foreground mt-1 sm:mt-0">
+              Welcome back, Admin
+            </p>
           </div>
-          
-          <div className="md:flex items-center hidden">
-            <h2 className="text-xl font-semibold">{selectedTab.charAt(0).toUpperCase() + selectedTab.slice(1)}</h2>
+
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4 mb-6">
+            {stats.map((stat, index) => (
+              <Card key={index} className="p-4">
+                <div className="flex items-center">
+                  <div className={`p-2 rounded-lg ${stat.color}`}>
+                    <stat.icon className="h-6 w-6" />
+                  </div>
+                  <div className="ml-4">
+                    <p className="text-sm font-medium text-muted-foreground">{stat.name}</p>
+                    <p className="text-2xl font-bold">{stat.value}</p>
+                  </div>
+                </div>
+              </Card>
+            ))}
           </div>
-          
-          <div className="flex items-center space-x-2">
-            <Button variant="ghost" size="icon">
-              <Bell className="h-5 w-5" />
-            </Button>
-            <div className="flex items-center space-x-2 border rounded-full p-1 px-3">
-              <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary font-medium">
-                A
-              </div>
-              <span className="hidden md:inline-block font-medium">Admin</span>
-            </div>
-          </div>
-        </header>
-        
-        {/* Content Area */}
-        <main className="flex-1 overflow-y-auto p-6">
-          {selectedTab === "dashboard" && (
-            <div className="space-y-6">
-              <div className="flex justify-between items-center">
-                <h2 className="text-2xl font-bold tracking-tight">Dashboard</h2>
-                <Button>Refresh Data</Button>
-              </div>
-              
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Total Users</CardTitle>
-                    <Users className="h-4 w-4 text-muted-foreground" />
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">2,582</div>
-                    <p className="text-xs text-muted-foreground">
-                      +12% from last month
-                    </p>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Articles Published</CardTitle>
-                    <FileText className="h-4 w-4 text-muted-foreground" />
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">458</div>
-                    <p className="text-xs text-muted-foreground">
-                      +36 since last week
-                    </p>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Page Views</CardTitle>
-                    <BarChart className="h-4 w-4 text-muted-foreground" />
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">45.2k</div>
-                    <p className="text-xs text-muted-foreground">
-                      +18.3% from last week
-                    </p>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Engagement</CardTitle>
-                    <Users className="h-4 w-4 text-muted-foreground" />
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">24.5%</div>
-                    <p className="text-xs text-muted-foreground">
-                      +5.2% from last month
-                    </p>
-                  </CardContent>
-                </Card>
-              </div>
-              
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-                <Card className="col-span-7 lg:col-span-4">
-                  <CardHeader>
-                    <CardTitle>Weekly Analytics</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="h-80 flex items-center justify-center bg-muted/30 rounded-md">
-                      <p className="text-muted-foreground">Analytics chart would appear here</p>
-                    </div>
-                  </CardContent>
-                </Card>
-                <Card className="col-span-7 lg:col-span-3">
-                  <CardHeader>
-                    <CardTitle>Recent Activity</CardTitle>
-                    <CardDescription>
-                      Latest actions from users and admins
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-4">
-                      {["User johndoe added a new article", 
-                        "Admin updated site settings", 
-                        "New user registered: jane_smith", 
-                        "Article #192 was published", 
-                        "Comments moderated: 24 new approvals"].map((activity, i) => (
-                        <div key={i} className="flex items-center">
-                          <div className="w-2 h-2 rounded-full bg-primary mr-2"></div>
-                          <p className="text-sm">{activity}</p>
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
-          )}
-          
-          {selectedTab === "database" && (
-            <DatabaseManagement />
-          )}
-          
-          {selectedTab === "ai" && (
-            <div className="space-y-6">
-              <div className="flex justify-between items-center">
-                <div>
-                  <h2 className="text-2xl font-bold tracking-tight">AI Features</h2>
-                  <p className="text-muted-foreground mt-1">
-                    Configure and manage AI-powered features across the platform
+
+          <Tabs defaultValue="dashboard" value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+            <TabsList className="flex w-full overflow-x-auto space-x-2 p-1 tabs-list">
+              <TabsTrigger value="dashboard" className="flex items-center">
+                <BarChart3 className="mr-2 h-4 w-4" />
+                Dashboard
+              </TabsTrigger>
+              <TabsTrigger value="content" className="flex items-center">
+                <FileText className="mr-2 h-4 w-4" />
+                Content
+              </TabsTrigger>
+              <TabsTrigger value="users" className="flex items-center">
+                <Users className="mr-2 h-4 w-4" />
+                Users
+              </TabsTrigger>
+              <TabsTrigger value="database" className="flex items-center">
+                <Database className="mr-2 h-4 w-4" />
+                Database
+              </TabsTrigger>
+              <TabsTrigger value="ai" className="flex items-center">
+                <Bot className="mr-2 h-4 w-4" />
+                AI Features
+              </TabsTrigger>
+              <TabsTrigger value="settings" className="flex items-center">
+                <Settings className="mr-2 h-4 w-4" />
+                Settings
+              </TabsTrigger>
+              <TabsTrigger value="security" className="flex items-center">
+                <Shield className="mr-2 h-4 w-4" />
+                Security
+              </TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="dashboard" className="p-0 border-none">
+              <Card className="p-6">
+                <h2 className="text-xl font-semibold mb-4">Dashboard Overview</h2>
+                <p className="text-muted-foreground mb-4">
+                  Welcome to the HindPrabhari Admin Portal. Here you can manage all aspects of your news platform.
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <h3 className="font-medium mb-2">Recent Activities</h3>
+                    <ul className="space-y-2">
+                      <li className="text-sm text-muted-foreground">User "editor1" published a new article "Election Results"</li>
+                      <li className="text-sm text-muted-foreground">3 new user registrations in the last 24 hours</li>
+                      <li className="text-sm text-muted-foreground">System backup completed successfully</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h3 className="font-medium mb-2">Quick Actions</h3>
+                    <ul className="space-y-2">
+                      <li><a href="#" className="text-sm text-primary hover:underline">Create new article</a></li>
+                      <li><a href="#" className="text-sm text-primary hover:underline">View site analytics</a></li>
+                      <li><a href="#" className="text-sm text-primary hover:underline">Manage user permissions</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </Card>
+            </TabsContent>
+            
+            <TabsContent value="content" className="p-0 border-none">
+              <ContentManagement />
+            </TabsContent>
+            
+            <TabsContent value="users" className="p-0 border-none">
+              <Card className="p-6">
+                <h2 className="text-xl font-semibold mb-4">User Management</h2>
+                <p className="text-muted-foreground mb-4">
+                  Manage user accounts, roles, and permissions.
+                </p>
+                <div className="bg-muted rounded-lg p-12 text-center">
+                  <Users className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+                  <h3 className="text-lg font-medium mb-2">User Management Coming Soon</h3>
+                  <p className="text-muted-foreground">
+                    This feature is currently under development. Check back later.
                   </p>
                 </div>
-              </div>
-              
-              <Separator />
-              
-              <Tabs defaultValue="settings" className="w-full">
-                <TabsList className="grid grid-cols-3 w-full md:w-auto">
-                  <TabsTrigger value="settings">Settings</TabsTrigger>
-                  <TabsTrigger value="content">Content Generation</TabsTrigger>
-                  <TabsTrigger value="chat">Chat Features</TabsTrigger>
-                </TabsList>
-                <TabsContent value="settings" className="space-y-4 pt-4">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Global AI Settings</CardTitle>
-                      <CardDescription>
-                        Configure how AI features behave across the platform
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="space-y-2">
-                          <label className="text-sm font-medium">AI Model</label>
-                          <select className="w-full p-2 border rounded-md">
-                            <option>GPT-4 Turbo</option>
-                            <option>GPT-3.5</option>
-                            <option>Claude 3</option>
-                          </select>
-                        </div>
-                        <div className="space-y-2">
-                          <label className="text-sm font-medium">Temperature</label>
-                          <input type="range" min="0" max="2" step="0.1" defaultValue="0.7" className="w-full" />
-                          <div className="flex justify-between text-xs text-muted-foreground">
-                            <span>Conservative (0)</span>
-                            <span>Balanced (0.7)</span>
-                            <span>Creative (2)</span>
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <div className="space-y-2">
-                        <label className="text-sm font-medium">Maximum Response Length</label>
-                        <select className="w-full p-2 border rounded-md">
-                          <option>1000 tokens</option>
-                          <option>2000 tokens</option>
-                          <option>4000 tokens</option>
-                          <option>8000 tokens</option>
-                        </select>
-                      </div>
-                      
-                      <div className="flex items-center space-x-2">
-                        <input type="checkbox" id="enable-ai" className="rounded" defaultChecked />
-                        <label htmlFor="enable-ai" className="text-sm">Enable AI features for all users</label>
-                      </div>
-                      
-                      <Button>Save Settings</Button>
-                    </CardContent>
-                  </Card>
-                </TabsContent>
-                
-                <TabsContent value="content" className="space-y-4 pt-4">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Content Generation</CardTitle>
-                      <CardDescription>
-                        Configure AI-assisted content creation for editors
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <div className="space-y-2">
-                        <label className="text-sm font-medium">Writing Style</label>
-                        <select className="w-full p-2 border rounded-md">
-                          <option>Journalistic</option>
-                          <option>Academic</option>
-                          <option>Conversational</option>
-                          <option>Business</option>
-                        </select>
-                      </div>
-                      
-                      <div className="space-y-2">
-                        <label className="text-sm font-medium">Topic Categories</label>
-                        <div className="grid grid-cols-2 gap-2">
-                          <div className="flex items-center space-x-2">
-                            <input type="checkbox" id="politics" className="rounded" defaultChecked />
-                            <label htmlFor="politics" className="text-sm">Politics</label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <input type="checkbox" id="tech" className="rounded" defaultChecked />
-                            <label htmlFor="tech" className="text-sm">Technology</label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <input type="checkbox" id="sports" className="rounded" defaultChecked />
-                            <label htmlFor="sports" className="text-sm">Sports</label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <input type="checkbox" id="entertainment" className="rounded" defaultChecked />
-                            <label htmlFor="entertainment" className="text-sm">Entertainment</label>
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <Button>Apply Settings</Button>
-                    </CardContent>
-                  </Card>
-                </TabsContent>
-                
-                <TabsContent value="chat" className="space-y-4 pt-4">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Chatbot Configuration</CardTitle>
-                      <CardDescription>
-                        Configure the AI chat assistant for users
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <div className="space-y-2">
-                        <label className="text-sm font-medium">Chatbot Name</label>
-                        <input 
-                          type="text" 
-                          defaultValue="HindPrabhari Assistant" 
-                          className="w-full p-2 border rounded-md"
-                        />
-                      </div>
-                      
-                      <div className="space-y-2">
-                        <label className="text-sm font-medium">Welcome Message</label>
-                        <textarea 
-                          className="w-full p-2 border rounded-md h-24"
-                          defaultValue="Hello! I'm your HindPrabhari news assistant. How can I help you today?"
-                        />
-                      </div>
-                      
-                      <div className="flex items-center space-x-2">
-                        <input type="checkbox" id="suggest-articles" className="rounded" defaultChecked />
-                        <label htmlFor="suggest-articles" className="text-sm">
-                          Suggest related articles in responses
-                        </label>
-                      </div>
-                      
-                      <div className="flex items-center space-x-2">
-                        <input type="checkbox" id="personalization" className="rounded" defaultChecked />
-                        <label htmlFor="personalization" className="text-sm">
-                          Enable personalization based on user history
-                        </label>
-                      </div>
-                      
-                      <Button>Save Configuration</Button>
-                    </CardContent>
-                  </Card>
-                </TabsContent>
-              </Tabs>
-            </div>
-          )}
-          
-          {(selectedTab === "users" || selectedTab === "content" || selectedTab === "security" || selectedTab === "settings") && (
-            <div className="flex items-center justify-center h-full">
-              <Card className="w-full max-w-md">
-                <CardHeader>
-                  <CardTitle>Coming Soon</CardTitle>
-                  <CardDescription>
-                    This {selectedTab} section is under development.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-center text-muted-foreground">
-                    The {selectedTab} management module will be available in the next update. 
-                    Please check back later.
-                  </p>
-                </CardContent>
               </Card>
-            </div>
-          )}
-        </main>
-      </div>
+            </TabsContent>
+            
+            <TabsContent value="database" className="p-0 border-none">
+              <Card>
+                <SupabaseDatabase />
+              </Card>
+            </TabsContent>
+            
+            <TabsContent value="ai" className="p-0 border-none">
+              <Card className="p-6">
+                <h2 className="text-xl font-semibold mb-4">AI Features Management</h2>
+                <p className="text-muted-foreground mb-4">
+                  Configure AI assistant, content generation, and smart analytics features.
+                </p>
+                
+                <div className="mt-6">
+                  <h3 className="text-lg font-medium mb-3">AI Assistant Configuration</h3>
+                  <Separator className="my-4" />
+                  
+                  <div className="space-y-6">
+                    <div className="bg-muted rounded-lg p-6">
+                      <h4 className="font-medium mb-2">AI Assistant Status</h4>
+                      <div className="flex items-center space-x-2">
+                        <div className="h-3 w-3 rounded-full bg-green-500"></div>
+                        <span className="text-sm">Online and functioning properly</span>
+                      </div>
+                      <p className="mt-2 text-sm text-muted-foreground">
+                        The AI assistant is currently active and available to all users. 
+                        Last updated: December 12, 2023.
+                      </p>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="bg-muted/50 p-4 rounded-lg">
+                        <h4 className="font-medium mb-2">Content Generation</h4>
+                        <p className="text-sm text-muted-foreground mb-4">
+                          Configure AI for generating article summaries and content suggestions.
+                        </p>
+                        <button className="text-sm text-primary hover:underline" onClick={() => {
+                          toast({
+                            title: "Content Generation Settings",
+                            description: "This feature is currently under development."
+                          });
+                        }}>
+                          Configure Settings
+                        </button>
+                      </div>
+                      
+                      <div className="bg-muted/50 p-4 rounded-lg">
+                        <h4 className="font-medium mb-2">Smart Analytics</h4>
+                        <p className="text-sm text-muted-foreground mb-4">
+                          AI-powered insights on user engagement and content performance.
+                        </p>
+                        <button className="text-sm text-primary hover:underline" onClick={() => {
+                          toast({
+                            title: "Smart Analytics",
+                            description: "This feature is currently under development."
+                          });
+                        }}>
+                          View Analytics
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            </TabsContent>
+            
+            <TabsContent value="settings" className="p-0 border-none">
+              <Card className="p-6">
+                <h2 className="text-xl font-semibold mb-4">System Settings</h2>
+                <p className="text-muted-foreground mb-4">
+                  Configure system preferences, appearance, and site behavior.
+                </p>
+                <div className="bg-muted rounded-lg p-12 text-center">
+                  <Settings className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+                  <h3 className="text-lg font-medium mb-2">Settings Coming Soon</h3>
+                  <p className="text-muted-foreground">
+                    This feature is currently under development. Check back later.
+                  </p>
+                </div>
+              </Card>
+            </TabsContent>
+            
+            <TabsContent value="security" className="p-0 border-none">
+              <Card className="p-6">
+                <h2 className="text-xl font-semibold mb-4">Security Settings</h2>
+                <p className="text-muted-foreground mb-4">
+                  Manage security protocols, authentication methods, and access controls.
+                </p>
+                <div className="bg-muted rounded-lg p-12 text-center">
+                  <Shield className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+                  <h3 className="text-lg font-medium mb-2">Security Features Coming Soon</h3>
+                  <p className="text-muted-foreground">
+                    This feature is currently under development. Check back later.
+                  </p>
+                </div>
+              </Card>
+            </TabsContent>
+          </Tabs>
+        </div>
+      </main>
+      
+      <Footer />
     </div>
   );
 };

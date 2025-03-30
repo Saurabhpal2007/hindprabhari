@@ -1,6 +1,6 @@
 
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
 interface CategoryItem {
@@ -28,10 +28,10 @@ const DesktopNavigation = ({
 }: DesktopNavigationProps) => {
   return (
     <nav className="hidden md:flex items-center space-x-1">
-      {mainNavigation.map((item) => (
-        <React.Fragment key={item.id}>
-          {item.id === "categories" ? (
-            <div className="group relative">
+      {mainNavigation.map((item) => {
+        if (item.id === "categories") {
+          return (
+            <div key={item.id} className="group relative">
               <NavLink
                 to={item.path}
                 className={({ isActive }) =>
@@ -75,9 +75,18 @@ const DesktopNavigation = ({
                 ))}
               </div>
             </div>
-          ) : (
+          );
+        } else {
+          return (
             <NavLink
+              key={item.id}
               to={item.path}
+              onClick={(e) => {
+                if (item.path === "/") {
+                  e.preventDefault();
+                  scrollToSection(item.id);
+                }
+              }}
               className={({ isActive }) =>
                 cn(
                   "px-3 py-1.5 text-sm font-medium transition-colors hover:text-primary rounded-md",
@@ -87,9 +96,9 @@ const DesktopNavigation = ({
             >
               {item.name}
             </NavLink>
-          )}
-        </React.Fragment>
-      ))}
+          );
+        }
+      })}
     </nav>
   );
 };
