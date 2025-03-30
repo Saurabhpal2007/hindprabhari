@@ -49,3 +49,58 @@
 .page-transition {
   transition: all 0.3s ease;
 }
+
+/* Make sure images are properly sized and don't break layouts */
+img {
+  max-width: 100%;
+}
+
+/* Improved aesthetics for cards and containers */
+.card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive container padding */
+@media (max-width: 640px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+/* Proper spacing for sections */
+section {
+  margin-bottom: 3rem;
+}
+
+/* Fix for hero section and logo alignment */
+.hero-logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Add better support for dark mode */
+.dark .card-hover:hover {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Fix navigation link alignment */
+.nav-link {
+  display: flex;
+  align-items: center;
+}
+
+/* Better responsive tables */
+@media (max-width: 640px) {
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}

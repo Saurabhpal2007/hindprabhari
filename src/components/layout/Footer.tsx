@@ -89,12 +89,15 @@ const Footer = () => {
           {/* Brand section */}
           <div className="md:col-span-2">
             <Link to="/" className="inline-block mb-4">
-              <div className="h-12 w-auto">
-                <img 
-                  src="/assets/logo-main.png" 
-                  alt="HindPrabhari" 
-                  className="h-full w-auto object-contain"
-                />
+              <div className="flex items-center">
+                <div className="h-12 w-auto mr-2">
+                  <img 
+                    src="/assets/logo-main.png" 
+                    alt="HindPrabhari" 
+                    className="h-full w-auto object-contain"
+                  />
+                </div>
+                <span className="text-xl font-semibold">HindPrabhari</span>
               </div>
             </Link>
             <p className="text-muted-foreground mb-6 max-w-md">

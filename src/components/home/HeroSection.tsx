@@ -62,12 +62,12 @@ const HeroSection = () => {
         "relative z-10 text-center transition-all duration-1000 transform",
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
       )}>
-        {/* Logo with softer glow effect */}
-        <div className="relative mb-12 mx-auto w-72 h-72">
-          <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/30 to-orange-500/30 rounded-full blur-lg"></div>
+        {/* Logo with reduced glow effect */}
+        <div className="relative mb-6 mx-auto w-64 h-64">
+          <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/20 to-orange-500/20 rounded-full blur-md"></div>
           <div className="relative flex items-center justify-center h-full">
-            <div className="bg-white dark:bg-black/30 rounded-full p-8 backdrop-blur-sm border border-white/20 dark:border-white/10 shadow-xl">
-              <div className="w-48 h-48 flex items-center justify-center">
+            <div className="bg-white/90 dark:bg-black/20 rounded-full p-6 backdrop-blur-sm border border-white/20 dark:border-white/10 shadow-md">
+              <div className="w-44 h-44 flex items-center justify-center">
                 <img 
                   src="/assets/logo-main.png" 
                   alt="HindPrabhari" 
@@ -79,25 +79,25 @@ const HeroSection = () => {
         </div>
         
         {/* Hindi slogan with English subtitle - with added line spacing */}
-        <h1 className="space-y-6">
-          <span className="block text-5xl font-bold mb-4">भारत की धड़कन</span>
-          <span className="block text-xl text-muted-foreground mt-4 leading-relaxed">
+        <h1 className="space-y-4">
+          <span className="block text-4xl sm:text-5xl font-bold mb-2">भारत की धड़कन</span>
+          <span className="block text-lg sm:text-xl text-muted-foreground mt-2 leading-relaxed">
             The Pulse of Bharat - Truth in Every Story
           </span>
         </h1>
         
         {/* Call to action buttons */}
-        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
           <Button 
             onClick={scrollToFeatured}
-            className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white px-8 py-6 h-auto rounded-full"
+            className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white px-6 py-5 h-auto rounded-full"
           >
             Explore Now <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
           <Button 
             variant="outline" 
             onClick={scrollToContact}
-            className="border-2 border-orange-500 text-orange-500 hover:bg-orange-500/10 px-8 py-6 h-auto rounded-full"
+            className="border-2 border-orange-500 text-orange-500 hover:bg-orange-500/10 px-6 py-5 h-auto rounded-full"
           >
             Subscribe <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
