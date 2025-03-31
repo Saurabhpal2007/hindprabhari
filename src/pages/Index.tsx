@@ -60,40 +60,51 @@ const Index = () => {
       
       <main className="flex-grow">
         <div className={`transition-opacity duration-700 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
-          <div>
-            <HeroSection />
-            <BreakingNews />
-            
-            <div className="container mx-auto py-8 px-4 -mt-4">
+          {/* Full screen hero section */}
+          <HeroSection />
+          
+          {/* Breaking news ticker below hero */}
+          <BreakingNews />
+          
+          {/* Search bar section with increased padding and prominence */}
+          <div className="bg-gradient-to-b from-background/80 to-background py-10 px-4">
+            <div className="container mx-auto max-w-4xl">
               <SearchBar />
             </div>
           </div>
           
-          <section id="trending" className="container mx-auto py-12 px-4">
+          <section id="trending" className="container mx-auto py-16 px-4">
             <div className="flex justify-between items-center mb-8">
-              <h2 className="text-3xl font-bold">Trending</h2>
-              <Link to="/trending" className="flex items-center text-primary hover:underline">
-                View All <ArrowRight className="ml-1 h-5 w-5" />
+              <h2 className="text-3xl font-bold flex items-center">
+                Trending
+                <span className="ml-2 text-sm font-normal px-2 py-1 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-full hidden sm:inline-block">
+                  Live
+                </span>
+              </h2>
+              <Link to="/trending" className="flex items-center text-primary hover:underline group">
+                View All <ArrowRight className="ml-1 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
             <FeaturedArticles />
           </section>
           
-          <section id="categories" className="container mx-auto py-16 px-4">
-            <div className="flex justify-between items-center mb-8">
-              <h2 className="text-3xl font-bold">Categories</h2>
-              <Link to="/categories" className="flex items-center text-primary hover:underline">
-                View All <ArrowRight className="ml-1 h-5 w-5" />
-              </Link>
+          <section id="categories" className="bg-muted/30 py-16 px-4">
+            <div className="container mx-auto">
+              <div className="flex justify-between items-center mb-8">
+                <h2 className="text-3xl font-bold">Categories</h2>
+                <Link to="/categories" className="flex items-center text-primary hover:underline group">
+                  View All <ArrowRight className="ml-1 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </div>
+              <CategoryCards />
             </div>
-            <CategoryCards />
           </section>
           
           <section id="latest" className="container mx-auto py-16 px-4">
             <div className="flex justify-between items-center mb-8">
               <h2 className="text-3xl font-bold">Latest News</h2>
-              <Link to="/latest" className="flex items-center text-primary hover:underline">
-                View All <ArrowRight className="ml-1 h-5 w-5" />
+              <Link to="/latest" className="flex items-center text-primary hover:underline group">
+                View All <ArrowRight className="ml-1 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
             <LatestNews />

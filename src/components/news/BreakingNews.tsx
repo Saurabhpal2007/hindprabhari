@@ -34,19 +34,19 @@ const BreakingNews = () => {
 
   return (
     <div className={cn(
-      "bg-red-600 text-white py-3 relative z-20 shadow-md breaking-news",
+      "bg-red-600 text-white py-4 relative z-20 shadow-lg breaking-news",
       isVisible ? "opacity-100" : "opacity-0"
     )}>
       <div className="container mx-auto px-4">
         <div className="flex items-center">
           <div className="flex-shrink-0 flex items-center mr-4 font-bold">
-            <AlertTriangle className="mr-2 h-5 w-5 animate-pulse" />
-            <span className="hidden sm:inline">BREAKING:</span>
-            <span className="sm:hidden">LIVE:</span>
+            <AlertTriangle className="mr-2 h-6 w-6 animate-pulse" />
+            <span className="hidden sm:inline text-lg">BREAKING NEWS</span>
+            <span className="sm:hidden text-lg">LIVE</span>
           </div>
           
           <div 
-            className="relative overflow-hidden flex-grow h-6" 
+            className="relative overflow-hidden flex-grow h-7" 
             ref={tickerRef}
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
@@ -55,7 +55,7 @@ const BreakingNews = () => {
               <div 
                 key={index}
                 className={cn(
-                  "absolute top-0 left-0 right-0 transition-opacity duration-500 whitespace-nowrap text-ellipsis overflow-hidden",
+                  "absolute top-0 left-0 right-0 transition-opacity duration-500 whitespace-nowrap text-ellipsis overflow-hidden text-base sm:text-lg",
                   currentIndex === index ? "opacity-100" : "opacity-0"
                 )}
               >

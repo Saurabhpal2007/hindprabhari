@@ -32,19 +32,20 @@ const SearchBar = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto search-container">
-      <div className="bg-card rounded-3xl p-5 shadow-md border relative overflow-hidden">
-        {/* Decorative background element */}
-        <div className="absolute -right-10 -top-10 w-40 h-40 bg-gradient-to-br from-yellow-400/10 to-orange-500/10 rounded-full blur-2xl"></div>
+    <div className="w-full mx-auto search-container">
+      <div className="bg-card rounded-3xl p-6 shadow-xl border relative overflow-hidden transform transition-all hover:shadow-2xl">
+        {/* Decorative background elements */}
+        <div className="absolute -right-16 -top-16 w-48 h-48 bg-gradient-to-br from-yellow-400/10 to-orange-500/10 rounded-full blur-3xl"></div>
+        <div className="absolute -left-16 -bottom-16 w-48 h-48 bg-gradient-to-tr from-blue-400/5 to-purple-500/5 rounded-full blur-3xl"></div>
         
         <form onSubmit={handleSearch} className="relative z-10">
-          <div className="flex items-center">
+          <div className="flex flex-col md:flex-row md:items-center gap-4">
             <div className="relative flex-grow">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-6 w-6 text-muted-foreground" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-6 w-6 text-muted-foreground" />
               <Input
                 type="text"
                 placeholder="Search news, topics, or ask AI a question..."
-                className="pl-12 pr-28 h-16 rounded-full text-base shadow-sm"
+                className="pl-12 pr-28 h-16 rounded-full text-base shadow-sm border-2 focus:border-primary transition-all"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
               />
@@ -81,7 +82,7 @@ const SearchBar = () => {
             <Button 
               type="submit" 
               className={cn(
-                "ml-3 bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 h-16 px-8 rounded-full text-base font-medium transition-all shadow-sm",
+                "md:ml-3 bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 h-12 md:h-16 px-8 rounded-full text-base font-medium transition-all shadow-md",
                 isSearching ? "opacity-90" : ""
               )}
               disabled={isSearching}
@@ -94,13 +95,13 @@ const SearchBar = () => {
               ) : "Search"}
             </Button>
           </div>
-          <div className="mt-4 flex flex-wrap gap-2 text-sm">
+          <div className="mt-5 flex flex-wrap gap-2 text-sm">
             <span className="text-muted-foreground mr-1">Trending:</span>
             {["Union Budget", "Cricket World Cup", "Assembly Elections", "Startup India", "Climate Change"].map((term) => (
               <button
                 key={term}
                 type="button"
-                className="bg-muted/50 hover:bg-muted px-3 py-1.5 rounded-full transition-colors"
+                className="bg-muted/50 hover:bg-muted px-3 py-1.5 rounded-full transition-colors hover:scale-105 transform"
                 onClick={() => setQuery(term)}
               >
                 {term}

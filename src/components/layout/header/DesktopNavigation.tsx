@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
 interface CategoryItem {
@@ -26,6 +26,9 @@ const DesktopNavigation = ({
   mainNavigation,
   scrollToSection
 }: DesktopNavigationProps) => {
+  const location = useLocation();
+  const isHomePage = location.pathname === "/";
+
   return (
     <nav className="hidden md:flex items-center space-x-1">
       {mainNavigation.map((item) => {
@@ -58,14 +61,14 @@ const DesktopNavigation = ({
                 </svg>
               </NavLink>
               
-              <div className="absolute left-0 top-full z-10 mt-1 hidden w-56 overflow-hidden rounded-md border bg-popover p-1 shadow-md group-hover:block">
+              <div className="absolute left-0 top-full z-50 mt-1 hidden w-56 overflow-hidden rounded-md border bg-popover p-1 shadow-lg group-hover:block">
                 {categories.map((category) => (
                   <NavLink
                     key={category.id}
                     to={category.path}
                     className={({ isActive }) =>
                       cn(
-                        "block px-3 py-1.5 text-sm hover:bg-accent hover:text-accent-foreground rounded-md",
+                        "block px-3 py-2 text-sm hover:bg-accent hover:text-accent-foreground rounded-md",
                         isActive ? "bg-accent text-accent-foreground" : ""
                       )
                     }
@@ -82,19 +85,20 @@ const DesktopNavigation = ({
               key={item.id}
               to={item.path}
               onClick={(e) => {
-                if (item.path === "/") {
+                if (isHomePage && ["home", "trending", "categories", "latest", "about", "contact"].includes(item.id)) {
                   e.preventDefault();
                   scrollToSection(item.id);
                 }
               }}
               className={({ isActive }) =>
                 cn(
-                  "px-3 py-1.5 text-sm font-medium transition-colors hover:text-primary rounded-md",
+                  "px-3 py-2 text-sm font-medium transition-colors hover:text-primary rounded-md relative group",
                   isActive ? "text-primary" : ""
                 )
               }
             >
               {item.name}
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
             </NavLink>
           );
         }
