@@ -42,7 +42,7 @@ const HeroSection = () => {
   return (
     <section 
       id="home"
-      className="relative h-screen w-full flex items-center justify-center overflow-hidden"
+      className="relative h-full w-full flex items-center justify-center overflow-hidden"
       style={{
         backgroundPosition: `50% ${offset * 0.5}px`
       }}

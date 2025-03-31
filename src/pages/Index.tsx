@@ -55,20 +55,17 @@ const Index = () => {
   }, [location]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col bg-background overflow-x-hidden">
       <div className="h-screen flex flex-col">
         <Header />
         <div className={`flex-grow flex flex-col transition-opacity duration-700 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
-          {/* Full screen hero section */}
           <HeroSection />
         </div>
+        <BreakingNews />
       </div>
       
       <main className="flex-grow">
         <div className={`transition-opacity duration-700 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
-          {/* Breaking news ticker below hero */}
-          <BreakingNews />
-          
           {/* Search bar section with increased padding and prominence */}
           <div className="bg-gradient-to-b from-background/80 to-background py-10 px-4">
             <div className="container mx-auto max-w-4xl">
