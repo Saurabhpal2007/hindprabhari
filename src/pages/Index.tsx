@@ -56,13 +56,16 @@ const Index = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      <Header />
+      <div className="h-screen flex flex-col">
+        <Header />
+        <div className={`flex-grow flex flex-col transition-opacity duration-700 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
+          {/* Full screen hero section */}
+          <HeroSection />
+        </div>
+      </div>
       
       <main className="flex-grow">
         <div className={`transition-opacity duration-700 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
-          {/* Full screen hero section */}
-          <HeroSection />
-          
           {/* Breaking news ticker below hero */}
           <BreakingNews />
           

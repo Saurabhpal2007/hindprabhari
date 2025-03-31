@@ -16,7 +16,7 @@ const HeroSection = () => {
     const timer = setTimeout(() => {
       setIsVisible(true);
     }, 300);
-
+    
     window.addEventListener("scroll", handleScroll);
     
     return () => {
@@ -86,28 +86,21 @@ const HeroSection = () => {
           </span>
         </h1>
         
-        {/* Call to action buttons */}
+        {/* Call to action buttons - restored to normal size */}
         <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
           <Button 
             onClick={scrollToFeatured}
-            className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white px-8 py-6 h-auto rounded-full w-full sm:w-auto shadow-md transition-all duration-300 text-lg"
+            className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white px-6 py-2 rounded-full w-full sm:w-auto shadow-md transition-all duration-300"
           >
             Explore Now <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
           <Button 
             variant="outline" 
             onClick={scrollToContact}
-            className="border-2 border-orange-500 text-orange-500 hover:bg-orange-500/10 px-8 py-6 h-auto rounded-full w-full sm:w-auto shadow-sm transition-all duration-300 text-lg"
+            className="border-2 border-orange-500 text-orange-500 hover:bg-orange-500/10 px-6 py-2 rounded-full w-full sm:w-auto shadow-sm transition-all duration-300"
           >
             Subscribe <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
-        </div>
-      </div>
-
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-0 right-0 flex justify-center animate-bounce">
-        <div className="w-10 h-10 rounded-full border-2 border-orange-500 flex items-center justify-center">
-          <ArrowRight className="h-5 w-5 text-orange-500 -rotate-90" />
         </div>
       </div>
     </section>

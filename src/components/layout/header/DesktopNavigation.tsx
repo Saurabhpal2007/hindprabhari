@@ -30,7 +30,7 @@ const DesktopNavigation = ({
   const isHomePage = location.pathname === "/";
 
   return (
-    <nav className="hidden md:flex items-center space-x-1">
+    <nav className="hidden md:flex items-center space-x-2">
       {mainNavigation.map((item) => {
         if (item.id === "categories") {
           return (
