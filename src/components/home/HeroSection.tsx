@@ -42,7 +42,7 @@ const HeroSection = () => {
   return (
     <section 
       id="home"
-      className="relative h-[75vh] flex items-center justify-center overflow-hidden"
+      className="relative h-screen flex items-center justify-center overflow-hidden"
       style={{
         backgroundPosition: `50% ${offset * 0.5}px`
       }}
@@ -64,7 +64,7 @@ const HeroSection = () => {
       )}>
         {/* Logo with reduced glow effect */}
         <div className="relative mb-6 mx-auto w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64">
-          <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/10 to-orange-500/10 rounded-full blur-md"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/5 to-orange-500/5 rounded-full blur-md"></div>
           <div className="relative flex items-center justify-center h-full">
             <div className="bg-white/90 dark:bg-black/20 rounded-full p-5 backdrop-blur-sm border border-white/20 dark:border-white/10 shadow-md">
               <div className="w-36 h-36 sm:w-40 sm:h-40 md:w-44 md:h-44 flex items-center justify-center">

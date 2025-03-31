@@ -32,10 +32,10 @@ const SearchBar = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto">
-      <div className="bg-card rounded-3xl p-5 shadow-sm border relative overflow-hidden">
+    <div className="max-w-3xl mx-auto search-container">
+      <div className="bg-card rounded-3xl p-5 shadow-md border relative overflow-hidden">
         {/* Decorative background element */}
-        <div className="absolute -right-10 -top-10 w-40 h-40 bg-gradient-to-br from-yellow-400/20 to-orange-500/20 rounded-full blur-2xl"></div>
+        <div className="absolute -right-10 -top-10 w-40 h-40 bg-gradient-to-br from-yellow-400/10 to-orange-500/10 rounded-full blur-2xl"></div>
         
         <form onSubmit={handleSearch} className="relative z-10">
           <div className="flex items-center">
@@ -44,7 +44,7 @@ const SearchBar = () => {
               <Input
                 type="text"
                 placeholder="Search news, topics, or ask AI a question..."
-                className="pl-12 pr-28 h-16 rounded-full text-base"
+                className="pl-12 pr-28 h-16 rounded-full text-base shadow-sm"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
               />
@@ -81,7 +81,7 @@ const SearchBar = () => {
             <Button 
               type="submit" 
               className={cn(
-                "ml-3 bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 h-16 px-8 rounded-full text-base font-medium transition-all",
+                "ml-3 bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 h-16 px-8 rounded-full text-base font-medium transition-all shadow-sm",
                 isSearching ? "opacity-90" : ""
               )}
               disabled={isSearching}

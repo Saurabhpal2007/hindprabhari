@@ -34,7 +34,7 @@ const BreakingNews = () => {
 
   return (
     <div className={cn(
-      "bg-red-600 text-white py-3 transition-all duration-500",
+      "bg-red-600 text-white py-3 relative z-20 shadow-md breaking-news",
       isVisible ? "opacity-100" : "opacity-0"
     )}>
       <div className="container mx-auto px-4">

@@ -159,3 +159,47 @@ button, a {
     min-width: 44px;
   }
 }
+
+/* Custom scale for hover effects */
+.hover\:scale-102:hover {
+  transform: scale(1.02);
+}
+
+/* Refined card styles */
+.card {
+  transition: all 0.3s ease;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+/* Enhanced hero section styling */
+.hero-section {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Improved category card styling */
+.category-card {
+  border-radius: 1rem;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
+/* Fixed breaking news ticker for better visibility */
+.breaking-news {
+  position: relative;
+  z-index: 20;
+}
+
+/* Improved search bar styling */
+.search-container {
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 10;
+}

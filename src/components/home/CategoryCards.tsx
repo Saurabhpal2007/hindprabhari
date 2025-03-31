@@ -131,34 +131,39 @@ const CategoryCards = () => {
   }, []);
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       {categories.map((category, index) => (
         <div id={category.id} key={category.id}>
           <Link 
             to={`/${category.id}`}
             className={cn(
-              "relative rounded-3xl p-6 overflow-hidden transition-all duration-500 transform hover:scale-105 bg-card hover:shadow-lg group",
+              "block rounded-2xl overflow-hidden transition-all duration-500 transform hover:scale-102 bg-card border hover:shadow-lg relative h-full",
               visibleCategories.includes(index) ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10",
               activeCategory === category.id ? "ring-2 ring-primary ring-offset-2" : ""
             )}
           >
-            {/* Gradient background that appears on hover */}
+            {/* Hidden gradient background that appears on hover */}
             <div 
               className={cn(
-                `absolute inset-0 opacity-0 group-hover:opacity-100 bg-gradient-to-br ${category.gradient} transition-opacity duration-300`
+                `absolute inset-0 opacity-0 bg-gradient-to-br ${category.gradient} transition-opacity duration-300`,
+                "group-hover:opacity-100"
               )}
             ></div>
             
-            <div className="relative z-10 flex flex-col items-center text-center">
+            <div className="relative z-10 p-6 h-full group">
               <div className={cn(
-                "p-4 rounded-full mb-4 bg-background/10 backdrop-blur-sm transition-colors group-hover:text-white"
+                "mx-auto flex items-center justify-center w-16 h-16 rounded-full mb-4 transition-colors",
+                `bg-${category.gradient.split('-')[1]}-100/20 text-${category.gradient.split('-')[2].split(' ')[0]}-500`,
+                "group-hover:bg-white/10 group-hover:text-white"
               )}>
                 {category.icon}
               </div>
-              <h3 className="font-bold mb-2 text-lg transition-colors group-hover:text-white">
+              
+              <h3 className="font-bold mb-2 text-lg text-center transition-colors group-hover:text-white">
                 {category.name}
               </h3>
-              <p className="text-sm text-muted-foreground transition-colors group-hover:text-white/80">
+              
+              <p className="text-sm text-muted-foreground text-center transition-colors group-hover:text-white/80">
                 {category.description}
               </p>
             </div>

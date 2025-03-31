@@ -60,14 +60,13 @@ const Index = () => {
       
       <main className="flex-grow">
         <div className={`transition-opacity duration-700 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
-          <div id="home">
+          <div>
             <HeroSection />
+            <BreakingNews />
             
-            <div className="container mx-auto py-8 px-4">
+            <div className="container mx-auto py-8 px-4 -mt-4">
               <SearchBar />
             </div>
-            
-            <BreakingNews />
           </div>
           
           <section id="trending" className="container mx-auto py-12 px-4">

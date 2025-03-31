@@ -134,10 +134,9 @@ const FeaturedArticles = () => {
                   )}
                 >
                   {/* Hover glow effect */}
-                  <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 bg-gradient-to-br ${article.gradient} blur-xl -z-10 transition-opacity duration-500`}></div>
+                  <div className={`absolute inset-0 opacity-0 group-hover:opacity-10 bg-gradient-to-br ${article.gradient} blur-xl -z-10 transition-opacity duration-500`}></div>
                   
                   <div className="relative h-48 overflow-hidden">
-                    <div className={`absolute inset-0 bg-gradient-to-br ${article.gradient} opacity-50`}></div>
                     <img 
                       src={article.imageUrl} 
                       alt={article.title} 
@@ -160,9 +159,9 @@ const FeaturedArticles = () => {
                   <CardFooter>
                     <Link 
                       to={`/article/${article.id}`}
-                      className="text-sm font-medium text-primary hover:underline"
+                      className="text-sm font-medium text-primary hover:underline flex items-center"
                     >
-                      Read Full Story
+                      Read Full Story <ArrowRight className="ml-1.5 h-4 w-4" />
                     </Link>
                   </CardFooter>
                 </Card>
