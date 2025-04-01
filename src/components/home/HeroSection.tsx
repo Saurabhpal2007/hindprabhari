@@ -80,8 +80,9 @@ const HeroSection = () => {
       
       {/* Parallax dots pattern with Material Design spacing */}
       <div 
-        className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-primary/5 to-transparent [background-size:24px_24px] opacity-50"
+        className="absolute inset-0 bg-[radial-gradient(circle,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent [background-size:24px_24px] [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_70%)] pointer-events-none"
         style={{
+          backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)',
           transform: `translateY(${offset * 0.2}px)`
         }}
       ></div>

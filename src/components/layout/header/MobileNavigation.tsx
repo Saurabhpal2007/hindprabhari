@@ -91,17 +91,20 @@ const MobileNavigation = ({
               <Accordion type="single" collapsible key={item.id} className="w-full border-b pb-2">
                 <AccordionItem value="categories" className="border-none">
                   <AccordionTrigger className="p-0 hover:no-underline">
-                    <div className="flex items-center py-2 px-3 rounded-lg w-full">
+                    <Button
+                      variant="text"
+                      className="flex items-center py-2 px-3 rounded-lg w-full justify-start h-auto"
+                    >
                       <Grid className="mr-2 h-5 w-5" />
                       <span className="text-sm font-medium">{item.name}</span>
-                    </div>
+                    </Button>
                   </AccordionTrigger>
                   <AccordionContent>
                     <div className="flex flex-col space-y-1 pl-9 pr-2 pb-2">
                       {categories.map((category) => (
                         <Button
                           key={category.id}
-                          variant="ghost"
+                          variant="text"
                           className="justify-start px-3 py-1.5 text-sm font-medium hover:text-primary rounded-lg w-full h-auto"
                           onClick={() => navigate(category.path)}
                         >
@@ -115,7 +118,7 @@ const MobileNavigation = ({
             ) : (
               <Button 
                 key={item.id}
-                variant="ghost"
+                variant="text"
                 className="justify-start px-3 py-2 text-sm font-medium hover:text-primary flex items-center rounded-lg w-full h-auto" 
                 onClick={() => handleNavClick(item)}
               >

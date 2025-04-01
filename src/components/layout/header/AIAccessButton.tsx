@@ -18,7 +18,7 @@ const AIAccessButton = () => {
       <Tooltip>
         <TooltipTrigger asChild>
           <Button
-            variant={isAIEnabled ? "default" : "outline"}
+            variant={isAIEnabled ? "default" : "outlined"}
             size="sm"
             className="relative rounded-full"
             onClick={toggleAI}
