@@ -13,6 +13,8 @@ const buttonVariants = cva(
         default: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm",
         destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-sm",
         outlined: "border border-input bg-background hover:bg-accent/80 hover:text-accent-foreground",
+        // Add "outline" variant that maps to "outlined" for backward compatibility
+        outline: "border border-input bg-background hover:bg-accent/80 hover:text-accent-foreground",
         filled: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm",
         tonal: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         text: "bg-transparent hover:bg-accent/40 hover:text-accent-foreground",
