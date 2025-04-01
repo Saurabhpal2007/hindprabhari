@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { 
   Table, 
@@ -166,11 +167,11 @@ const DatabaseManagement = () => {
         </div>
         
         <div className="flex items-center gap-2">
-          <Button variant="outlined" size="sm">
+          <Button variant="outline" size="sm">
             <RefreshCw className="h-4 w-4 mr-2" />
             Refresh
           </Button>
-          <Button variant="outlined" size="sm">
+          <Button variant="outline" size="sm">
             <Download className="h-4 w-4 mr-2" />
             Export
           </Button>
@@ -253,11 +254,11 @@ const DatabaseManagement = () => {
                     <TableCell>{formatDate(table.lastModified)}</TableCell>
                     <TableCell>
                       {table.hasRLS ? (
-                        <Badge variant="outlined" className="bg-green-50 text-green-700 border-green-200">
+                        <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
                           Enabled
                         </Badge>
                       ) : (
-                        <Badge variant="outlined" className="bg-amber-50 text-amber-700 border-amber-200">
+                        <Badge variant="outline" className="bg-amber-50 text-amber-700 border-amber-200">
                           Disabled
                         </Badge>
                       )}
@@ -321,7 +322,7 @@ const DatabaseManagement = () => {
                   <TableRow key={policy.id}>
                     <TableCell>{policy.tableName}</TableCell>
                     <TableCell>
-                      <Badge variant="outlined" className="font-mono">
+                      <Badge variant="outline" className="font-mono">
                         {policy.type}
                       </Badge>
                     </TableCell>
@@ -366,7 +367,7 @@ LIMIT 10;`}
                 </pre>
               </div>
               <div className="flex justify-end gap-2">
-                <Button variant="outlined">
+                <Button variant="outline">
                   <FileJson className="h-4 w-4 mr-2" />
                   Save Query
                 </Button>
@@ -395,7 +396,7 @@ LIMIT 10;`}
                     Daily backups at 03:00 AM UTC
                   </p>
                 </div>
-                <Badge variant="outlined" className="bg-green-50 text-green-700">
+                <Badge variant="outline" className="bg-green-50 text-green-700">
                   Enabled
                 </Badge>
               </div>
@@ -481,7 +482,7 @@ LIMIT 10;`}
                 {tables.find(t => t.name === selectedTable)?.description}
               </CardDescription>
             </div>
-            <Button variant="outlined" size="sm" onClick={() => setSelectedTable(null)}>
+            <Button variant="outline" size="sm" onClick={() => setSelectedTable(null)}>
               Close
             </Button>
           </CardHeader>

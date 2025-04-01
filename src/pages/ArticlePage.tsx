@@ -25,6 +25,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "@/component
 import { Textarea } from "@/components/ui/textarea";
 import { useForm } from "react-hook-form";
 
+// Sample article data
 const sampleArticle = {
   id: "pol-1",
   title: "New Policy Reform Announced by Government",
@@ -121,10 +122,14 @@ const ArticlePage = () => {
   });
 
   useEffect(() => {
+    // Simulate loading article data
     const timer = setTimeout(() => {
       setIsLoaded(true);
+      // In a real app, fetch the article by ID
+      // For now, we're using the sample article
     }, 300);
     
+    // Scroll to comments if hash is present
     if (window.location.hash === '#comments') {
       setTimeout(() => {
         const commentsSection = document.getElementById('comments');
@@ -185,6 +190,7 @@ const ArticlePage = () => {
   const onSubmitComment = (data: CommentFormValues) => {
     if (!data.comment.trim()) return;
     
+    // In a real app, send this to the server
     const newComment = {
       id: `c${article.comments.length + 1}`,
       user: "Guest User",
@@ -213,6 +219,7 @@ const ArticlePage = () => {
       
       <main className="flex-grow">
         <div className={`transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
+          {/* Hero Section */}
           <div className="relative h-[40vh] md:h-[50vh] lg:h-[60vh] overflow-hidden">
             <div className="absolute inset-0">
               <img 
@@ -248,8 +255,10 @@ const ArticlePage = () => {
             </div>
           </div>
           
+          {/* Article Content */}
           <div className="container mx-auto px-4 py-8">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+              {/* Article Main Content */}
               <div className="lg:col-span-8">
                 <div className="flex items-center mb-6 p-4 bg-muted/30 rounded-lg">
                   <Avatar className="h-12 w-12 mr-4">
@@ -266,10 +275,11 @@ const ArticlePage = () => {
                   dangerouslySetInnerHTML={{ __html: article.content }}
                 />
                 
+                {/* Article Actions */}
                 <div className="flex flex-wrap justify-between items-center py-4 mb-8 border-t border-b">
                   <div className="flex space-x-2 mb-2 sm:mb-0">
                     <Button
-                      variant={isLiked ? "default" : "outlined"} 
+                      variant={isLiked ? "default" : "outline"} 
                       onClick={handleLike}
                       className="rounded-full"
                     >
@@ -277,34 +287,36 @@ const ArticlePage = () => {
                       <span>{article.likes}</span>
                     </Button>
                     <Button
-                      variant={isBookmarked ? "default" : "outlined"} 
+                      variant={isBookmarked ? "default" : "outline"} 
                       onClick={handleBookmark}
                       className="rounded-full"
                     >
                       <Bookmark className="h-5 w-5 mr-1" />
-                      <span>Bookmark</span>
+                      <span>Save</span>
                     </Button>
                   </div>
                   
                   <div className="flex space-x-2">
-                    <Button variant="outlined" size="sm" onClick={() => handleShare('Facebook')}>
-                      <Facebook className="h-4 w-4" />
+                    <Button variant="outline" size="icon" className="rounded-full" onClick={() => handleShare('Facebook')}>
+                      <Facebook className="h-5 w-5" />
                     </Button>
-                    <Button variant="outlined" size="sm" onClick={() => handleShare('Twitter')}>
-                      <Twitter className="h-4 w-4" />
+                    <Button variant="outline" size="icon" className="rounded-full" onClick={() => handleShare('Twitter')}>
+                      <Twitter className="h-5 w-5" />
                     </Button>
-                    <Button variant="outlined" size="sm" onClick={() => handleShare('LinkedIn')}>
-                      <Linkedin className="h-4 w-4" />
+                    <Button variant="outline" size="icon" className="rounded-full" onClick={() => handleShare('LinkedIn')}>
+                      <Linkedin className="h-5 w-5" />
                     </Button>
-                    <Button variant="outlined" size="sm" onClick={() => handleShare('Email')}>
-                      <Mail className="h-4 w-4" />
+                    <Button variant="outline" size="icon" className="rounded-full" onClick={() => handleShare('Email')}>
+                      <Mail className="h-5 w-5" />
                     </Button>
                   </div>
                 </div>
                 
+                {/* Comments Section */}
                 <div id="comments" className="mt-12">
                   <h2 className="text-2xl font-bold mb-6">Comments ({article.comments.length})</h2>
                   
+                  {/* Comment Form */}
                   <Card className="mb-8">
                     <CardContent className="pt-6">
                       <Form {...form}>
@@ -333,6 +345,7 @@ const ArticlePage = () => {
                     </CardContent>
                   </Card>
                   
+                  {/* Comments List */}
                   <div className="space-y-6">
                     {article.comments.map((comment) => (
                       <div key={comment.id} className="p-4 border rounded-lg">
@@ -363,7 +376,9 @@ const ArticlePage = () => {
                 </div>
               </div>
               
+              {/* Sidebar */}
               <div className="lg:col-span-4">
+                {/* Related Articles */}
                 <div className="sticky top-20">
                   <h3 className="text-xl font-bold mb-4">Related Articles</h3>
                   <div className="space-y-4">

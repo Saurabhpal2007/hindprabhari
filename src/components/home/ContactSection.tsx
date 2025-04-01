@@ -86,7 +86,7 @@ const ContactSection = () => {
               <p className="text-muted-foreground mb-4">
                 Passionate about journalism? We're always looking for talented individuals to join our team.
               </p>
-              <Button asChild variant="outlined">
+              <Button asChild variant="outline">
                 <Link to="/careers">View Careers</Link>
               </Button>
             </div>
