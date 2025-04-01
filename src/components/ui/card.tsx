@@ -10,7 +10,7 @@ const Card = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "rounded-lg border bg-card text-card-foreground md-elevation-1 transition-all duration-300 hover:md-elevation-2",
+      "rounded-xl border bg-card text-card-foreground transition-all duration-300 relative overflow-hidden",
       className
     )}
     {...props}
@@ -37,7 +37,7 @@ const CardTitle = React.forwardRef<
   <h3
     ref={ref}
     className={cn(
-      "text-lg md:text-xl font-semibold leading-none tracking-tight",
+      "text-lg md:text-xl font-medium leading-none tracking-tight",
       className
     )}
     {...props}
@@ -77,4 +77,54 @@ const CardFooter = React.forwardRef<
 ))
 CardFooter.displayName = "CardFooter"
 
-export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent }
+// Create new elevation variants for Material You styling
+const CardElevated = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <Card
+    ref={ref}
+    className={cn(
+      "shadow-md hover:shadow-lg md-elevation-2",
+      className
+    )}
+    {...props}
+  />
+))
+CardElevated.displayName = "CardElevated"
+
+const CardFilled = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <Card
+    ref={ref}
+    className={cn(
+      "border-0 bg-secondary/30 hover:bg-secondary/40",
+      className
+    )}
+    {...props}
+  />
+))
+CardFilled.displayName = "CardFilled"
+
+const CardOutlined = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <Card
+    ref={ref}
+    className={cn(
+      "bg-transparent border-2 border-border hover:border-primary/50 shadow-none",
+      className
+    )}
+    {...props}
+  />
+))
+CardOutlined.displayName = "CardOutlined"
+
+export { 
+  Card, CardHeader, CardFooter, CardTitle, 
+  CardDescription, CardContent, CardElevated,
+  CardFilled, CardOutlined
+}
