@@ -35,18 +35,18 @@ const BreakingNews = () => {
 
   return (
     <div className={cn(
-      "bg-gradient-to-r from-red-600 to-red-500 text-white py-2.5 relative z-20 shadow-md border-b border-red-700 transition-all duration-500",
+      "bg-tertiary text-tertiary-foreground py-2.5 relative z-20 shadow-elevation-2 md-surface-tint transition-all duration-500 md-container-shape-xs",
       isVisible ? "opacity-100" : "opacity-0"
     )}>
       <motion.div 
         initial={{ y: 10, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.3 }}
+        transition={{ duration: 0.3, ease: [0.4, 0.0, 0.2, 1] }} // Material Design 3 standard easing
         className="container mx-auto px-4"
       >
         <div className="flex items-center">
           <div className="flex-shrink-0 flex items-center mr-4 font-medium">
-            <div className="bg-white text-red-600 p-1 rounded-full mr-2">
+            <div className="bg-tertiary-foreground text-tertiary p-1 rounded-full mr-2">
               <AlertCircle className="h-5 w-5" />
             </div>
             <span className="hidden sm:inline text-base tracking-wide">BREAKING</span>
@@ -67,9 +67,12 @@ const BreakingNews = () => {
                   opacity: currentIndex === index ? 1 : 0,
                   y: currentIndex === index ? 0 : 20
                 }}
-                transition={{ duration: 0.4 }}
+                transition={{ 
+                  duration: 0.3, 
+                  ease: [0.4, 0.0, 0.2, 1] // Material Design 3 standard easing
+                }}
                 className={cn(
-                  "absolute top-0 left-0 right-0 transition-all duration-400 whitespace-nowrap text-ellipsis overflow-hidden text-base",
+                  "absolute top-0 left-0 right-0 transition-all whitespace-nowrap text-ellipsis overflow-hidden text-base",
                   currentIndex === index ? "opacity-100" : "opacity-0"
                 )}
               >

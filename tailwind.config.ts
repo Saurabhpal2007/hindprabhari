@@ -27,11 +27,21 @@ export default {
 				foreground: 'hsl(var(--foreground))',
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
-					foreground: 'hsl(var(--primary-foreground))'
+					foreground: 'hsl(var(--primary-foreground))',
+					container: 'hsl(var(--primary-container))',
+					'container-foreground': 'hsl(var(--on-primary-container))'
 				},
 				secondary: {
 					DEFAULT: 'hsl(var(--secondary))',
-					foreground: 'hsl(var(--secondary-foreground))'
+					foreground: 'hsl(var(--secondary-foreground))',
+					container: 'hsl(var(--secondary-container))',
+					'container-foreground': 'hsl(var(--on-secondary-container))'
+				},
+				tertiary: {
+					DEFAULT: 'hsl(var(--tertiary))',
+					foreground: 'hsl(var(--tertiary-foreground))',
+					container: 'hsl(var(--tertiary-container))',
+					'container-foreground': 'hsl(var(--on-tertiary-container))'
 				},
 				destructive: {
 					DEFAULT: 'hsl(var(--destructive))',
@@ -53,6 +63,12 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				surface: {
+					DEFAULT: 'hsl(var(--surface))',
+					variant: 'hsl(var(--surface-variant))',
+					'on-variant': 'hsl(var(--on-surface-variant))',
+					tint: 'hsl(var(--surface-tint))'
+				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
@@ -65,26 +81,43 @@ export default {
 				}
 			},
 			borderRadius: {
-				lg: 'var(--radius)',
-				md: 'var(--radius-md)',
-				sm: 'var(--radius-sm)',
-				full: 'var(--radius-full)'
+				// Material Design 3 shape system
+				'none': 'var(--md-sys-shape-corner-none)',
+				'xs': 'var(--md-sys-shape-corner-extra-small)',
+				'sm': 'var(--md-sys-shape-corner-small)',
+				'md': 'var(--md-sys-shape-corner-medium)',
+				'lg': 'var(--md-sys-shape-corner-large)',
+				'xl': 'var(--md-sys-shape-corner-extra-large)',
+				'full': 'var(--md-sys-shape-corner-full)'
+			},
+			boxShadow: {
+				// Material Design 3 elevation system
+				'elevation-1': 'var(--md-sys-elevation-level1)',
+				'elevation-2': 'var(--md-sys-elevation-level2)',
+				'elevation-3': 'var(--md-sys-elevation-level3)',
+				'elevation-4': 'var(--md-sys-elevation-level4)',
+				'elevation-5': 'var(--md-sys-elevation-level5)',
 			},
 			keyframes: {
+				// Material Design 3 motion principles
 				'accordion-down': {
 					from: {
-						height: '0'
+						height: '0',
+						opacity: '0'
 					},
 					to: {
-						height: 'var(--radix-accordion-content-height)'
+						height: 'var(--radix-accordion-content-height)',
+						opacity: '1'
 					}
 				},
 				'accordion-up': {
 					from: {
-						height: 'var(--radix-accordion-content-height)'
+						height: 'var(--radix-accordion-content-height)',
+						opacity: '1'
 					},
 					to: {
-						height: '0'
+						height: '0',
+						opacity: '0'
 					}
 				},
 				'fade-in': {
@@ -126,11 +159,6 @@ export default {
 				'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
 				'ripple': 'ripple 0.6s ease-out',
 				'float': 'float 6s ease-in-out infinite'
-			},
-			boxShadow: {
-				'elevation-1': 'var(--md-elevation-level1)',
-				'elevation-2': 'var(--md-elevation-level2)',
-				'elevation-3': 'var(--md-elevation-level3)',
 			}
 		}
 	},
