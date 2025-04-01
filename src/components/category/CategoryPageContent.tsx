@@ -1,8 +1,7 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Clock, MessageSquare, Share2 } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -12,6 +11,9 @@ interface CategoryPageContentProps {
 }
 
 const CategoryPageContent = ({ categoryName, description }: CategoryPageContentProps) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
+  
   // This would be fetched from an API in a real application
   const articles = [
     {
@@ -70,6 +72,22 @@ const CategoryPageContent = ({ categoryName, description }: CategoryPageContentP
     }
   ];
 
+  const totalPages = Math.ceil(articles.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedArticles = articles.slice(startIndex, startIndex + itemsPerPage);
+  
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+  
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
   return (
     <div className="container mx-auto py-8 px-4">
       <div className="mb-8">
@@ -80,7 +98,7 @@ const CategoryPageContent = ({ categoryName, description }: CategoryPageContentP
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {articles.map((article) => (
+        {paginatedArticles.map((article) => (
           <Card key={article.id} className="overflow-hidden hover:shadow-lg transition-shadow">
             <div className="aspect-video relative overflow-hidden">
               <img 
@@ -118,10 +136,27 @@ const CategoryPageContent = ({ categoryName, description }: CategoryPageContentP
         ))}
       </div>
 
-      <div className="mt-8 flex justify-center">
-        <Button variant="outline" className="mr-2">Previous</Button>
-        <Button variant="outline" className="ml-2">Next</Button>
-      </div>
+      {totalPages > 1 && (
+        <div className="mt-8 flex justify-center">
+          <Button 
+            variant="outlined" 
+            onClick={handlePreviousPage} 
+            disabled={currentPage === 1}
+            className="mr-2"
+          >
+            Previous
+          </Button>
+          
+          <Button 
+            variant="outlined" 
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+            className="ml-2"
+          >
+            Next
+          </Button>
+        </div>
+      )}
     </div>
   );
 };
