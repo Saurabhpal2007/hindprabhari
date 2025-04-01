@@ -93,7 +93,7 @@ const SmartSearch: React.FC = () => {
   return (
     <>
       <Button
-        variant="outlined"
+        variant="outline"
         className="relative h-9 w-full justify-start rounded-lg text-sm text-muted-foreground sm:pr-12 md:w-40 lg:w-64"
         onClick={() => setOpen(true)}
       >

@@ -53,7 +53,7 @@ const ChatInterface: React.FC = () => {
           <CardTitle className="text-xl font-bold">HindPrabhari AI Assistant</CardTitle>
           <div className="flex gap-2">
             <Button 
-              variant="outlined" 
+              variant="outline" 
               size="icon"
               onClick={clearChat}
               aria-label="Clear chat"
