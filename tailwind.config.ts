@@ -66,8 +66,9 @@ export default {
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
-				md: 'calc(var(--radius) - 2px)',
-				sm: 'calc(var(--radius) - 4px)'
+				md: 'var(--radius-md)',
+				sm: 'var(--radius-sm)',
+				full: 'var(--radius-full)'
 			},
 			keyframes: {
 				'accordion-down': {
@@ -105,6 +106,14 @@ export default {
 				'pulse-glow': {
 					'0%, 100%': { opacity: '0.6' },
 					'50%': { opacity: '1' }
+				},
+				'ripple': {
+					'0%': { transform: 'scale(0)', opacity: '0.5' },
+					'100%': { transform: 'scale(2.5)', opacity: '0' }
+				},
+				'float': {
+					'0%, 100%': { transform: 'translateY(0)' },
+					'50%': { transform: 'translateY(-10px)' }
 				}
 			},
 			animation: {
@@ -114,7 +123,14 @@ export default {
 				'fade-out': 'fade-out 0.5s ease-out',
 				'scale-in': 'scale-in 0.3s ease-out',
 				'slide': 'slide 25s linear infinite',
-				'pulse-glow': 'pulse-glow 2s ease-in-out infinite'
+				'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
+				'ripple': 'ripple 0.6s ease-out',
+				'float': 'float 6s ease-in-out infinite'
+			},
+			boxShadow: {
+				'elevation-1': 'var(--md-elevation-level1)',
+				'elevation-2': 'var(--md-elevation-level2)',
+				'elevation-3': 'var(--md-elevation-level3)',
 			}
 		}
 	},

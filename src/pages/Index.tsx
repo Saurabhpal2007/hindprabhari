@@ -14,6 +14,7 @@ import SearchBar from "../components/common/SearchBar";
 import { useToast } from "../components/ui/use-toast";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const Index = () => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -54,6 +55,19 @@ const Index = () => {
     }
   }, [location]);
 
+  // Material Design animation variants
+  const sectionVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: {
+        duration: 0.5,
+        ease: "easeOut"
+      }
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-background overflow-x-hidden">
       <div className="h-screen flex flex-col">
@@ -67,56 +81,95 @@ const Index = () => {
       <main className="flex-grow">
         <div className={`transition-opacity duration-700 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
           {/* Search bar section with increased padding and prominence */}
-          <div className="bg-gradient-to-b from-background/80 to-background py-10 px-4">
+          <motion.div 
+            className="bg-gradient-to-b from-background/80 to-background py-10 px-4 md-elevation-1"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={sectionVariants}
+          >
             <div className="container mx-auto max-w-4xl">
               <SearchBar />
             </div>
-          </div>
+          </motion.div>
           
-          <section id="trending" className="container mx-auto py-16 px-4">
+          <motion.section 
+            id="trending" 
+            className="container mx-auto py-16 px-4"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={sectionVariants}
+          >
             <div className="flex justify-between items-center mb-8">
-              <h2 className="text-3xl font-bold flex items-center">
-                Trending
-                <span className="ml-2 text-sm font-normal px-2 py-1 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-full hidden sm:inline-block">
+              <h2 className="text-3xl font-semibold flex items-center">
+                <span className="text-gradient-heading">Trending</span>
+                <span className="ml-2 text-sm font-medium px-2 py-1 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-full hidden sm:inline-block">
                   Live
                 </span>
               </h2>
-              <Link to="/trending" className="flex items-center text-primary hover:underline group">
+              <Link to="/trending" className="flex items-center text-primary hover:underline group md-state-layer px-3 py-2 rounded-full">
                 View All <ArrowRight className="ml-1 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
             <FeaturedArticles />
-          </section>
+          </motion.section>
           
-          <section id="categories" className="bg-muted/30 py-16 px-4">
+          <motion.section 
+            id="categories" 
+            className="bg-muted/30 py-16 px-4"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={sectionVariants}
+          >
             <div className="container mx-auto">
               <div className="flex justify-between items-center mb-8">
-                <h2 className="text-3xl font-bold">Categories</h2>
-                <Link to="/categories" className="flex items-center text-primary hover:underline group">
+                <h2 className="text-3xl font-semibold"><span className="text-gradient-heading">Categories</span></h2>
+                <Link to="/categories" className="flex items-center text-primary hover:underline group md-state-layer px-3 py-2 rounded-full">
                   View All <ArrowRight className="ml-1 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>
               <CategoryCards />
             </div>
-          </section>
+          </motion.section>
           
-          <section id="latest" className="container mx-auto py-16 px-4">
+          <motion.section 
+            id="latest" 
+            className="container mx-auto py-16 px-4"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={sectionVariants}
+          >
             <div className="flex justify-between items-center mb-8">
-              <h2 className="text-3xl font-bold">Latest News</h2>
-              <Link to="/latest" className="flex items-center text-primary hover:underline group">
+              <h2 className="text-3xl font-semibold"><span className="text-gradient-heading">Latest News</span></h2>
+              <Link to="/latest" className="flex items-center text-primary hover:underline group md-state-layer px-3 py-2 rounded-full">
                 View All <ArrowRight className="ml-1 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
             <LatestNews />
-          </section>
+          </motion.section>
           
-          <section id="about">
+          <motion.section 
+            id="about"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={sectionVariants}
+          >
             <AboutUsSection />
-          </section>
+          </motion.section>
           
-          <section id="contact">
+          <motion.section 
+            id="contact"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={sectionVariants}
+          >
             <ContactSection />
-          </section>
+          </motion.section>
         </div>
       </main>
       
