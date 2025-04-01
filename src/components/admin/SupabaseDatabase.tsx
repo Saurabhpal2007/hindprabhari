@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -169,10 +168,10 @@ const SupabaseDatabase = () => {
           <h2 className="text-2xl font-bold">Database Management</h2>
         </div>
         <div className="flex items-center space-x-2">
-          <Button variant="outline" size="sm">
+          <Button variant="outlined" size="sm">
             Connect
           </Button>
-          <Button variant="outline" size="sm">
+          <Button variant="outlined" size="sm">
             Backup
           </Button>
           <Button size="sm">
@@ -246,9 +245,9 @@ const SupabaseDatabase = () => {
                                   <p className="text-sm text-muted-foreground">Size: {table.size}</p>
                                 </div>
                                 <div className="flex space-x-2">
-                                  <Button variant="outline" size="sm">Add Column</Button>
-                                  <Button variant="outline" size="sm">Import</Button>
-                                  <Button variant="outline" size="sm">Export</Button>
+                                  <Button variant="outlined" size="sm">Add Column</Button>
+                                  <Button variant="outlined" size="sm">Import</Button>
+                                  <Button variant="outlined" size="sm">Export</Button>
                                 </div>
                               </div>
                               <Table>
@@ -265,7 +264,7 @@ const SupabaseDatabase = () => {
                                     <TableRow key={column.name}>
                                       <TableCell>{column.name}</TableCell>
                                       <TableCell>
-                                        <Badge variant="outline">{column.type}</Badge>
+                                        <Badge variant="outlined">{column.type}</Badge>
                                       </TableCell>
                                       <TableCell>
                                         {column.isPrimary ? 
@@ -330,7 +329,7 @@ const SupabaseDatabase = () => {
                             <input type="checkbox" id="primaryKey" defaultChecked />
                             <Label htmlFor="primaryKey" className="text-sm">Primary Key</Label>
                           </div>
-                          <Button variant="ghost" type="button" size="sm">Remove</Button>
+                          <Button variant="outlined" type="button" size="sm">Remove</Button>
                         </div>
                         <div className="grid grid-cols-4 gap-2">
                           <Input placeholder="Column name" defaultValue="name" />
@@ -351,16 +350,16 @@ const SupabaseDatabase = () => {
                             <input type="checkbox" id="notNull" defaultChecked />
                             <Label htmlFor="notNull" className="text-sm">Not Null</Label>
                           </div>
-                          <Button variant="ghost" type="button" size="sm">Remove</Button>
+                          <Button variant="outlined" type="button" size="sm">Remove</Button>
                         </div>
                       </div>
-                      <Button type="button" variant="outline" size="sm" className="mt-2">
+                      <Button type="button" variant="outlined" size="sm" className="mt-2">
                         + Add Column
                       </Button>
                     </div>
                   </form>
                   <DialogFooter>
-                    <Button variant="outline" className="mr-2">Cancel</Button>
+                    <Button variant="outlined" className="mr-2">Cancel</Button>
                     <Button onClick={handleCreateTable}>Create Table</Button>
                   </DialogFooter>
                 </DialogContent>
@@ -462,7 +461,7 @@ const SupabaseDatabase = () => {
                     </div>
                   </form>
                   <DialogFooter>
-                    <Button variant="outline" className="mr-2">Cancel</Button>
+                    <Button variant="outlined" className="mr-2">Cancel</Button>
                     <Button onClick={handleCreatePolicy}>Create Policy</Button>
                   </DialogFooter>
                 </DialogContent>
@@ -570,7 +569,7 @@ $$;"
                     </div>
                   </form>
                   <DialogFooter>
-                    <Button variant="outline" className="mr-2">Cancel</Button>
+                    <Button variant="outlined" className="mr-2">Cancel</Button>
                     <Button onClick={handleCreateFunction}>Create Function</Button>
                   </DialogFooter>
                 </DialogContent>
@@ -721,7 +720,7 @@ $$;"
                         </div>
                       </form>
                       <DialogFooter>
-                        <Button variant="outline" className="mr-2">Cancel</Button>
+                        <Button variant="outlined" className="mr-2">Cancel</Button>
                         <Button onClick={handleGenerateAPIToken}>Generate Key</Button>
                       </DialogFooter>
                     </DialogContent>

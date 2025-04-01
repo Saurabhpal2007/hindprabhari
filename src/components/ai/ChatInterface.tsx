@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from "react";
 import { Send, X, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -53,7 +52,7 @@ const ChatInterface: React.FC = () => {
           <CardTitle className="text-xl font-bold">HindPrabhari AI Assistant</CardTitle>
           <div className="flex gap-2">
             <Button 
-              variant="outline" 
+              variant="outlined" 
               size="icon"
               onClick={clearChat}
               aria-label="Clear chat"
@@ -119,11 +118,14 @@ const ChatInterface: React.FC = () => {
             disabled={isLoading || !isAIEnabled}
           />
           <Button 
-            type="submit" 
-            size="icon" 
-            disabled={isLoading || !message.trim() || !isAIEnabled}
+            className="shrink-0"
+            type="submit"
+            size="sm"
+            variant="outlined"
+            disabled={isLoading}
           >
             <Send className="h-4 w-4" />
+            <span className="sr-only">Send</span>
           </Button>
         </form>
       </CardFooter>

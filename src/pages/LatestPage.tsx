@@ -1,195 +1,164 @@
-
-import { useEffect, useState } from "react";
-import { ArrowRight, Clock } from "lucide-react";
-import Header from "../components/layout/Header";
-import Footer from "../components/layout/Footer";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Badge } from "@/components/ui/badge";
-import { Link } from "react-router-dom";
-
-interface Article {
-  id: string;
-  title: string;
-  excerpt: string;
-  category: string;
-  date: string;
-  readTime: string;
-  image: string;
-}
+import React, { useState, useEffect } from 'react';
+import Header from '../components/layout/Header';
+import Footer from '../components/layout/Footer';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { Link } from 'react-router-dom';
+import { Filter } from 'lucide-react';
 
 const LatestPage = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  
-  useEffect(() => {
-    // Simulate loading data
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
-    
-    return () => clearTimeout(timer);
-  }, []);
-
-  // Mock data for latest articles
-  const latestArticles: Article[] = [
+  const [articles, setArticles] = useState([
     {
-      id: "1",
-      title: "Supreme Court Issues New Directive on Environmental Policy",
-      excerpt: "The Supreme Court has issued new guidelines for environmental protection that will impact industries nationwide.",
-      category: "Politics",
-      date: "2023-06-15",
-      readTime: "5 min",
-      image: "/placeholder.svg"
+      id: 1,
+      title: "Breaking: Government Announces New Economic Stimulus Package",
+      excerpt: "The government has unveiled a comprehensive economic stimulus package aimed at boosting growth and creating jobs in the wake of recent economic challenges.",
+      date: "May 15, 2023",
+      author: {
+        name: "Anjali Kapoor",
+        image: "/placeholder.svg",
+        role: "Senior Economic Correspondent"
+      },
+      category: "Economy",
+      readTime: "7 min read"
     },
     {
-      id: "2",
-      title: "Tech Giants Announce Collaboration on AI Ethics",
-      excerpt: "Major technology companies have formed a coalition to establish ethical standards for artificial intelligence development.",
+      id: 2,
+      title: "Supreme Court to Hear Landmark Case on Digital Privacy",
+      excerpt: "A crucial case concerning digital privacy rights and data protection is set to be heard by the Supreme Court, potentially reshaping the legal landscape for online activities.",
+      date: "June 2, 2023",
+      author: {
+        name: "Vikram Sharma",
+        image: "/placeholder.svg",
+        role: "Legal Affairs Analyst"
+      },
+      category: "Law",
+      readTime: "9 min read"
+    },
+    {
+      id: 3,
+      title: "India's Space Agency Achieves Milestone with Successful Lunar Orbit",
+      excerpt: "In a historic achievement, India's space agency has successfully placed a spacecraft into lunar orbit, marking a significant step forward in its space exploration program.",
+      date: "July 10, 2023",
+      author: {
+        name: "Sneha Reddy",
+        image: "/placeholder.svg",
+        role: "Science and Technology Editor"
+      },
+      category: "Science",
+      readTime: "6 min read"
+    },
+    {
+      id: 4,
+      title: "New Study Reveals Impact of Climate Change on Himalayan Glaciers",
+      excerpt: "A groundbreaking study has revealed the alarming rate at which Himalayan glaciers are melting due to climate change, raising concerns about water security in the region.",
+      date: "April 22, 2023",
+      author: {
+        name: "Arjun Verma",
+        image: "/placeholder.svg",
+        role: "Environmental Scientist"
+      },
+      category: "Environment",
+      readTime: "8 min read"
+    },
+    {
+      id: 5,
+      title: "Rising Concerns Over Cybersecurity Threats to Critical Infrastructure",
+      excerpt: "Experts are warning of increasing cybersecurity threats targeting critical infrastructure, highlighting the urgent need for enhanced security measures and international cooperation.",
+      date: "August 5, 2023",
+      author: {
+        name: "Priya Patel",
+        image: "/placeholder.svg",
+        role: "Cybersecurity Analyst"
+      },
       category: "Technology",
-      date: "2023-06-14",
-      readTime: "4 min",
-      image: "/placeholder.svg"
+      readTime: "7 min read"
     },
     {
-      id: "3",
-      title: "National Cricket Team Prepares for World Cup",
-      excerpt: "The cricket team has begun intensive training sessions ahead of the upcoming World Cup tournament.",
-      category: "Sports",
-      date: "2023-06-14",
-      readTime: "3 min",
-      image: "/placeholder.svg"
-    },
-    {
-      id: "4",
-      title: "Economic Growth Surpasses Expectations in Q2",
-      excerpt: "The latest economic indicators show better than expected growth for the second quarter of the fiscal year.",
-      category: "Business",
-      date: "2023-06-13",
-      readTime: "6 min",
-      image: "/placeholder.svg"
-    },
-    {
-      id: "5",
-      title: "New Health Policy Aims to Improve Rural Healthcare Access",
-      excerpt: "The government has announced a new health policy focused on bringing quality healthcare to rural areas.",
-      category: "Health",
-      date: "2023-06-12",
-      readTime: "4 min",
-      image: "/placeholder.svg"
-    },
-    {
-      id: "6",
-      title: "Educational Reforms to Focus on Skill Development",
-      excerpt: "The Ministry of Education has outlined new reforms that emphasize practical skills and vocational training.",
+      id: 6,
+      title: "Debate Over New Education Policy Sparks Nationwide Discussions",
+      excerpt: "A nationwide debate has erupted over the government's proposed new education policy, with discussions focusing on curriculum reforms, funding models, and access to education.",
+      date: "September 12, 2023",
+      author: {
+        name: "Rahul Singh",
+        image: "/placeholder.svg",
+        role: "Education Policy Expert"
+      },
       category: "Education",
-      date: "2023-06-11",
-      readTime: "5 min",
-      image: "/placeholder.svg"
-    },
-    {
-      id: "7",
-      title: "International Summit on Climate Change Begins",
-      excerpt: "Leaders from around the world gather to discuss urgent measures to combat climate change.",
-      category: "World",
-      date: "2023-06-10",
-      readTime: "7 min",
-      image: "/placeholder.svg"
-    },
-    {
-      id: "8",
-      title: "Cultural Festival Celebrates Regional Diversity",
-      excerpt: "A weeklong festival showcasing the rich cultural heritage of different regions begins today.",
-      category: "Entertainment",
-      date: "2023-06-09",
-      readTime: "3 min",
-      image: "/placeholder.svg"
+      readTime: "10 min read"
     }
-  ];
+  ]);
 
-  // Format date function - this was causing the TS error
-  const formatDate = (dateStr: string): string => {
-    const date = new Date(dateStr);
-    return date.toLocaleDateString("en-IN", { 
-      day: "numeric", 
-      month: "short", 
-      year: "numeric" 
-    });
+  const [visibleArticles, setVisibleArticles] = useState(3);
+
+  const loadMore = () => {
+    setVisibleArticles((prevValue) => prevValue + 3);
   };
+
+  const hasMoreArticles = visibleArticles < articles.length;
 
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
       
       <main className="flex-grow">
-        <div className="container mx-auto px-4 py-8">
-          <div className="mb-8">
-            <h1 className="text-4xl font-bold mb-2">Latest News</h1>
-            <p className="text-muted-foreground">
-              Stay updated with the most recent news and developments from across Bharat and the world.
+        <div className="container mx-auto px-4 py-12">
+          <div className="max-w-4xl mx-auto">
+            <div className="flex justify-between items-center mb-8">
+              <h1 className="text-4xl font-bold">Latest News</h1>
+              <Button variant="outlined" size="sm" className="ml-2">
+                <Filter className="h-4 w-4 mr-2" />
+                Filter
+              </Button>
+            </div>
+            <p className="text-lg text-muted-foreground mb-12">
+              Stay up-to-date with the most recent developments from India and around the world.
             </p>
-          </div>
-          
-          <Separator className="my-6" />
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {isLoading ? (
-              // Skeleton loading state
-              Array(6).fill(0).map((_, index) => (
-                <Card key={index} className="overflow-hidden">
-                  <Skeleton className="h-48 w-full" />
-                  <CardHeader>
-                    <Skeleton className="h-4 w-1/3 mb-2" />
-                    <Skeleton className="h-6 w-full" />
-                  </CardHeader>
-                  <CardContent>
-                    <Skeleton className="h-4 w-full mb-2" />
-                    <Skeleton className="h-4 w-full mb-2" />
-                    <Skeleton className="h-4 w-2/3" />
-                  </CardContent>
-                </Card>
-              ))
-            ) : (
-              // Actual content
-              latestArticles.map((article) => (
-                <Card key={article.id} className="overflow-hidden hover:shadow-md transition-shadow">
-                  <div className="relative h-48 overflow-hidden">
-                    <img 
-                      src={article.image} 
-                      alt={article.title}
-                      className="w-full h-full object-cover transition-transform hover:scale-105"
-                    />
-                    <Badge className="absolute top-2 right-2 bg-primary">{article.category}</Badge>
-                  </div>
-                  <CardHeader>
-                    <div className="flex items-center text-sm text-muted-foreground mb-2">
-                      <Clock className="h-4 w-4 mr-1" />
-                      <span>{formatDate(article.date)} • {article.readTime} read</span>
+            
+            <div className="space-y-8">
+              {articles.slice(0, visibleArticles).map((article) => (
+                <Card key={article.id} className="overflow-hidden">
+                  <CardHeader className="pb-4">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <Badge variant="outline" className="mb-2">{article.category}</Badge>
+                        <CardTitle className="text-2xl hover:text-primary transition-colors">
+                          <Link to={`/article/${article.id}`}>{article.title}</Link>
+                        </CardTitle>
+                        <CardDescription className="mt-1 flex items-center text-sm">
+                          {article.date} • {article.readTime}
+                        </CardDescription>
+                      </div>
                     </div>
-                    <CardTitle className="line-clamp-2 hover:text-primary transition-colors">
-                      <Link to={`/article/${article.id}`}>{article.title}</Link>
-                    </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <CardDescription className="line-clamp-3">{article.excerpt}</CardDescription>
+                    <p className="text-muted-foreground">{article.excerpt}</p>
                   </CardContent>
-                  <CardFooter>
-                    <Link to={`/article/${article.id}`} className="w-full">
-                      <Button variant="outline" className="w-full">
-                        Read Full Article <ArrowRight className="ml-2 h-4 w-4" />
-                      </Button>
+                  <CardFooter className="border-t pt-4 flex justify-between items-center">
+                    <div className="flex items-center">
+                      <Avatar className="h-8 w-8 mr-2">
+                        <AvatarImage src={article.author.image} alt={article.author.name} />
+                        <AvatarFallback>{article.author.name.charAt(0)}</AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <p className="text-sm font-medium">{article.author.name}</p>
+                        <p className="text-xs text-muted-foreground">{article.author.role}</p>
+                      </div>
+                    </div>
+                    <Link to={`/article/${article.id}`}>
+                      <Button variant="outline" size="sm">Read More</Button>
                     </Link>
                   </CardFooter>
                 </Card>
-              ))
+              ))}
+            </div>
+
+            {hasMoreArticles && (
+              <Button variant="outlined" className="w-full" onClick={loadMore}>
+                Load More
+              </Button>
             )}
-          </div>
-          
-          <div className="mt-12 flex justify-center">
-            <Button variant="outline" size="lg">
-              Load More Articles
-            </Button>
           </div>
         </div>
       </main>

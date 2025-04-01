@@ -26,7 +26,7 @@ const NotFound = () => {
           
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Button 
-              variant="outline" 
+              variant="outlined" 
               size="lg"
               onClick={() => window.history.back()}
               className="gap-2"

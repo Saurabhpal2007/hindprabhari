@@ -19,7 +19,7 @@ const AIButton: React.FC = () => {
     <Dialog>
       <DialogTrigger asChild>
         <Button 
-          variant={isAIEnabled ? "default" : "outline"} 
+          variant={isAIEnabled ? "default" : "outlined"} 
           size="sm"
           className="gap-1"
         >

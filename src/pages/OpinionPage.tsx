@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
@@ -82,7 +81,7 @@ const OpinionPage = () => {
                   <CardHeader className="pb-4">
                     <div className="flex justify-between items-start">
                       <div>
-                        <Badge variant="outline" className="mb-2">{opinion.category}</Badge>
+                        <Badge variant="outlined" className="mb-2">{opinion.category}</Badge>
                         <CardTitle className="text-2xl hover:text-primary transition-colors">
                           <Link to={`/article/${opinion.id}`}>{opinion.title}</Link>
                         </CardTitle>
@@ -107,7 +106,10 @@ const OpinionPage = () => {
                       </div>
                     </div>
                     <Link to={`/article/${opinion.id}`}>
-                      <Button variant="outline" size="sm">Read More</Button>
+                      <Button variant="outlined" size="sm" className="ml-2">
+                        <Filter className="h-4 w-4 mr-2" />
+                        Filter
+                      </Button>
                     </Link>
                   </CardFooter>
                 </Card>
