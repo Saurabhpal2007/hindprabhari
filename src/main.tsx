@@ -1,14 +1,20 @@
 
-import { createRoot } from 'react-dom/client'
-import App from './App.tsx'
-import './index.css'
-import { AIProvider } from './context/AIContext.tsx'
-import { ThemeProvider } from './components/ui/use-theme.tsx'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+import App from "./App";
+import { ThemeProvider } from "./components/ui/theme-provider";
+import { Toaster } from "./components/ui/toaster";
+import "./index.css";
+import "./styles/animations.css"; // Import our animation styles
 
-createRoot(document.getElementById("root")!).render(
-  <ThemeProvider>
-    <AIProvider>
-      <App />
-    </AIProvider>
-  </ThemeProvider>
+ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+  <React.StrictMode>
+    <ThemeProvider defaultTheme="system" storageKey="hindprabhari-theme">
+      <BrowserRouter>
+        <App />
+        <Toaster />
+      </BrowserRouter>
+    </ThemeProvider>
+  </React.StrictMode>
 );

@@ -1,0 +1,191 @@
+
+/* Material Design animation styles */
+
+/* Ripple effect base styles */
+.md-ripple {
+  position: relative;
+  overflow: hidden;
+  transform: translate3d(0, 0, 0);
+}
+
+.ripple-effect {
+  position: absolute;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.3);
+  transform: scale(0);
+  animation: md-ripple 0.6s cubic-bezier(0.2, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+.dark .ripple-effect {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* State layer hover effects */
+.md-state-layer {
+  position: relative;
+  isolation: isolate;
+  z-index: 0;
+}
+
+.md-state-layer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-color: currentColor;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: inherit;
+}
+
+.md-state-layer:hover::before {
+  opacity: var(--md-state-hover-opacity, 0.08);
+}
+
+.md-state-layer:active::before {
+  opacity: var(--md-state-pressed-opacity, 0.12);
+}
+
+/* Elevation transition styles */
+.md-elevation-transition {
+  transition: box-shadow 0.3s cubic-bezier(0.2, 0, 0, 1);
+}
+
+/* Input focus animations */
+.md-input-focus {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.md-input-focus:focus-within {
+  border-color: hsl(var(--primary));
+  box-shadow: 0 0 0 2px hsla(var(--primary), 0.2);
+}
+
+/* Micro interactions */
+.md-micro:active {
+  transform: scale(0.96);
+}
+
+.md-micro {
+  transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1);
+}
+
+/* Float effect for logos and images */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Scale transition for hover effects */
+.md-scale-hover {
+  transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.md-scale-hover:hover {
+  transform: scale(1.05);
+}
+
+/* Staggered entrance animations */
+.stagger-item {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.stagger-item.visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.5s, transform 0.5s;
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .animate-float, 
+  .animate-pulse,
+  .animate-md-float,
+  .animate-md-pulse,
+  .animate-md-spotlight {
+    animation: none !important;
+  }
+}
+
+/* Material Design rotating hamburger menu animation */
+.hamburger-icon {
+  position: relative;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hamburger-icon span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: currentColor;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hamburger-icon span:not(:last-child) {
+  margin-bottom: 5px;
+}
+
+.hamburger-icon.open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.hamburger-icon.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger-icon.open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Shimmer effect for loading states */
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -100% 0;
+  }
+  100% {
+    background-position: 100% 0;
+  }
+}
+
+/* Badge animation */
+.badge-animation {
+  transform-origin: center;
+  animation: badge-pulse 0.8s cubic-bezier(0.2, 0, 0.2, 1);
+}
+
+@keyframes badge-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}

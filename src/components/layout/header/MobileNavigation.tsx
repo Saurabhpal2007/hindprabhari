@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { motion } from "framer-motion";
+import { createRipple } from "@/hooks/use-animations";
 
 interface CategoryItem {
   name: string;
@@ -39,8 +41,6 @@ const MobileNavigation = ({
   const location = useLocation();
   const navigate = useNavigate();
   
-  if (!isOpen) return null;
-  
   const getIcon = (id: string) => {
     switch (id) {
       case "home":
@@ -72,64 +72,156 @@ const MobileNavigation = ({
     }
   };
 
+  const containerVariants = {
+    hidden: { 
+      opacity: 0,
+      y: -20,
+      transition: {
+        duration: 0.2,
+        ease: [0.4, 0, 0.2, 1]
+      }
+    },
+    visible: { 
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.3,
+        ease: [0.2, 0, 0.2, 1],
+        staggerChildren: 0.05
+      }
+    },
+    exit: {
+      opacity: 0,
+      y: -20,
+      transition: {
+        duration: 0.2,
+        ease: [0.4, 0, 0.2, 1],
+        staggerChildren: 0.03,
+        staggerDirection: -1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 10 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: {
+        duration: 0.3,
+        ease: [0.2, 0, 0.2, 1]
+      }
+    },
+    exit: { 
+      opacity: 0, 
+      y: 10,
+      transition: {
+        duration: 0.2,
+        ease: [0.4, 0, 0.2, 1]
+      }
+    }
+  };
+
   return (
-    <div className="md:hidden bg-background/95 backdrop-blur-md border-t z-40">
+    <motion.div 
+      className="md:hidden bg-background/95 backdrop-blur-md border-t z-40"
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+    >
       <div className="container mx-auto px-4 py-4">
-        <form onSubmit={handleSearch} className="relative mb-4">
+        <motion.form 
+          onSubmit={handleSearch} 
+          className="relative mb-4"
+          variants={itemVariants}
+        >
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
           <Input
             type="text"
             placeholder="Search news..."
-            className="w-full pl-10 h-10 rounded-full"
+            className="w-full pl-10 h-10 rounded-full md-input-focus"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
-        </form>
+        </motion.form>
+
         <nav className="flex flex-col space-y-2">
-          {mainNavigation.map((item) => (
+          {mainNavigation.map((item, index) => (
             item.id === "categories" ? (
-              <Accordion type="single" collapsible key={item.id} className="w-full border-b pb-2">
-                <AccordionItem value="categories" className="border-none">
-                  <AccordionTrigger className="p-0 hover:no-underline">
-                    <Button
-                      variant="text"
-                      className="flex items-center py-2 px-3 rounded-lg w-full justify-start h-auto"
-                    >
-                      <Grid className="mr-2 h-5 w-5" />
-                      <span className="text-sm font-medium">{item.name}</span>
-                    </Button>
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    <div className="flex flex-col space-y-1 pl-9 pr-2 pb-2">
-                      {categories.map((category) => (
-                        <Button
-                          key={category.id}
-                          variant="text"
-                          className="justify-start px-3 py-1.5 text-sm font-medium hover:text-primary rounded-lg w-full h-auto"
-                          onClick={() => navigate(category.path)}
-                        >
-                          {category.name}
-                        </Button>
-                      ))}
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-            ) : (
-              <Button 
-                key={item.id}
-                variant="text"
-                className="justify-start px-3 py-2 text-sm font-medium hover:text-primary flex items-center rounded-lg w-full h-auto" 
-                onClick={() => handleNavClick(item)}
+              <motion.div 
+                key={item.id} 
+                variants={itemVariants}
+                custom={index}
               >
-                {getIcon(item.id)}
-                {item.name}
-              </Button>
+                <Accordion type="single" collapsible className="w-full border-b pb-2">
+                  <AccordionItem value="categories" className="border-none">
+                    <AccordionTrigger className="p-0 hover:no-underline">
+                      <Button
+                        variant="text"
+                        className="flex items-center py-2 px-3 rounded-lg w-full justify-start h-auto md-ripple"
+                        onClick={(e) => createRipple(e)}
+                      >
+                        <Grid className="mr-2 h-5 w-5" />
+                        <span className="text-sm font-medium">{item.name}</span>
+                      </Button>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <div className="flex flex-col space-y-1 pl-9 pr-2 pb-2">
+                        {categories.map((category, catIndex) => (
+                          <motion.div
+                            key={category.id}
+                            initial={{ opacity: 0, x: -10 }}
+                            animate={{ 
+                              opacity: 1, 
+                              x: 0, 
+                              transition: { 
+                                delay: catIndex * 0.05,
+                                duration: 0.3,
+                                ease: [0.2, 0, 0.2, 1]
+                              } 
+                            }}
+                          >
+                            <Button
+                              variant="text"
+                              className="justify-start px-3 py-1.5 text-sm font-medium hover:text-primary rounded-lg w-full h-auto md-ripple"
+                              onClick={(e) => {
+                                createRipple(e);
+                                navigate(category.path);
+                              }}
+                            >
+                              {category.name}
+                            </Button>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+              </motion.div>
+            ) : (
+              <motion.div 
+                key={item.id}
+                variants={itemVariants}
+                custom={index}
+              >
+                <Button 
+                  variant="text"
+                  className="justify-start px-3 py-2 text-sm font-medium hover:text-primary flex items-center rounded-lg w-full h-auto md-ripple" 
+                  onClick={(e) => {
+                    createRipple(e);
+                    handleNavClick(item);
+                  }}
+                >
+                  {getIcon(item.id)}
+                  {item.name}
+                </Button>
+              </motion.div>
             )
           ))}
         </nav>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

@@ -9,6 +9,7 @@ import ProfileDropdown from "./header/ProfileDropdown";
 import DesktopNavigation from "./header/DesktopNavigation";
 import MobileNavigation from "./header/MobileNavigation";
 import { useToast } from "@/components/ui/use-toast";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface CategoryItem {
   name: string;
@@ -92,13 +93,42 @@ const Header = () => {
     }, 100);
   };
 
+  // Animation variants for header background
+  const headerVariants = {
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.3,
+        ease: [0.2, 0, 0, 1] // Material Design easing
+      }
+    },
+    hidden: {
+      opacity: 0,
+      y: -5,
+      transition: {
+        duration: 0.3,
+        ease: [0.2, 0, 0, 1]
+      }
+    }
+  };
+
   return (
-    <header className={`sticky top-0 z-40 w-full ${isScrolled ? 'bg-background/95 backdrop-blur-sm shadow-sm' : 'bg-transparent'}`}>
+    <motion.header 
+      className={`sticky top-0 z-40 w-full ${isScrolled ? 'bg-background/95 backdrop-blur-sm shadow-sm' : 'bg-transparent'}`}
+      initial="hidden"
+      animate="visible"
+      variants={headerVariants}
+    >
       <div className="container mx-auto px-4">
         <div className="h-16 flex items-center justify-between">
-          <div className="flex items-center">
+          <motion.div 
+            className="flex items-center"
+            whileHover={{ scale: 1.02 }}
+            transition={{ type: "spring", stiffness: 300, damping: 15 }}
+          >
             <Logo />
-          </div>
+          </motion.div>
           
           <DesktopNavigation 
             categories={categories}
@@ -112,7 +142,7 @@ const Header = () => {
               <Input
                 type="text"
                 placeholder="Search..."
-                className="pl-9 h-9 rounded-full"
+                className="pl-9 h-9 rounded-full md-input-focus"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
@@ -121,29 +151,39 @@ const Header = () => {
           
           <div className="flex items-center space-x-2">
             <ProfileDropdown />
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="md:hidden" 
-              onClick={toggleMobileMenu}
-              aria-label="Toggle menu"
-            >
-              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-            </Button>
+            <div className="md:hidden">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="md-ripple" 
+                onClick={toggleMobileMenu}
+                aria-label="Toggle menu"
+              >
+                <div className={`hamburger-icon ${isOpen ? 'open' : ''}`}>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+              </Button>
+            </div>
           </div>
         </div>
       </div>
       
-      <MobileNavigation 
-        categories={categories}
-        mainNavigation={mainNavigation}
-        scrollToSection={scrollToSection}
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-        handleSearch={handleSearch}
-        isOpen={isOpen}
-      />
-    </header>
+      <AnimatePresence>
+        {isOpen && (
+          <MobileNavigation 
+            categories={categories}
+            mainNavigation={mainNavigation}
+            scrollToSection={scrollToSection}
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            handleSearch={handleSearch}
+            isOpen={isOpen}
+          />
+        )}
+      </AnimatePresence>
+    </motion.header>
   );
 };
 
