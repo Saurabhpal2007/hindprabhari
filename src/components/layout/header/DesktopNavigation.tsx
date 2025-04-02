@@ -39,7 +39,7 @@ const DesktopNavigation = ({
               <Button
                 asChild
                 variant="text"
-                className="px-3 py-1.5 h-9 text-sm font-medium transition-colors hover:text-primary flex items-center rounded-md"
+                className="h-9 px-3 py-1.5 text-sm font-medium transition-colors hover:text-primary flex items-center rounded-md"
               >
                 <NavLink
                   to={item.path}

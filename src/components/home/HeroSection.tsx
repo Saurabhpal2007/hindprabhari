@@ -78,7 +78,7 @@ const HeroSection = () => {
       {/* Gradient background - using Material You colors */}
       <div className="absolute inset-0 bg-gradient-to-b from-background to-card dark:from-background dark:to-card/20"></div>
       
-      {/* Parallax dots pattern with Material Design spacing */}
+      {/* Restore the parallax dots pattern with Material Design spacing */}
       <div 
         className="absolute inset-0 bg-[radial-gradient(circle,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent [background-size:24px_24px] [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_70%)] pointer-events-none"
         style={{
