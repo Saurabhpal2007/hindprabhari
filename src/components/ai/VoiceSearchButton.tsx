@@ -1,9 +1,45 @@
-
 import React, { useState, useEffect } from 'react';
 import { Mic, MicOff, Loader2 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "@/components/ui/use-toast";
+
+interface SpeechRecognitionEvent extends Event {
+  results: {
+    [index: number]: {
+      [index: number]: {
+        transcript: string;
+        confidence: number;
+      };
+    };
+    item(index: number): { [index: number]: { transcript: string } };
+    length: number;
+  };
+}
+
+interface SpeechRecognitionErrorEvent extends Event {
+  error: string;
+}
+
+interface SpeechRecognition extends EventTarget {
+  lang: string;
+  interimResults: boolean;
+  maxAlternatives: number;
+  start(): void;
+  stop(): void;
+  abort(): void;
+  onstart: (event: Event) => void;
+  onresult: (event: SpeechRecognitionEvent) => void;
+  onerror: (event: SpeechRecognitionErrorEvent) => void;
+  onend: (event: Event) => void;
+}
+
+declare global {
+  interface Window {
+    SpeechRecognition: new () => SpeechRecognition;
+    webkitSpeechRecognition: new () => SpeechRecognition;
+  }
+}
 
 interface VoiceSearchButtonProps {
   onResult: (transcript: string) => void;
@@ -16,7 +52,6 @@ const VoiceSearchButton: React.FC<VoiceSearchButtonProps> = ({ onResult, size = 
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
-  // Check if Speech Recognition API is available
   useEffect(() => {
     const isApiAvailable = 'webkitSpeechRecognition' in window || 
                             'SpeechRecognition' in window;
@@ -48,7 +83,6 @@ const VoiceSearchButton: React.FC<VoiceSearchButtonProps> = ({ onResult, size = 
     setIsLoading(true);
     setIsListening(true);
 
-    // Use the appropriate Speech Recognition API
     const SpeechRecognition = window.SpeechRecognition || 
                              window.webkitSpeechRecognition;
     
