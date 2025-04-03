@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Menu, X, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,7 +9,9 @@ import ProfileDropdown from "./header/ProfileDropdown";
 import DesktopNavigation from "./header/DesktopNavigation";
 import MobileNavigation from "./header/MobileNavigation";
 import { useToast } from "@/components/ui/use-toast";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useViewportScroll, useTransform } from "framer-motion";
+import SmartSearch from "@/components/ai/SmartSearch";
+import { createRipple } from "@/hooks/use-animations";
 
 interface CategoryItem {
   name: string;
@@ -24,6 +26,10 @@ const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { scrollY } = useViewportScroll();
+  
+  // Transform opacity based on scroll
+  const headerBgOpacity = useTransform(scrollY, [0, 100], [0, 1]);
 
   const categories: CategoryItem[] = [
     { name: "Politics", path: "/politics", id: "politics" },
@@ -48,7 +54,7 @@ const Header = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollThreshold = 50;
+      const scrollThreshold = 20;
       setIsScrolled(window.scrollY > scrollThreshold);
     };
 
@@ -63,9 +69,18 @@ const Header = () => {
     setIsOpen(false);
   }, [location.pathname]);
 
-  const toggleMobileMenu = () => {
+  const toggleMobileMenu = useCallback(() => {
+    // Add haptic feedback if available
+    if ('vibrate' in navigator && !isOpen) {
+      try {
+        navigator.vibrate(20); // Subtle vibration for 20ms
+      } catch (e) {
+        console.log('Vibration not supported');
+      }
+    }
+    
     setIsOpen(!isOpen);
-  };
+  }, [isOpen]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -74,90 +89,131 @@ const Header = () => {
         title: "Search Results",
         description: `Showing results for: "${searchQuery}"`,
       });
-      // In a real app, we would navigate to search results page
-      // navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
+      // Navigate to search results page
+      navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
     }
   };
 
-  const scrollToSection = (sectionId: string) => {
+  const scrollToSection = useCallback((sectionId: string) => {
     if (location.pathname !== '/') {
       navigate('/', { state: { scrollTo: sectionId } });
       return;
     }
     
-    setTimeout(() => {
-      const section = document.getElementById(sectionId);
-      if (section) {
-        section.scrollIntoView({ behavior: "smooth" });
-      }
-    }, 100);
-  };
+    const section = document.getElementById(sectionId);
+    if (section) {
+      // Create a smooth scroll effect using native Web API for better performance
+      section.scrollIntoView({ 
+        behavior: "smooth",
+        block: "start" 
+      });
+    }
+  }, [location.pathname, navigate]);
 
-  // Animation variants for header background
+  // Animation variants for header elements
   const headerVariants = {
     visible: {
       opacity: 1,
       y: 0,
       transition: {
         duration: 0.3,
-        ease: [0.2, 0, 0, 1] // Material Design easing
+        ease: [0.2, 0, 0, 1], // Material Design easing
+        staggerChildren: 0.05
       }
     },
     hidden: {
       opacity: 0,
-      y: -5,
+      y: -10,
       transition: {
         duration: 0.3,
-        ease: [0.2, 0, 0, 1]
+        ease: [0.4, 0, 0.2, 1]
       }
+    }
+  };
+
+  const childVariants = {
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.3, ease: [0.2, 0, 0, 1] }
+    },
+    hidden: {
+      opacity: 0,
+      y: -10,
+      transition: { duration: 0.3, ease: [0.4, 0, 0.2, 1] }
     }
   };
 
   return (
     <motion.header 
-      className={`sticky top-0 z-40 w-full ${isScrolled ? 'bg-background/95 backdrop-blur-sm shadow-sm' : 'bg-transparent'}`}
+      className="sticky top-0 z-40 w-full md-elevation-transition"
+      style={{
+        boxShadow: isScrolled ? "var(--md-elevation-level1)" : "none"
+      }}
       initial="hidden"
       animate="visible"
       variants={headerVariants}
     >
-      <div className="container mx-auto px-4">
+      <motion.div 
+        className="absolute inset-0"
+        style={{ 
+          opacity: headerBgOpacity,
+          backgroundColor: "hsl(var(--background))",
+          backdropFilter: "blur(8px)"
+        }}
+      />
+      
+      <div className="container mx-auto px-4 relative z-10">
         <div className="h-16 flex items-center justify-between">
           <motion.div 
             className="flex items-center"
+            variants={childVariants}
             whileHover={{ scale: 1.02 }}
-            transition={{ type: "spring", stiffness: 300, damping: 15 }}
+            whileTap={{ scale: 0.98 }}
+            transition={{ 
+              type: "spring", 
+              stiffness: 300, 
+              damping: 15 
+            }}
           >
             <Logo />
           </motion.div>
           
-          <DesktopNavigation 
-            categories={categories}
-            mainNavigation={mainNavigation}
-            scrollToSection={scrollToSection} 
-          />
+          <motion.div variants={childVariants}>
+            <DesktopNavigation 
+              categories={categories}
+              mainNavigation={mainNavigation}
+              scrollToSection={scrollToSection} 
+            />
+          </motion.div>
 
-          <div className="hidden md:flex items-center mx-4 flex-1 max-w-xs">
-            <form onSubmit={handleSearch} className="relative w-full">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                type="text"
-                placeholder="Search..."
-                className="pl-9 h-9 rounded-full md-input-focus"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </form>
-          </div>
+          <motion.div 
+            className="hidden md:flex items-center mx-4 flex-1 max-w-xs"
+            variants={childVariants}
+          >
+            <SmartSearch />
+          </motion.div>
           
-          <div className="flex items-center space-x-2">
+          <motion.div 
+            className="flex items-center space-x-2"
+            variants={childVariants}
+          >
             <ProfileDropdown />
-            <div className="md:hidden">
+            <motion.div 
+              className="md:hidden"
+              initial={{ scale: 1 }}
+              whileTap={{ scale: 0.9 }}
+              transition={{ duration: 0.2 }}
+            >
               <Button 
                 variant="ghost" 
                 size="icon" 
                 className="md-ripple" 
-                onClick={toggleMobileMenu}
-                aria-label="Toggle menu"
+                onClick={(e) => {
+                  createRipple(e);
+                  toggleMobileMenu();
+                }}
+                aria-label={isOpen ? "Close menu" : "Open menu"}
               >
                 <div className={`hamburger-icon ${isOpen ? 'open' : ''}`}>
                   <span></span>
@@ -165,12 +221,12 @@ const Header = () => {
                   <span></span>
                 </div>
               </Button>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </div>
       
-      <AnimatePresence>
+      <AnimatePresence mode="wait">
         {isOpen && (
           <MobileNavigation 
             categories={categories}
