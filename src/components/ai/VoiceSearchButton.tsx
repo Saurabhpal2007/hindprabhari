@@ -1,9 +1,11 @@
+
 import React, { useState, useEffect } from 'react';
 import { Mic, MicOff, Loader2 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "@/components/ui/use-toast";
 
+// Add TypeScript declarations for the Speech Recognition API
 interface SpeechRecognitionEvent extends Event {
   results: {
     [index: number]: {
