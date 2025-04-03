@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { Search, X, ArrowRight, Sparkles, Mic } from "lucide-react";
+import { Search, X, ArrowRight, Sparkles } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { 
@@ -15,9 +15,7 @@ import { useAI } from "@/context/AIContext";
 import { useNavigate } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/components/ui/use-toast";
-import { motion, AnimatePresence } from "framer-motion";
 import VoiceSearchButton from "./VoiceSearchButton";
-import { useIntersectionObserver } from "@/hooks/use-parallax";
 
 // Sample search suggestions
 const initialSuggestions = [
@@ -34,15 +32,10 @@ const SmartSearch: React.FC = () => {
   const [suggestions, setSuggestions] = useState(initialSuggestions);
   const [isLoading, setIsLoading] = useState(false);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
-  const { isAIEnabled, apiKey } = useAI();
+  const { isAIEnabled } = useAI();
   const navigate = useNavigate();
   const { toast } = useToast();
   const inputRef = useRef<HTMLInputElement>(null);
-  const { targetRef, isIntersecting, hasIntersected } = useIntersectionObserver({
-    threshold: 0.1,
-    root: null,
-    rootMargin: "0px"
-  });
 
   useEffect(() => {
     // Load recent searches from localStorage
@@ -137,67 +130,25 @@ const SmartSearch: React.FC = () => {
     });
   };
 
-  // Animation variants
-  const buttonVariants = {
-    rest: { 
-      scale: 1,
-      boxShadow: "0 1px 3px rgba(0,0,0,0.1)"
-    },
-    hover: { 
-      scale: 1.02,
-      boxShadow: "0 4px 6px rgba(0,0,0,0.15)"
-    },
-    tap: { 
-      scale: 0.98
-    }
-  };
-
   return (
     <>
-      <motion.div
-        ref={targetRef as React.RefObject<HTMLDivElement>}
-        initial={{ opacity: 0, y: 20 }}
-        animate={hasIntersected ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-        transition={{ duration: 0.5, ease: [0.2, 0, 0.2, 1] }}
+      <Button
+        variant="outlined"
+        className="relative h-9 w-full justify-start rounded-lg text-sm text-muted-foreground sm:pr-12 md:w-40 lg:w-64 transition-all duration-200"
+        onClick={() => setOpen(true)}
       >
-        <motion.div
-          variants={buttonVariants}
-          initial="rest"
-          whileHover="hover"
-          whileTap="tap"
-          transition={{ duration: 0.3, ease: [0.2, 0, 0.2, 1] }}
-        >
-          <Button
-            variant="outlined"
-            className="relative h-9 w-full justify-start rounded-lg text-sm text-muted-foreground sm:pr-12 md:w-40 lg:w-64 md-ripple transition-all duration-200"
-            onClick={() => setOpen(true)}
-          >
-            <Search className="mr-2 h-4 w-4" />
-            <span className="hidden lg:inline-flex">Search news...</span>
-            <span className="inline-flex lg:hidden">Search...</span>
-            <kbd className="pointer-events-none absolute right-1.5 top-1.5 hidden h-6 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-xs font-medium opacity-100 sm:flex">
-              <span className="text-xs">⌘</span>K
-            </kbd>
-            {isAIEnabled && (
-              <motion.div
-                className="absolute right-8 top-1.5 h-5 w-5 text-primary hidden sm:flex"
-                animate={{ 
-                  rotate: [0, 10, 0, -10, 0],
-                  scale: [1, 1.1, 1, 1.1, 1]
-                }}
-                transition={{ 
-                  duration: 5, 
-                  repeat: Infinity, 
-                  repeatType: "loop",
-                  ease: "easeInOut" 
-                }}
-              >
-                <Sparkles />
-              </motion.div>
-            )}
-          </Button>
-        </motion.div>
-      </motion.div>
+        <Search className="mr-2 h-4 w-4" />
+        <span className="hidden lg:inline-flex">Search news...</span>
+        <span className="inline-flex lg:hidden">Search...</span>
+        <kbd className="pointer-events-none absolute right-1.5 top-1.5 hidden h-6 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-xs font-medium opacity-100 sm:flex">
+          <span className="text-xs">⌘</span>K
+        </kbd>
+        {isAIEnabled && (
+          <div className="absolute right-8 top-1.5 h-5 w-5 text-primary hidden sm:flex">
+            <Sparkles />
+          </div>
+        )}
+      </Button>
       
       <CommandDialog open={open} onOpenChange={setOpen}>
         <div className="flex items-center border-b px-3">
@@ -227,17 +178,7 @@ const SmartSearch: React.FC = () => {
           <CommandEmpty className="py-6 text-center text-sm">
             {isLoading ? (
               <div className="flex flex-col items-center">
-                <motion.div 
-                  className="h-8 w-8"
-                  animate={{ rotate: 360 }}
-                  transition={{ 
-                    duration: 1.5, 
-                    repeat: Infinity, 
-                    ease: "linear" 
-                  }}
-                >
-                  <div className="h-8 w-8 rounded-full border-b-2 border-t-2 border-primary"></div>
-                </motion.div>
+                <div className="h-8 w-8 rounded-full border-b-2 border-t-2 border-primary animate-spin"></div>
                 <p className="mt-2">Searching with AI...</p>
               </div>
             ) : (
@@ -247,85 +188,42 @@ const SmartSearch: React.FC = () => {
           
           {recentSearches.length > 0 && (
             <CommandGroup heading="Recent Searches">
-              <AnimatePresence>
-                {recentSearches.map((text, index) => (
-                  <motion.div
-                    key={`recent-${text}`}
-                    initial={{ opacity: 0, y: 5 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -5 }}
-                    transition={{ 
-                      duration: 0.2,
-                      delay: index * 0.05
-                    }}
-                  >
-                    <CommandItem
-                      onSelect={() => handleSelect(text)}
-                      className="flex items-center justify-between"
-                    >
-                      <div className="flex items-center">
-                        <span>{text}</span>
-                      </div>
-                      <ArrowRight className="h-4 w-4 opacity-50" />
-                    </CommandItem>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
+              {recentSearches.map((text) => (
+                <CommandItem
+                  key={`recent-${text}`}
+                  onSelect={() => handleSelect(text)}
+                  className="flex items-center justify-between"
+                >
+                  <div className="flex items-center">
+                    <span>{text}</span>
+                  </div>
+                  <ArrowRight className="h-4 w-4 opacity-50" />
+                </CommandItem>
+              ))}
             </CommandGroup>
           )}
           
           <CommandGroup heading="Suggestions">
-            <AnimatePresence>
-              {suggestions.map((item, index) => (
-                <motion.div
-                  key={item.id}
-                  initial={{ opacity: 0, y: 5 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -5 }}
-                  transition={{ 
-                    duration: 0.2,
-                    delay: index * 0.05
-                  }}
-                >
-                  <CommandItem
-                    onSelect={() => handleSelect(item.text)}
-                    className="flex items-center justify-between group"
-                  >
-                    <div className="flex items-center">
-                      {(item as any).isAI && (
-                        <motion.div
-                          animate={{ 
-                            rotate: [0, 10, 0, -10, 0],
-                            scale: [1, 1.1, 1, 1.1, 1]
-                          }}
-                          transition={{ 
-                            duration: 5, 
-                            repeat: Infinity, 
-                            repeatType: "loop",
-                            ease: "easeInOut" 
-                          }}
-                          className="mr-2 text-primary"
-                        >
-                          <Sparkles className="h-4 w-4" />
-                        </motion.div>
-                      )}
-                      <span>{item.text}</span>
-                    </div>
-                    <div className="flex items-center">
-                      <Badge variant="outline" className="mr-2 group-hover:bg-primary/10 transition-colors">
-                        {item.category}
-                      </Badge>
-                      <motion.div
-                        whileHover={{ x: 4 }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        <ArrowRight className="h-4 w-4 opacity-50" />
-                      </motion.div>
-                    </div>
-                  </CommandItem>
-                </motion.div>
-              ))}
-            </AnimatePresence>
+            {suggestions.map((item) => (
+              <CommandItem
+                key={item.id}
+                onSelect={() => handleSelect(item.text)}
+                className="flex items-center justify-between group"
+              >
+                <div className="flex items-center">
+                  {(item as any).isAI && (
+                    <Sparkles className="h-4 w-4 mr-2 text-primary" />
+                  )}
+                  <span>{item.text}</span>
+                </div>
+                <div className="flex items-center">
+                  <Badge variant="outline" className="mr-2 group-hover:bg-primary/10 transition-colors">
+                    {item.category}
+                  </Badge>
+                  <ArrowRight className="h-4 w-4 opacity-50" />
+                </div>
+              </CommandItem>
+            ))}
           </CommandGroup>
         </CommandList>
       </CommandDialog>

@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useCallback } from "react";
 import { Menu, X, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -8,8 +9,7 @@ import ProfileDropdown from "./header/ProfileDropdown";
 import DesktopNavigation from "./header/DesktopNavigation";
 import MobileNavigation from "./header/MobileNavigation";
 import { useToast } from "@/components/ui/use-toast";
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
-import SmartSearch from "@/components/ai/SmartSearch";
+import { motion, useScroll } from "framer-motion";
 import { createRipple } from "@/hooks/use-animations";
 
 interface CategoryItem {
@@ -27,8 +27,6 @@ const Header = () => {
   const { toast } = useToast();
   const { scrollY } = useScroll();
   
-  const headerBgOpacity = useTransform(scrollY, [0, 100], [0, 1]);
-
   const categories: CategoryItem[] = [
     { name: "Politics", path: "/politics", id: "politics" },
     { name: "Technology", path: "/technology", id: "technology" },
@@ -67,14 +65,6 @@ const Header = () => {
   }, [location.pathname]);
 
   const toggleMobileMenu = useCallback(() => {
-    if ('vibrate' in navigator && !isOpen) {
-      try {
-        navigator.vibrate(20);
-      } catch (e) {
-        console.log('Vibration not supported');
-      }
-    }
-    
     setIsOpen(!isOpen);
   }, [isOpen]);
 
@@ -104,108 +94,47 @@ const Header = () => {
     }
   }, [location.pathname, navigate]);
 
-  const headerVariants = {
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.3,
-        ease: [0.2, 0, 0, 1],
-        staggerChildren: 0.05
-      }
-    },
-    hidden: {
-      opacity: 0,
-      y: -10,
-      transition: {
-        duration: 0.3,
-        ease: [0.4, 0, 0.2, 1]
-      }
-    }
-  };
-
-  const childVariants = {
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.3, ease: [0.2, 0, 0, 1] }
-    },
-    hidden: {
-      opacity: 0,
-      y: -10,
-      transition: { duration: 0.3, ease: [0.4, 0, 0.2, 1] }
-    }
-  };
-
   return (
-    <motion.header 
-      className="sticky top-0 z-40 w-full md-elevation-transition"
-      style={{
-        boxShadow: isScrolled ? "var(--md-elevation-level1)" : "none"
-      }}
-      initial="hidden"
-      animate="visible"
-      variants={headerVariants}
-    >
-      <motion.div 
-        className="absolute inset-0"
-        style={{ 
-          opacity: headerBgOpacity,
-          backgroundColor: "hsl(var(--background))",
-          backdropFilter: "blur(8px)"
-        }}
-      />
-      
-      <div className="container mx-auto px-4 relative z-10">
+    <header className="sticky top-0 z-40 w-full bg-background/80 backdrop-blur-sm border-b">
+      <div className="container mx-auto px-4">
         <div className="h-16 flex items-center justify-between">
-          <motion.div 
-            className="flex items-center"
-            variants={childVariants}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            transition={{ 
-              type: "spring", 
-              stiffness: 300, 
-              damping: 15 
-            }}
-          >
+          <div className="flex items-center">
             <Logo />
-          </motion.div>
+          </div>
           
-          <motion.div variants={childVariants}>
-            <DesktopNavigation 
-              categories={categories}
-              mainNavigation={mainNavigation}
-              scrollToSection={scrollToSection} 
-            />
-          </motion.div>
+          <DesktopNavigation 
+            categories={categories}
+            mainNavigation={mainNavigation}
+            scrollToSection={scrollToSection} 
+          />
 
-          <motion.div 
-            className="hidden md:flex items-center mx-4 flex-1 max-w-xs"
-            variants={childVariants}
-          >
-            <SmartSearch />
-          </motion.div>
+          <div className="hidden md:flex items-center mx-4 flex-1 max-w-xs">
+            <form onSubmit={handleSearch} className="w-full relative">
+              <Input
+                type="search"
+                placeholder="Search..."
+                className="pr-8"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              <Button
+                type="submit"
+                size="icon"
+                variant="ghost"
+                className="absolute right-0 top-0 h-full"
+              >
+                <Search className="h-4 w-4" />
+              </Button>
+            </form>
+          </div>
           
-          <motion.div 
-            className="flex items-center space-x-2"
-            variants={childVariants}
-          >
+          <div className="flex items-center space-x-2">
             <ProfileDropdown />
-            <motion.div 
-              className="md:hidden"
-              initial={{ scale: 1 }}
-              whileTap={{ scale: 0.9 }}
-              transition={{ duration: 0.2 }}
-            >
+            <div className="md:hidden">
               <Button 
                 variant="ghost" 
-                size="icon" 
-                className="md-ripple" 
-                onClick={(e) => {
-                  createRipple(e);
-                  toggleMobileMenu();
-                }}
+                size="icon"
+                onClick={toggleMobileMenu}
                 aria-label={isOpen ? "Close menu" : "Open menu"}
               >
                 <div className={`hamburger-icon ${isOpen ? 'open' : ''}`}>
@@ -214,25 +143,23 @@ const Header = () => {
                   <span></span>
                 </div>
               </Button>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         </div>
       </div>
       
-      <AnimatePresence mode="wait">
-        {isOpen && (
-          <MobileNavigation 
-            categories={categories}
-            mainNavigation={mainNavigation}
-            scrollToSection={scrollToSection}
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
-            handleSearch={handleSearch}
-            isOpen={isOpen}
-          />
-        )}
-      </AnimatePresence>
-    </motion.header>
+      {isOpen && (
+        <MobileNavigation 
+          categories={categories}
+          mainNavigation={mainNavigation}
+          scrollToSection={scrollToSection}
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          handleSearch={handleSearch}
+          isOpen={isOpen}
+        />
+      )}
+    </header>
   );
 };
 
