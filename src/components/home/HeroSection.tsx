@@ -1,17 +1,26 @@
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { ArrowDown, ArrowRight, UserPlus } from "lucide-react";
+import { motion } from "framer-motion";
 
 const HeroSection = () => {
+  const [offset, setOffset] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
+    const handleScroll = () => {
+      setOffset(window.pageYOffset);
+    };
+
     const timer = setTimeout(() => {
       setIsVisible(true);
     }, 300);
     
+    window.addEventListener("scroll", handleScroll);
+    
     return () => {
+      window.removeEventListener("scroll", handleScroll);
       clearTimeout(timer);
     };
   }, []);
@@ -30,89 +39,107 @@ const HeroSection = () => {
     }
   };
 
+  // Material design M3 animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { 
+      opacity: 1,
+      transition: { 
+        staggerChildren: 0.15,
+        delayChildren: 0.3,
+        ease: [0.2, 0, 0, 1], // M3 standard easing
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: {
+        duration: 0.5,
+        ease: [0.2, 0, 0, 1], // M3 standard easing
+      }
+    }
+  };
+
   return (
-    <section 
+    <motion.section 
       id="home"
-      className="relative h-screen w-full flex items-center justify-center overflow-hidden"
+      className="relative h-full w-full flex items-center justify-center overflow-hidden"
+      style={{
+        backgroundPosition: `50% ${offset * 0.5}px`
+      }}
+      initial="hidden"
+      animate={isVisible ? "visible" : "hidden"}
+      variants={containerVariants}
     >
-      {/* Gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-card/40 dark:from-background dark:via-background/90 dark:to-card/20">
-      </div>
+      {/* Gradient background - using Material You colors */}
+      <div className="absolute inset-0 bg-gradient-to-b from-background to-card dark:from-background dark:to-card/20"></div>
       
-      {/* Subtle dots pattern */}
+      {/* Restore the parallax dots pattern with Material Design spacing */}
       <div 
         className="absolute inset-0 bg-[radial-gradient(circle,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent [background-size:24px_24px] [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_70%)] pointer-events-none"
         style={{
-          backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)'
+          backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)',
+          transform: `translateY(${offset * 0.2}px)`
         }}
-      />
-
-      {/* Scroll indicator */}
-      <div
-        className={`absolute bottom-10 left-1/2 transform -translate-x-1/2 transition-opacity duration-500 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
-      >
-        <div className="flex flex-col items-center">
-          <span className="text-sm font-medium mb-2 text-muted-foreground">Scroll to explore</span>
-          <ArrowDown className="h-5 w-5 text-primary" />
-        </div>
-      </div>
+      ></div>
       
       <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
-        {/* Logo */}
-        <div className={`relative mb-12 mx-auto w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 transition-opacity duration-500 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-          <div className="bg-card/80 dark:bg-card/40 rounded-full p-5 backdrop-blur-md border border-white/30 dark:border-white/10 shadow-lg">
-            <div className="w-36 h-36 sm:w-40 sm:h-40 md:w-44 md:h-44 flex items-center justify-center">
-              <img 
-                src="/assets/logo-main.png" 
-                alt="HindPrabhari" 
-                className="w-full h-full object-contain"
-              />
+        {/* Logo with Material Design elevation */}
+        <motion.div 
+          className="relative mb-12 mx-auto w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64"
+          variants={itemVariants}
+        >
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full blur-md"></div>
+          <div className="relative flex items-center justify-center h-full">
+            <div className="bg-card/95 dark:bg-card/40 rounded-full p-5 backdrop-blur-sm border border-white/30 dark:border-white/10 md-elevation-2">
+              <div className="w-36 h-36 sm:w-40 sm:h-40 md:w-44 md:h-44 flex items-center justify-center">
+                <img 
+                  src="/assets/logo-main.png" 
+                  alt="HindPrabhari" 
+                  className="w-full h-full object-contain animate-md-scale-up"
+                />
+              </div>
             </div>
           </div>
-        </div>
+        </motion.div>
         
-        {/* Hindi slogan with English subtitle */}
-        <h1 className={`space-y-4 transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <span className="block text-4xl sm:text-5xl md:text-6xl font-bold mb-3 tracking-tight">
-            <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              भारत की धड़कन
-            </span>
-          </span>
+        {/* Hindi slogan with English subtitle - with Material You typography */}
+        <motion.h1 
+          className="space-y-4"
+          variants={itemVariants}
+        >
+          <span className="block text-4xl sm:text-5xl md:text-6xl font-bold mb-3 tracking-tight">भारत की धड़कन</span>
           <span className="block text-lg sm:text-xl md:text-2xl text-muted-foreground mt-2 leading-relaxed tracking-wide">
             The Pulse of Bharat - Truth in Every Story
           </span>
-        </h1>
+        </motion.h1>
         
-        {/* Call to action buttons */}
-        <div className={`mt-12 flex flex-col sm:flex-row items-center justify-center gap-4 transition-all duration-500 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        {/* Call to action buttons with Material You styling */}
+        <motion.div 
+          className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4"
+          variants={itemVariants}
+        >
           <Button 
             onClick={scrollToFeatured}
-            variant="default"
-            className="bg-primary text-primary-foreground px-6 py-6 rounded-full w-full sm:w-auto shadow-md hover:shadow-lg transition-all duration-300 h-12"
+            variant="filled"
+            className="bg-gradient-to-r from-primary to-primary/80 text-primary-foreground px-6 py-6 rounded-full w-full sm:w-auto md-elevation-1 hover:md-elevation-2 transition-all duration-300 h-12"
           >
             Explore Now
-            <ArrowRight className="h-4 w-4 ml-2" />
           </Button>
-          
           <Button 
-            variant="outline" 
+            variant="outlined" 
             onClick={scrollToContact}
             className="border-2 border-primary text-primary dark:text-primary hover:bg-primary/10 px-6 py-6 rounded-full w-full sm:w-auto transition-all duration-300 h-12"
           >
             Subscribe
-            <UserPlus className="ml-1.5 h-4 w-4" />
           </Button>
-        </div>
-
-        {/* Simple badge */}
-        <div className="absolute top-10 right-10 hidden md:block">
-          <div className="bg-primary/20 backdrop-blur-sm text-primary px-3 py-1.5 rounded-full border border-primary/30 flex items-center">
-            <span className="font-medium">Breaking News</span>
-            <div className="ml-2 h-2 w-2 bg-red-500 rounded-full"></div>
-          </div>
-        </div>
+        </motion.div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 

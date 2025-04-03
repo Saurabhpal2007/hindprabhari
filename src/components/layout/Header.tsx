@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { Menu, X, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,8 +9,6 @@ import ProfileDropdown from "./header/ProfileDropdown";
 import DesktopNavigation from "./header/DesktopNavigation";
 import MobileNavigation from "./header/MobileNavigation";
 import { useToast } from "@/components/ui/use-toast";
-import { motion, useScroll } from "framer-motion";
-import { createRipple } from "@/hooks/use-animations";
 
 interface CategoryItem {
   name: string;
@@ -25,8 +23,7 @@ const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { scrollY } = useScroll();
-  
+
   const categories: CategoryItem[] = [
     { name: "Politics", path: "/politics", id: "politics" },
     { name: "Technology", path: "/technology", id: "technology" },
@@ -38,6 +35,7 @@ const Header = () => {
     { name: "Business", path: "/business", id: "business" },
   ];
 
+  // Updated main navigation for the site
   const mainNavigation = [
     { name: "Home", path: "/", id: "home" },
     { name: "Trending", path: "/trending", id: "trending" },
@@ -49,7 +47,7 @@ const Header = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollThreshold = 20;
+      const scrollThreshold = 50;
       setIsScrolled(window.scrollY > scrollThreshold);
     };
 
@@ -64,9 +62,9 @@ const Header = () => {
     setIsOpen(false);
   }, [location.pathname]);
 
-  const toggleMobileMenu = useCallback(() => {
+  const toggleMobileMenu = () => {
     setIsOpen(!isOpen);
-  }, [isOpen]);
+  };
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -75,27 +73,27 @@ const Header = () => {
         title: "Search Results",
         description: `Showing results for: "${searchQuery}"`,
       });
-      navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
+      // In a real app, we would navigate to search results page
+      // navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
     }
   };
 
-  const scrollToSection = useCallback((sectionId: string) => {
+  const scrollToSection = (sectionId: string) => {
     if (location.pathname !== '/') {
       navigate('/', { state: { scrollTo: sectionId } });
       return;
     }
     
-    const section = document.getElementById(sectionId);
-    if (section) {
-      section.scrollIntoView({ 
-        behavior: "smooth",
-        block: "start" 
-      });
-    }
-  }, [location.pathname, navigate]);
+    setTimeout(() => {
+      const section = document.getElementById(sectionId);
+      if (section) {
+        section.scrollIntoView({ behavior: "smooth" });
+      }
+    }, 100);
+  };
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-background/80 backdrop-blur-sm border-b">
+    <header className={`sticky top-0 z-40 w-full ${isScrolled ? 'bg-background/95 backdrop-blur-sm shadow-sm' : 'bg-transparent'}`}>
       <div className="container mx-auto px-4">
         <div className="h-16 flex items-center justify-between">
           <div className="flex items-center">
@@ -109,56 +107,42 @@ const Header = () => {
           />
 
           <div className="hidden md:flex items-center mx-4 flex-1 max-w-xs">
-            <form onSubmit={handleSearch} className="w-full relative">
+            <form onSubmit={handleSearch} className="relative w-full">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
-                type="search"
+                type="text"
                 placeholder="Search..."
-                className="pr-8"
+                className="pl-9 h-9 rounded-full"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
-              <Button
-                type="submit"
-                size="icon"
-                variant="ghost"
-                className="absolute right-0 top-0 h-full"
-              >
-                <Search className="h-4 w-4" />
-              </Button>
             </form>
           </div>
           
           <div className="flex items-center space-x-2">
             <ProfileDropdown />
-            <div className="md:hidden">
-              <Button 
-                variant="ghost" 
-                size="icon"
-                onClick={toggleMobileMenu}
-                aria-label={isOpen ? "Close menu" : "Open menu"}
-              >
-                <div className={`hamburger-icon ${isOpen ? 'open' : ''}`}>
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </div>
-              </Button>
-            </div>
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="md:hidden" 
+              onClick={toggleMobileMenu}
+              aria-label="Toggle menu"
+            >
+              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </Button>
           </div>
         </div>
       </div>
       
-      {isOpen && (
-        <MobileNavigation 
-          categories={categories}
-          mainNavigation={mainNavigation}
-          scrollToSection={scrollToSection}
-          searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
-          handleSearch={handleSearch}
-          isOpen={isOpen}
-        />
-      )}
+      <MobileNavigation 
+        categories={categories}
+        mainNavigation={mainNavigation}
+        scrollToSection={scrollToSection}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        handleSearch={handleSearch}
+        isOpen={isOpen}
+      />
     </header>
   );
 };
