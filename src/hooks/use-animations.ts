@@ -66,9 +66,9 @@ export function useReducedMotion() {
   return prefersReducedMotion;
 }
 
-// Ripple effect handler function
-export function createRipple(event: React.MouseEvent<HTMLElement>) {
-  const button = event.currentTarget;
+// Ripple effect handler function - Updated to accept more generic Element type
+export function createRipple(event: React.MouseEvent<Element>) {
+  const button = event.currentTarget as HTMLElement; // Cast to HTMLElement
 
   const circle = document.createElement("span");
   const diameter = Math.max(button.clientWidth, button.clientHeight);

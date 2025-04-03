@@ -1,7 +1,7 @@
 
 import { Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useTheme } from "@/components/ui/use-theme";
+import { useTheme } from "@/components/ui/theme-provider";
 import { useToast } from "@/components/ui/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
 import { createRipple } from "@/hooks/use-animations";
@@ -19,16 +19,17 @@ const ThemeToggle = ({
   showIcon = true, 
   showText = false 
 }: ThemeToggleProps) => {
-  const { theme, toggleTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
   const { toast } = useToast();
 
   const handleToggleTheme = (e: React.MouseEvent) => {
     createRipple(e);
-    toggleTheme();
+    const newTheme = theme === "light" ? "dark" : "light";
+    setTheme(newTheme);
     
     toast({
-      title: `${theme === "light" ? "Dark" : "Light"} Mode Activated`,
-      description: `Switched to ${theme === "light" ? "dark" : "light"} mode.`,
+      title: `${newTheme === "dark" ? "Dark" : "Light"} Mode Activated`,
+      description: `Switched to ${newTheme} mode.`,
     });
   };
 
@@ -50,6 +51,8 @@ const ThemeToggle = ({
     }
   };
 
+  const isDark = theme === "dark";
+
   return (
     <motion.div
       whileHover={{ scale: 1.05 }}
@@ -60,11 +63,11 @@ const ThemeToggle = ({
         size={size}
         onClick={handleToggleTheme}
         className="w-full md-ripple relative overflow-hidden"
-        aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
+        aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
       >
         {showIcon && (
           <AnimatePresence mode="wait">
-            {theme === "light" ? (
+            {!isDark ? (
               <motion.div
                 key="moon-icon"
                 initial="initial"
@@ -91,7 +94,7 @@ const ThemeToggle = ({
         )}
         {showText && (
           <AnimatePresence mode="wait">
-            {theme === "light" ? (
+            {!isDark ? (
               <motion.span 
                 key="dark-text"
                 className={showIcon ? "ml-2" : ""}
