@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useCallback } from "react";
 import { Menu, X, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -9,7 +8,7 @@ import ProfileDropdown from "./header/ProfileDropdown";
 import DesktopNavigation from "./header/DesktopNavigation";
 import MobileNavigation from "./header/MobileNavigation";
 import { useToast } from "@/components/ui/use-toast";
-import { motion, AnimatePresence, useViewportScroll, useTransform } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import SmartSearch from "@/components/ai/SmartSearch";
 import { createRipple } from "@/hooks/use-animations";
 
@@ -26,9 +25,8 @@ const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { scrollY } = useViewportScroll();
+  const { scrollY } = useScroll();
   
-  // Transform opacity based on scroll
   const headerBgOpacity = useTransform(scrollY, [0, 100], [0, 1]);
 
   const categories: CategoryItem[] = [
@@ -42,7 +40,6 @@ const Header = () => {
     { name: "Business", path: "/business", id: "business" },
   ];
 
-  // Updated main navigation for the site
   const mainNavigation = [
     { name: "Home", path: "/", id: "home" },
     { name: "Trending", path: "/trending", id: "trending" },
@@ -70,10 +67,9 @@ const Header = () => {
   }, [location.pathname]);
 
   const toggleMobileMenu = useCallback(() => {
-    // Add haptic feedback if available
     if ('vibrate' in navigator && !isOpen) {
       try {
-        navigator.vibrate(20); // Subtle vibration for 20ms
+        navigator.vibrate(20);
       } catch (e) {
         console.log('Vibration not supported');
       }
@@ -89,7 +85,6 @@ const Header = () => {
         title: "Search Results",
         description: `Showing results for: "${searchQuery}"`,
       });
-      // Navigate to search results page
       navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
     }
   };
@@ -102,7 +97,6 @@ const Header = () => {
     
     const section = document.getElementById(sectionId);
     if (section) {
-      // Create a smooth scroll effect using native Web API for better performance
       section.scrollIntoView({ 
         behavior: "smooth",
         block: "start" 
@@ -110,14 +104,13 @@ const Header = () => {
     }
   }, [location.pathname, navigate]);
 
-  // Animation variants for header elements
   const headerVariants = {
     visible: {
       opacity: 1,
       y: 0,
       transition: {
         duration: 0.3,
-        ease: [0.2, 0, 0, 1], // Material Design easing
+        ease: [0.2, 0, 0, 1],
         staggerChildren: 0.05
       }
     },

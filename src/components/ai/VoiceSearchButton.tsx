@@ -103,7 +103,7 @@ const VoiceSearchButton: React.FC<VoiceSearchButtonProps> = ({ onResult, size = 
       });
     };
     
-    recognition.onresult = (event: any) => {
+    recognition.onresult = (event: SpeechRecognitionEvent) => {
       const transcript = event.results[0][0].transcript;
       onResult(transcript);
       stopListening();
@@ -114,7 +114,7 @@ const VoiceSearchButton: React.FC<VoiceSearchButtonProps> = ({ onResult, size = 
       });
     };
     
-    recognition.onerror = (event: any) => {
+    recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
       console.error('Speech recognition error', event.error);
       stopListening();
       
