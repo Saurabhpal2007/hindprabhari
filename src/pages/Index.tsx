@@ -55,15 +55,14 @@ const Index = () => {
     }
   }, [location]);
 
-  // Material Design animation variants
+  // Simplified motion variants
   const sectionVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 10 },
     visible: { 
       opacity: 1, 
       y: 0,
       transition: {
-        duration: 0.5,
-        ease: "easeOut"
+        duration: 0.4
       }
     }
   };
@@ -72,20 +71,20 @@ const Index = () => {
     <div className="min-h-screen flex flex-col bg-background overflow-x-hidden">
       <div className="h-screen flex flex-col">
         <Header />
-        <div className={`flex-grow flex flex-col transition-opacity duration-700 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
+        <div className={`flex-grow flex flex-col transition-opacity ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
           <HeroSection />
         </div>
         <BreakingNews />
       </div>
       
       <main className="flex-grow">
-        <div className={`transition-opacity duration-700 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
-          {/* Search bar section with increased padding and prominence */}
+        <div className={`transition-opacity ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
+          {/* Search bar section */}
           <motion.div 
-            className="bg-gradient-to-b from-background/80 to-background py-10 px-4 md-elevation-1"
+            className="bg-gradient-to-b from-background/80 to-background py-8 px-4"
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: true, margin: "-50px" }}
             variants={sectionVariants}
           >
             <div className="container mx-auto max-w-4xl">
@@ -95,21 +94,21 @@ const Index = () => {
           
           <motion.section 
             id="trending" 
-            className="container mx-auto py-16 px-4"
+            className="container mx-auto py-12 px-4"
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: true, margin: "-50px" }}
             variants={sectionVariants}
           >
-            <div className="flex justify-between items-center mb-8">
-              <h2 className="text-3xl font-semibold flex items-center">
-                <span className="text-gradient-heading">Trending</span>
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-semibold flex items-center">
+                <span>Trending</span>
                 <span className="ml-2 text-sm font-medium px-2 py-1 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-full hidden sm:inline-block">
                   Live
                 </span>
               </h2>
-              <Link to="/trending" className="flex items-center text-primary hover:underline group md-state-layer px-3 py-2 rounded-full">
-                View All <ArrowRight className="ml-1 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+              <Link to="/trending" className="flex items-center text-primary hover:underline">
+                View All <ArrowRight className="ml-1 h-5 w-5" />
               </Link>
             </div>
             <FeaturedArticles />
@@ -117,17 +116,17 @@ const Index = () => {
           
           <motion.section 
             id="categories" 
-            className="bg-muted/30 py-16 px-4"
+            className="bg-muted/30 py-12 px-4"
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: true, margin: "-50px" }}
             variants={sectionVariants}
           >
             <div className="container mx-auto">
-              <div className="flex justify-between items-center mb-8">
-                <h2 className="text-3xl font-semibold"><span className="text-gradient-heading">Categories</span></h2>
-                <Link to="/categories" className="flex items-center text-primary hover:underline group md-state-layer px-3 py-2 rounded-full">
-                  View All <ArrowRight className="ml-1 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-semibold">Categories</h2>
+                <Link to="/categories" className="flex items-center text-primary hover:underline">
+                  View All <ArrowRight className="ml-1 h-5 w-5" />
                 </Link>
               </div>
               <CategoryCards />
@@ -136,16 +135,16 @@ const Index = () => {
           
           <motion.section 
             id="latest" 
-            className="container mx-auto py-16 px-4"
+            className="container mx-auto py-12 px-4"
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: true, margin: "-50px" }}
             variants={sectionVariants}
           >
-            <div className="flex justify-between items-center mb-8">
-              <h2 className="text-3xl font-semibold"><span className="text-gradient-heading">Latest News</span></h2>
-              <Link to="/latest" className="flex items-center text-primary hover:underline group md-state-layer px-3 py-2 rounded-full">
-                View All <ArrowRight className="ml-1 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-semibold">Latest News</h2>
+              <Link to="/latest" className="flex items-center text-primary hover:underline">
+                View All <ArrowRight className="ml-1 h-5 w-5" />
               </Link>
             </div>
             <LatestNews />
@@ -155,7 +154,7 @@ const Index = () => {
             id="about"
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: true, margin: "-50px" }}
             variants={sectionVariants}
           >
             <AboutUsSection />
@@ -165,7 +164,7 @@ const Index = () => {
             id="contact"
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: true, margin: "-50px" }}
             variants={sectionVariants}
           >
             <ContactSection />

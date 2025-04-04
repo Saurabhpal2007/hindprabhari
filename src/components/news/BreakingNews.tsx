@@ -35,13 +35,10 @@ const BreakingNews = () => {
 
   return (
     <div className={cn(
-      "bg-gradient-to-r from-red-600 to-red-500 text-white py-2.5 relative z-20 shadow-md border-b border-red-700 transition-all duration-500",
+      "bg-gradient-to-r from-red-600 to-red-500 text-white py-2.5 relative z-20 shadow-md border-b border-red-700",
       isVisible ? "opacity-100" : "opacity-0"
     )}>
-      <motion.div 
-        initial={{ y: 10, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.3 }}
+      <div 
         className="container mx-auto px-4"
       >
         <div className="flex items-center">
@@ -62,14 +59,14 @@ const BreakingNews = () => {
             {breakingNewsItems.map((item, index) => (
               <motion.div 
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 10 }}
                 animate={{ 
                   opacity: currentIndex === index ? 1 : 0,
-                  y: currentIndex === index ? 0 : 20
+                  y: currentIndex === index ? 0 : 10
                 }}
-                transition={{ duration: 0.4 }}
+                transition={{ duration: 0.3 }}
                 className={cn(
-                  "absolute top-0 left-0 right-0 transition-all duration-400 whitespace-nowrap text-ellipsis overflow-hidden text-sm md:text-base",
+                  "absolute top-0 left-0 right-0 transition-all whitespace-nowrap text-ellipsis overflow-hidden text-sm md:text-base",
                   currentIndex === index ? "opacity-100" : "opacity-0"
                 )}
               >
@@ -78,7 +75,7 @@ const BreakingNews = () => {
             ))}
           </div>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 };

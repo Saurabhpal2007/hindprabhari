@@ -39,27 +39,25 @@ const HeroSection = () => {
     }
   };
 
-  // Material design M3 animation variants
+  // Simplified animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: { 
       opacity: 1,
       transition: { 
         staggerChildren: 0.15,
-        delayChildren: 0.3,
-        ease: [0.2, 0, 0, 1], // M3 standard easing
+        delayChildren: 0.2,
       }
     }
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 10 },
     visible: { 
       opacity: 1, 
       y: 0,
       transition: {
-        duration: 0.5,
-        ease: [0.2, 0, 0, 1], // M3 standard easing
+        duration: 0.4,
       }
     }
   };
@@ -69,71 +67,70 @@ const HeroSection = () => {
       id="home"
       className="relative h-full w-full flex items-center justify-center overflow-hidden"
       style={{
-        backgroundPosition: `50% ${offset * 0.5}px`
+        backgroundPosition: `50% ${offset * 0.3}px`
       }}
       initial="hidden"
       animate={isVisible ? "visible" : "hidden"}
       variants={containerVariants}
     >
-      {/* Gradient background - using Material You colors */}
+      {/* Subtle gradient background */}
       <div className="absolute inset-0 bg-gradient-to-b from-background to-card dark:from-background dark:to-card/20"></div>
       
-      {/* Restore the parallax dots pattern with Material Design spacing */}
+      {/* Subtle dots pattern */}
       <div 
-        className="absolute inset-0 bg-[radial-gradient(circle,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent [background-size:24px_24px] [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_70%)] pointer-events-none"
+        className="absolute inset-0 bg-[radial-gradient(circle,_var(--tw-gradient-stops))] from-primary/5 via-transparent to-transparent [background-size:24px_24px] pointer-events-none"
         style={{
           backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)',
-          transform: `translateY(${offset * 0.2}px)`
+          transform: `translateY(${offset * 0.1}px)`
         }}
       ></div>
       
       <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
-        {/* Logo with Material Design elevation */}
+        {/* Logo */}
         <motion.div 
-          className="relative mb-12 mx-auto w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64"
+          className="relative mb-10 mx-auto w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56"
           variants={itemVariants}
         >
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full blur-md"></div>
           <div className="relative flex items-center justify-center h-full">
-            <div className="bg-card/95 dark:bg-card/40 rounded-full p-5 backdrop-blur-sm border border-white/30 dark:border-white/10 md-elevation-2">
-              <div className="w-36 h-36 sm:w-40 sm:h-40 md:w-44 md:h-44 flex items-center justify-center">
+            <div className="bg-card/80 rounded-full p-5">
+              <div className="w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 flex items-center justify-center">
                 <img 
                   src="/assets/logo-main.png" 
                   alt="HindPrabhari" 
-                  className="w-full h-full object-contain animate-md-scale-up"
+                  className="w-full h-full object-contain"
                 />
               </div>
             </div>
           </div>
         </motion.div>
         
-        {/* Hindi slogan with English subtitle - with Material You typography */}
+        {/* Hindi slogan with English subtitle */}
         <motion.h1 
-          className="space-y-4"
+          className="space-y-3"
           variants={itemVariants}
         >
-          <span className="block text-4xl sm:text-5xl md:text-6xl font-bold mb-3 tracking-tight">भारत की धड़कन</span>
-          <span className="block text-lg sm:text-xl md:text-2xl text-muted-foreground mt-2 leading-relaxed tracking-wide">
+          <span className="block text-3xl sm:text-4xl md:text-5xl font-bold mb-2 tracking-tight">भारत की धड़कन</span>
+          <span className="block text-lg sm:text-xl md:text-2xl text-muted-foreground mt-2 leading-relaxed">
             The Pulse of Bharat - Truth in Every Story
           </span>
         </motion.h1>
         
-        {/* Call to action buttons with Material You styling */}
+        {/* Call to action buttons */}
         <motion.div 
-          className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4"
+          className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4"
           variants={itemVariants}
         >
           <Button 
             onClick={scrollToFeatured}
             variant="filled"
-            className="bg-gradient-to-r from-primary to-primary/80 text-primary-foreground px-6 py-6 rounded-full w-full sm:w-auto md-elevation-1 hover:md-elevation-2 transition-all duration-300 h-12"
+            className="px-6 py-2 rounded-full w-full sm:w-auto h-11"
           >
             Explore Now
           </Button>
           <Button 
             variant="outlined" 
             onClick={scrollToContact}
-            className="border-2 border-primary text-primary dark:text-primary hover:bg-primary/10 px-6 py-6 rounded-full w-full sm:w-auto transition-all duration-300 h-12"
+            className="px-6 py-2 rounded-full w-full sm:w-auto h-11"
           >
             Subscribe
           </Button>

@@ -1,6 +1,6 @@
 
-import { User, LogIn, Settings, Bot, MessageCircle } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,105 +9,101 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { User, LogOut, Settings, Bell } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
-import { useAI } from "@/context/AIContext";
-import { useTheme } from "@/components/ui/use-theme";
-import { useState } from "react";
-import ThemeToggle from "./ThemeToggle";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { Link, useNavigate } from "react-router-dom";
-import ChatInterface from "@/components/ai/ChatInterface";
 
 const ProfileDropdown = () => {
   const { toast } = useToast();
-  const { isAIEnabled, toggleAI } = useAI();
-  const { theme } = useTheme();
-  const [chatOpen, setChatOpen] = useState(false);
-  const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // Sample notification count
+  const notificationCount = 3;
 
   const handleLogin = () => {
+    setIsLoggedIn(true);
     toast({
-      title: "Login",
-      description: "Login functionality will be implemented soon.",
+      title: "Logged in",
+      description: "You have been logged in successfully",
     });
   };
 
-  const handleAdminAccess = () => {
-    navigate('/admin');
+  const handleLogout = () => {
+    setIsLoggedIn(false);
     toast({
-      title: "Admin Access",
-      description: "Redirecting to admin portal.",
+      title: "Logged out",
+      description: "You have been logged out successfully",
+    });
+  };
+
+  const handleNotificationsClick = () => {
+    toast({
+      title: "Notifications",
+      description: "You have " + notificationCount + " unread notifications",
     });
   };
 
   return (
-    <>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
+    <div className="flex items-center space-x-1">
+      {isLoggedIn ? (
+        <div className="flex items-center">
           <Button 
+            onClick={handleNotificationsClick}
             variant="ghost" 
-            size="icon"
-            className="rounded-full bg-muted/50 hover:bg-muted h-10 w-10"
-            aria-label="Profile options"
+            size="icon" 
+            className="relative"
           >
-            <User className="h-5 w-5" />
+            <Bell className="h-5 w-5" />
+            {notificationCount > 0 && (
+              <span className="absolute top-0 right-0 h-4 w-4 bg-red-500 rounded-full text-white text-xs flex items-center justify-center">
+                {notificationCount}
+              </span>
+            )}
           </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-56 rounded-xl">
-          <DropdownMenuLabel>My Profile</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={handleLogin} className="rounded-lg focus:bg-accent">
-            <LogIn className="mr-2 h-5 w-5" />
-            <span>Account</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={handleAdminAccess} className="rounded-lg focus:bg-accent">
-            <Settings className="mr-2 h-5 w-5" />
-            <span>Admin</span>
-          </DropdownMenuItem>
           
-          <DropdownMenuSeparator />
-          <DropdownMenuLabel>Preferences</DropdownMenuLabel>
-          
-          <DropdownMenuItem className="rounded-lg focus:bg-accent py-0">
-            <ThemeToggle showIcon={true} showText={true} />
-          </DropdownMenuItem>
-          
-          <DropdownMenuItem 
-            className="rounded-lg focus:bg-accent"
-            onClick={toggleAI}
-          >
-            <Bot className="mr-2 h-5 w-5" />
-            <span>{isAIEnabled ? "Disable AI Assistant" : "Enable AI Assistant"}</span>
-          </DropdownMenuItem>
-          
-          {isAIEnabled && (
-            <DropdownMenuItem 
-              className="rounded-lg focus:bg-accent"
-              onSelect={(e) => {
-                e.preventDefault();
-                setChatOpen(true);
-              }}
-            >
-              <MessageCircle className="mr-2 h-5 w-5" />
-              <span>Chat with AI</span>
-            </DropdownMenuItem>
-          )}
-        </DropdownMenuContent>
-      </DropdownMenu>
-      
-      <Sheet open={chatOpen} onOpenChange={setChatOpen}>
-        <SheetContent className="sm:max-w-md p-0 border-l" side="right">
-          <div className="h-full flex flex-col">
-            <SheetHeader className="px-4 py-2 border-b">
-              <SheetTitle>AI Assistant</SheetTitle>
-            </SheetHeader>
-            <div className="flex-1 overflow-hidden">
-              <ChatInterface />
-            </div>
-          </div>
-        </SheetContent>
-      </Sheet>
-    </>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" className="rounded-full">
+                <Avatar className="h-8 w-8">
+                  <AvatarImage src="/assets/avatar.png" alt="User" />
+                  <AvatarFallback>US</AvatarFallback>
+                </Avatar>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-56">
+              <DropdownMenuLabel>
+                <div className="flex flex-col space-y-1">
+                  <p className="text-sm font-medium">John Doe</p>
+                  <p className="text-xs text-muted-foreground">john@example.com</p>
+                </div>
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <User className="mr-2 h-4 w-4" />
+                <span>Profile</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Settings className="mr-2 h-4 w-4" />
+                <span>Settings</span>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={handleLogout}>
+                <LogOut className="mr-2 h-4 w-4" />
+                <span>Logout</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      ) : (
+        <div className="flex items-center space-x-2">
+          <Button variant="outline" size="sm" onClick={handleLogin}>
+            Sign In
+          </Button>
+          <Button size="sm">Sign Up</Button>
+        </div>
+      )}
+    </div>
   );
 };
 
