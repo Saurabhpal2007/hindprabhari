@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Card, CardContent, CardFooter } from "../ui/card";
 import { cn } from "@/lib/utils";
@@ -91,21 +92,21 @@ const FeaturedArticles = () => {
     // Reset visible articles when tab changes
     setVisibleArticles([]);
     
-    // Simple animation for articles appearing
+    // Staggered animation for articles appearing
     const timer = setTimeout(() => {
       const currentArticles = trendingArticlesData[activeTab as keyof typeof trendingArticlesData];
       currentArticles.forEach((_, index) => {
         setTimeout(() => {
           setVisibleArticles(prev => [...prev, index]);
-        }, index * 150);
+        }, index * 200);
       });
-    }, 150);
+    }, 200);
 
     return () => clearTimeout(timer);
   }, [activeTab]);
 
   return (
-    <div id="trending" className="py-6">
+    <div id="trending" className="py-8">
       <Tabs defaultValue="technology" value={activeTab} onValueChange={setActiveTab} className="w-full">
         <ScrollArea className="pb-2">
           <TabsList className="w-full justify-start overflow-x-auto">
@@ -122,21 +123,24 @@ const FeaturedArticles = () => {
         </ScrollArea>
         
         {categories.map((category) => (
-          <TabsContent key={category} value={category} className="mt-4">
+          <TabsContent key={category} value={category} className="mt-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {trendingArticlesData[category as keyof typeof trendingArticlesData].map((article, index) => (
                 <Card 
                   key={article.id}
                   className={cn(
-                    "overflow-hidden transition-all duration-300 hover:shadow-md relative group",
-                    visibleArticles.includes(index) ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+                    "overflow-hidden transition-all duration-500 hover:shadow-lg relative group",
+                    visibleArticles.includes(index) ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
                   )}
                 >
+                  {/* Hover glow effect */}
+                  <div className={`absolute inset-0 opacity-0 group-hover:opacity-10 bg-gradient-to-br ${article.gradient} blur-xl -z-10 transition-opacity duration-500`}></div>
+                  
                   <div className="relative h-48 overflow-hidden">
                     <img 
                       src={article.imageUrl} 
                       alt={article.title} 
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />
                     <div className="absolute top-2 right-2 bg-black/70 text-white text-xs font-bold px-2 py-1 rounded">
                       {article.category}

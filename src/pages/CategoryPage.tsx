@@ -15,14 +15,11 @@ const CategoryPage = () => {
   }, [category]);
   
   // Format category name for display
-  const formatCategoryName = (name?: string) => {
-    if (!name) return "Category";
+  const formatCategoryName = (name: string) => {
     return name.charAt(0).toUpperCase() + name.slice(1);
   };
   
-  const getCategoryDescription = (name?: string) => {
-    if (!name) return "";
-    
+  const getCategoryDescription = (name: string) => {
     const descriptions: Record<string, string> = {
       politics: "Stay updated with the latest political news, analysis and opinions from India and around the world.",
       technology: "Discover the latest tech innovations, gadget reviews, and digital trends shaping our future.",

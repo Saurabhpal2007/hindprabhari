@@ -1,6 +1,6 @@
 
 import React, { useState, useRef, useEffect } from "react";
-import { Send, Trash2 } from "lucide-react";
+import { Send, X, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
@@ -77,17 +77,17 @@ const ChatInterface: React.FC = () => {
             chatHistory.map((chat) => (
               <div
                 key={chat.id}
-                className={`flex ${chat.type === 'user' ? 'justify-end' : 'justify-start'}`}
+                className={`flex ${chat.isUser ? 'justify-end' : 'justify-start'}`}
               >
                 <div
                   className={`max-w-[80%] px-4 py-2 rounded-lg ${
-                    chat.type === 'user'
+                    chat.isUser
                       ? 'bg-primary text-primary-foreground rounded-tr-none'
                       : 'bg-muted text-muted-foreground rounded-tl-none'
                   }`}
                 >
                   <div className="text-sm">{chat.content}</div>
-                  <div className={`text-xs mt-1 ${chat.type === 'user' ? 'text-primary-foreground/70' : 'text-muted-foreground/70'}`}>
+                  <div className={`text-xs mt-1 ${chat.isUser ? 'text-primary-foreground/70' : 'text-muted-foreground/70'}`}>
                     {formatTime(chat.timestamp)}
                   </div>
                 </div>

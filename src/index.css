@@ -5,7 +5,7 @@
 
 @layer base {
   :root {
-    /* Material Design 3 color scheme - light mode */
+    /* Material Design color scheme - light mode */
     --background: 36 100% 97%;
     --foreground: 20 14.3% 4.1%;
 
@@ -34,36 +34,21 @@
     --input: 20 5.9% 90%;
     --ring: 24.6 95% 53.1%;
 
-    /* Material Design 3 elevation shadows */
-    --md-elevation-level1: 0px 1px 2px 0px rgba(0, 0, 0, 0.3), 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
-    --md-elevation-level2: 0px 2px 6px 2px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.3);
-    --md-elevation-level3: 0px 4px 8px 3px rgba(0, 0, 0, 0.15), 0px 1px 3px 0px rgba(0, 0, 0, 0.3);
-    --md-elevation-level4: 0px 6px 10px 4px rgba(0, 0, 0, 0.15), 0px 2px 3px 0px rgba(0, 0, 0, 0.3);
-    --md-elevation-level5: 0px 8px 12px 6px rgba(0, 0, 0, 0.15), 0px 4px 4px 0px rgba(0, 0, 0, 0.3);
+    /* Material Design specific variables */
+    --md-elevation-level1: 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+    --md-elevation-level2: 0px 3px 6px 0px rgba(0, 0, 0, 0.15);
+    --md-elevation-level3: 0px 10px 20px 0px rgba(0, 0, 0, 0.18);
     
-    /* Material Design 3 state layer opacities */
-    --md-state-hover-opacity: 0.08;
-    --md-state-focus-opacity: 0.12; 
-    --md-state-pressed-opacity: 0.12;
-    --md-state-dragged-opacity: 0.16;
-    
-    /* Material Design 3 motion tokens */
-    --md-motion-duration-small: 100ms;
-    --md-motion-duration-medium: 200ms;
-    --md-motion-duration-large: 500ms;
-    
-    --md-motion-easing-standard: cubic-bezier(0.2, 0, 0, 1);
-    --md-motion-easing-emphasized: cubic-bezier(0.2, 0, 0, 1);
-    --md-motion-easing-emphasized-decelerate: cubic-bezier(0.05, 0.7, 0.1, 1);
-    --md-motion-easing-emphasized-accelerate: cubic-bezier(0.3, 0, 0.8, 0.15);
+    /* Haptic feedback timing */
+    --haptic-short: 100ms;
+    --haptic-medium: 200ms;
+    --haptic-long: 300ms;
 
-    /* Legacy radius values - for backward compatibility */
     --radius: 1rem;
     --radius-full: 9999px;
     --radius-md: 0.75rem;
     --radius-sm: 0.5rem;
 
-    /* Sidebar theme */
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
     --sidebar-primary: 240 5.9% 10%;
@@ -75,7 +60,7 @@
   }
 
   .dark {
-    /* Material Design 3 color scheme - dark mode */
+    /* Material Design color scheme - dark mode */
     --background: 20 14.3% 4.1%;
     --foreground: 60 9.1% 97.8%;
 
@@ -104,14 +89,11 @@
     --input: 12 6.5% 15.1%;
     --ring: 20.5 90.2% 48.2%;
 
-    /* Material Design 3 elevation shadows for dark mode */
-    --md-elevation-level1: 0px 1px 3px 1px rgba(0, 0, 0, 0.25), 0px 1px 2px 0px rgba(0, 0, 0, 0.5);
-    --md-elevation-level2: 0px 2px 6px 2px rgba(0, 0, 0, 0.25), 0px 1px 2px 0px rgba(0, 0, 0, 0.5);
-    --md-elevation-level3: 0px 4px 8px 3px rgba(0, 0, 0, 0.25), 0px 1px 3px 0px rgba(0, 0, 0, 0.5);
-    --md-elevation-level4: 0px 6px 10px 4px rgba(0, 0, 0, 0.25), 0px 2px 3px 0px rgba(0, 0, 0, 0.5);
-    --md-elevation-level5: 0px 8px 12px 6px rgba(0, 0, 0, 0.25), 0px 4px 4px 0px rgba(0, 0, 0, 0.5);
+    /* Material Design specific variables for dark mode */
+    --md-elevation-level1: 0px 1px 3px 0px rgba(0, 0, 0, 0.5);
+    --md-elevation-level2: 0px 3px 6px 0px rgba(0, 0, 0, 0.6);
+    --md-elevation-level3: 0px 10px 20px 0px rgba(0, 0, 0, 0.7);
 
-    /* Sidebar theme - dark mode */
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -133,183 +115,106 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
   
-  /* Material Design 3 typography scale */
+  /* Material Design typography scale */
   h1 {
     @apply text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl;
-    line-height: 1.2;
   }
   
   h2 {
     @apply text-3xl font-semibold tracking-tight sm:text-4xl;
-    line-height: 1.3;
   }
   
   h3 {
     @apply text-2xl font-semibold tracking-tight sm:text-3xl;
-    line-height: 1.4;
   }
   
   h4 {
     @apply text-xl font-medium tracking-tight sm:text-2xl;
-    line-height: 1.4;
   }
   
   h5 {
     @apply text-lg font-medium tracking-tight;
-    line-height: 1.5;
   }
   
   h6 {
     @apply text-base font-medium tracking-tight;
-    line-height: 1.5;
-  }
-  
-  p {
-    @apply text-base leading-relaxed;
-    line-height: 1.6;
   }
 }
 
 @layer utilities {
-  /* Material Design 3 text and background gradients */
   .text-gradient {
-    @apply bg-gradient-to-r from-primary to-orange-500 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent;
   }
   
   .bg-gradient {
-    @apply bg-gradient-to-r from-primary to-orange-500;
-  }
-
-  /* Material Design surface gradient for cards */
-  .surface-gradient {
-    @apply bg-gradient-to-br from-card to-card/90;
+    @apply bg-gradient-to-r from-orange-500 to-amber-500;
   }
   
-  /* Material Design 3 elevation classes */
+  /* Material Design elevation classes */
   .md-elevation-1 {
     box-shadow: var(--md-elevation-level1);
-    @apply transition-shadow duration-300;
   }
   
   .md-elevation-2 {
     box-shadow: var(--md-elevation-level2);
-    @apply transition-shadow duration-300;
   }
   
   .md-elevation-3 {
     box-shadow: var(--md-elevation-level3);
-    @apply transition-shadow duration-300;
   }
   
-  .md-elevation-4 {
-    box-shadow: var(--md-elevation-level4);
-    @apply transition-shadow duration-300;
-  }
-  
-  .md-elevation-5 {
-    box-shadow: var(--md-elevation-level5);
-    @apply transition-shadow duration-300;
-  }
-  
-  /* Material Design 3 card styles */
   .md-card {
     @apply rounded-lg bg-card md-elevation-1 transition-shadow duration-300 hover:md-elevation-2;
   }
   
-  /* Material Design 3 state layer */
+  /* Material Design states */
   .md-state-layer {
     @apply relative overflow-hidden;
   }
   
   .md-state-layer::after {
-    @apply absolute inset-0 bg-current opacity-0 transition-opacity duration-300 content-[''] pointer-events-none;
-    transition-timing-function: var(--md-motion-easing-standard);
+    @apply absolute inset-0 bg-current opacity-0 transition-opacity duration-300 content-[''];
   }
   
   .md-state-layer:hover::after {
-    opacity: var(--md-state-hover-opacity);
-  }
-  
-  .md-state-layer:focus-visible::after {
-    opacity: var(--md-state-focus-opacity);
+    @apply opacity-10;
   }
   
   .md-state-layer:active::after {
-    opacity: var(--md-state-pressed-opacity);
+    @apply opacity-20;
+    animation: ripple var(--haptic-short) ease-out;
   }
   
-  /* Material Design 3 container shapes */
-  .md-container-shape-xs {
-    @apply rounded-xs overflow-hidden;
-  }
-  
-  .md-container-shape-sm {
-    @apply rounded-sm overflow-hidden;
-  }
-  
-  .md-container-shape-md {
-    @apply rounded-md overflow-hidden;
+  /* Material Design container shapes */
+  .md-container-shape {
+    @apply rounded-2xl overflow-hidden;
   }
   
   .md-container-shape-lg {
-    @apply rounded-lg overflow-hidden;
-  }
-  
-  .md-container-shape-xl {
-    @apply rounded-xl overflow-hidden;
+    @apply rounded-3xl overflow-hidden;
   }
   
   .md-container-shape-full {
     @apply rounded-full overflow-hidden;
   }
   
-  /* Material Design 3 glass effect */
   .glassmorphism {
     @apply bg-background/80 backdrop-blur-lg border border-border/50 shadow-sm;
   }
   
-  /* Material Design 3 ripple animation */
-  .md-ripple {
-    @apply relative overflow-hidden;
+  .hover-glow {
+    @apply hover:shadow-[0_0_15px_rgba(255,152,0,0.5)] transition-shadow duration-300;
   }
   
-  .md-ripple::after {
-    content: '';
-    position: absolute;
-    width: 5px;
-    height: 5px;
-    background: currentColor;
-    opacity: 0;
-    border-radius: 50%;
-    transform: scale(1);
-    animation: none;
-    pointer-events: none;
-  }
-  
-  .md-ripple:active::after {
-    opacity: var(--md-state-pressed-opacity);
-    animation: md-ripple var(--md-motion-duration-large) var(--md-motion-easing-emphasized);
-  }
-  
-  /* Material Design 3 adaptive container */
-  .md-container {
-    @apply px-4 sm:px-6 md:px-8 lg:px-12 mx-auto max-w-7xl;
-  }
-  
-  /* Material Design 3 transitions */
-  .md-transition-standard {
-    transition-duration: var(--md-motion-duration-medium);
-    transition-timing-function: var(--md-motion-easing-standard);
-  }
-  
-  .md-transition-emphasized {
-    transition-duration: var(--md-motion-duration-large);
-    transition-timing-function: var(--md-motion-easing-emphasized);
-  }
-  
-  /* Material Design 3 focus ring */
-  .md-focus-ring:focus-visible {
-    @apply outline-none ring-2 ring-ring ring-offset-2;
-    transition: outline var(--md-motion-duration-small) var(--md-motion-easing-standard);
+  /* Material Design ripple animation */
+  @keyframes ripple {
+    0% {
+      transform: scale(0);
+      opacity: 0.5;
+    }
+    100% {
+      transform: scale(2.5);
+      opacity: 0;
+    }
   }
 }

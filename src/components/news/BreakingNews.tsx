@@ -35,23 +35,26 @@ const BreakingNews = () => {
 
   return (
     <div className={cn(
-      "bg-gradient-to-r from-red-600 to-red-500 text-white py-2.5 relative z-20 shadow-md border-b border-red-700",
+      "bg-gradient-to-r from-red-600 to-red-500 text-white py-2.5 relative z-20 shadow-md border-b border-red-700 transition-all duration-500",
       isVisible ? "opacity-100" : "opacity-0"
     )}>
-      <div 
+      <motion.div 
+        initial={{ y: 10, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.3 }}
         className="container mx-auto px-4"
       >
         <div className="flex items-center">
-          <div className="flex-shrink-0 flex items-center mr-2 md:mr-4 font-medium">
-            <div className="bg-white text-red-600 p-1 rounded-full mr-1 md:mr-2">
-              <AlertCircle className="h-4 w-4 md:h-5 md:w-5" />
+          <div className="flex-shrink-0 flex items-center mr-4 font-medium">
+            <div className="bg-white text-red-600 p-1 rounded-full mr-2">
+              <AlertCircle className="h-5 w-5" />
             </div>
             <span className="hidden sm:inline text-base tracking-wide">BREAKING</span>
-            <span className="sm:hidden text-xs md:text-base">LIVE</span>
+            <span className="sm:hidden text-base">LIVE</span>
           </div>
           
           <div 
-            className="relative overflow-hidden flex-grow h-5 md:h-7" 
+            className="relative overflow-hidden flex-grow h-7" 
             ref={tickerRef}
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
@@ -59,14 +62,14 @@ const BreakingNews = () => {
             {breakingNewsItems.map((item, index) => (
               <motion.div 
                 key={index}
-                initial={{ opacity: 0, y: 10 }}
+                initial={{ opacity: 0, y: 20 }}
                 animate={{ 
                   opacity: currentIndex === index ? 1 : 0,
-                  y: currentIndex === index ? 0 : 10
+                  y: currentIndex === index ? 0 : 20
                 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 0.4 }}
                 className={cn(
-                  "absolute top-0 left-0 right-0 transition-all whitespace-nowrap text-ellipsis overflow-hidden text-sm md:text-base",
+                  "absolute top-0 left-0 right-0 transition-all duration-400 whitespace-nowrap text-ellipsis overflow-hidden text-base",
                   currentIndex === index ? "opacity-100" : "opacity-0"
                 )}
               >
@@ -75,7 +78,7 @@ const BreakingNews = () => {
             ))}
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };
