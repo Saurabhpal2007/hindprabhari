@@ -22,6 +22,9 @@ const buttonVariants = cva(
         // Alias for outlined
         outline: "border border-input bg-background hover:bg-accent/80 hover:text-accent-foreground rounded-md",
         
+        // Filled button (alias for default with different semantic meaning)
+        filled: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm rounded-md",
+        
         // Filled tonal button (secondary emphasis)
         tonal: "bg-secondary text-secondary-foreground hover:bg-secondary/80 rounded-md",
         
