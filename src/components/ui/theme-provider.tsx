@@ -12,11 +12,13 @@ type ThemeProviderProps = {
 type ThemeProviderState = {
   theme: Theme;
   setTheme: (theme: Theme) => void;
+  toggleTheme: () => void; // Added toggleTheme method to fix the error
 };
 
 const initialState: ThemeProviderState = {
   theme: "system",
   setTheme: () => null,
+  toggleTheme: () => null,
 };
 
 const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
@@ -47,12 +49,26 @@ export function ThemeProvider({
     root.classList.add(theme);
   }, [theme]);
 
+  // Add toggleTheme function
+  const toggleTheme = () => {
+    if (theme === 'light') {
+      setTheme('dark');
+    } else if (theme === 'dark') {
+      setTheme('light');
+    } else {
+      // If system, check what the system theme is and set the opposite
+      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      setTheme(systemTheme === 'light' ? 'dark' : 'light');
+    }
+  };
+
   const value = {
     theme,
     setTheme: (theme: Theme) => {
       localStorage.setItem(storageKey, theme);
       setTheme(theme);
     },
+    toggleTheme,
   };
 
   return (

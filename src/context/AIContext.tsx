@@ -1,25 +1,30 @@
 
 import React, { createContext, useContext, useState, useCallback } from 'react';
 
-// Define types for the AI context
-interface AIContextType {
-  isAIOpen: boolean;
-  toggleAI: () => void;
-  closeAI: () => void;
-  openAI: () => void;
-  chatHistory: ChatMessage[];
-  addMessage: (message: ChatMessage) => void;
-  isLoading: boolean;
-  setIsLoading: (loading: boolean) => void;
-  clearChatHistory: () => void;
-}
-
 // Define chat message type
 export interface ChatMessage {
   id: string;
   type: 'user' | 'ai';
-  message: string;
+  content: string;
   timestamp: Date;
+  isUser?: boolean; // Added for backward compatibility
+}
+
+// Define types for the AI context
+interface AIContextType {
+  isAIOpen: boolean;
+  isAIEnabled: boolean;
+  toggleAI: () => void;
+  closeAI: () => void;
+  openAI: () => void;
+  chatHistory: ChatMessage[];
+  addMessage: (message: string, isUser: boolean) => void;
+  isLoading: boolean;
+  setIsLoading: (loading: boolean) => void;
+  clearChatHistory: () => void;
+  clearChat: () => void;
+  apiKey: string;
+  setApiKey: (key: string) => void;
 }
 
 // Create context with default values
@@ -27,11 +32,13 @@ const AIContext = createContext<AIContextType | undefined>(undefined);
 
 export const AIProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isAIOpen, setIsAIOpen] = useState(false);
+  const [isAIEnabled, setIsAIEnabled] = useState(true);
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [apiKey, setApiKey] = useState('');
 
   const toggleAI = useCallback(() => {
-    setIsAIOpen(prev => !prev);
+    setIsAIEnabled(prev => !prev);
   }, []);
 
   const closeAI = useCallback(() => {
@@ -42,16 +49,28 @@ export const AIProvider: React.FC<{ children: React.ReactNode }> = ({ children }
     setIsAIOpen(true);
   }, []);
 
-  const addMessage = useCallback((message: ChatMessage) => {
-    setChatHistory(prev => [...prev, message]);
+  const addMessage = useCallback((message: string, isUser: boolean) => {
+    const newMessage: ChatMessage = {
+      id: Date.now().toString(),
+      type: isUser ? 'user' : 'ai',
+      content: message,
+      timestamp: new Date(),
+      isUser: isUser
+    };
+    setChatHistory(prev => [...prev, newMessage]);
   }, []);
 
   const clearChatHistory = useCallback(() => {
     setChatHistory([]);
   }, []);
 
+  const clearChat = useCallback(() => {
+    setChatHistory([]);
+  }, []);
+
   const value = {
     isAIOpen,
+    isAIEnabled,
     toggleAI,
     closeAI,
     openAI,
@@ -60,6 +79,9 @@ export const AIProvider: React.FC<{ children: React.ReactNode }> = ({ children }
     isLoading,
     setIsLoading,
     clearChatHistory,
+    clearChat,
+    apiKey,
+    setApiKey,
   };
 
   return <AIContext.Provider value={value}>{children}</AIContext.Provider>;
