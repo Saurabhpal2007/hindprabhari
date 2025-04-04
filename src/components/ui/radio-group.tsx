@@ -21,19 +21,26 @@ RadioGroup.displayName = RadioGroupPrimitive.Root.displayName
 
 const RadioGroupItem = React.forwardRef<
   React.ElementRef<typeof RadioGroupPrimitive.Item>,
-  React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item>
->(({ className, ...props }, ref) => {
+  React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item> & {
+    size?: "default" | "sm" | "lg";
+  }
+>(({ className, size = "default", ...props }, ref) => {
   return (
     <RadioGroupPrimitive.Item
       ref={ref}
       className={cn(
-        "aspect-square h-5 w-5 rounded-full border border-primary text-primary ring-offset-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+        "aspect-square rounded-full border-2 border-primary text-primary relative",
+        size === "sm" ? "h-4 w-4" : size === "lg" ? "h-6 w-6" : "h-5 w-5",
+        "ring-offset-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
         className
       )}
       {...props}
     >
       <RadioGroupPrimitive.Indicator className="flex items-center justify-center">
-        <Circle className="h-3 w-3 fill-current" />
+        <Circle className={cn(
+          "fill-current",
+          size === "sm" ? "h-2 w-2" : size === "lg" ? "h-3.5 w-3.5" : "h-2.5 w-2.5"
+        )} />
       </RadioGroupPrimitive.Indicator>
     </RadioGroupPrimitive.Item>
   )

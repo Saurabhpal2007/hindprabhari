@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Header from "../components/layout/Header";
@@ -15,6 +14,7 @@ import { useToast } from "../components/ui/use-toast";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import MaterialDesignDemo from "../components/examples/MaterialDesignDemo";
 
 const Index = () => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -36,7 +36,6 @@ const Index = () => {
   }, [toast]);
 
   useEffect(() => {
-    // Handle scrolling based on hash or state
     if (location.hash) {
       const sectionId = location.hash.slice(1);
       setTimeout(() => {
@@ -55,7 +54,6 @@ const Index = () => {
     }
   }, [location]);
 
-  // Material Design animation variants
   const sectionVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { 
@@ -80,7 +78,6 @@ const Index = () => {
       
       <main className="flex-grow">
         <div className={`transition-opacity duration-700 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
-          {/* Search bar section with increased padding and prominence */}
           <motion.div 
             className="bg-gradient-to-b from-background/80 to-background py-10 px-4 md-elevation-1"
             initial="hidden"
@@ -132,6 +129,20 @@ const Index = () => {
               </div>
               <CategoryCards />
             </div>
+          </motion.section>
+          
+          <motion.section 
+            id="material-design" 
+            className="container mx-auto py-16 px-4"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={sectionVariants}
+          >
+            <div className="flex justify-between items-center mb-8">
+              <h2 className="text-3xl font-semibold"><span className="text-gradient-heading">Material Design 3</span></h2>
+            </div>
+            <MaterialDesignDemo />
           </motion.section>
           
           <motion.section 

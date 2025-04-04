@@ -3,9 +3,10 @@ import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Card, CardContent, CardFooter } from "../ui/card";
 import { cn } from "@/lib/utils";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "../ui/tabs";
 import { ScrollArea } from "../ui/scroll-area";
 import { ArrowRight } from "lucide-react";
+import { SegmentedButton } from "@/components/ui/segmented-button";
+import { EnhancedTooltip, EnhancedTooltipContent, EnhancedTooltipProvider, EnhancedTooltipTrigger } from "@/components/ui/enhanced-tooltip";
 
 // Sample trending articles data
 const trendingArticlesData = {
@@ -87,6 +88,12 @@ const FeaturedArticles = () => {
   const [visibleArticles, setVisibleArticles] = useState<number[]>([]);
   const [activeTab, setActiveTab] = useState<string>("technology");
   const categories = Object.keys(trendingArticlesData);
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
+
+  const categoryOptions = categories.map(category => ({
+    value: category,
+    label: category.charAt(0).toUpperCase() + category.slice(1)
+  }));
 
   useEffect(() => {
     // Reset visible articles when tab changes
@@ -107,23 +114,22 @@ const FeaturedArticles = () => {
 
   return (
     <div id="trending" className="py-8">
-      <Tabs defaultValue="technology" value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <ScrollArea className="pb-2">
-          <TabsList className="w-full justify-start overflow-x-auto">
-            {categories.map((category) => (
-              <TabsTrigger 
-                key={category} 
-                value={category}
-                className="text-sm capitalize"
-              >
-                {category}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-        </ScrollArea>
-        
+      <div className="flex justify-center mb-6">
+        <SegmentedButton
+          options={categoryOptions}
+          value={activeTab}
+          onChange={setActiveTab}
+          className="shadow-sm"
+          size="default"
+        />
+      </div>
+
+      <EnhancedTooltipProvider>
         {categories.map((category) => (
-          <TabsContent key={category} value={category} className="mt-6">
+          <div 
+            key={category} 
+            className={`${activeTab === category ? "block" : "hidden"} mt-6`}
+          >
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {trendingArticlesData[category as keyof typeof trendingArticlesData].map((article, index) => (
                 <Card 
@@ -148,9 +154,17 @@ const FeaturedArticles = () => {
                   </div>
                   
                   <CardContent className="pt-4">
-                    <h3 className="font-bold text-lg mb-2 line-clamp-2">
-                      {article.title}
-                    </h3>
+                    <EnhancedTooltip>
+                      <EnhancedTooltipTrigger asChild>
+                        <h3 className="font-bold text-lg mb-2 line-clamp-2 cursor-help">
+                          {article.title}
+                        </h3>
+                      </EnhancedTooltipTrigger>
+                      <EnhancedTooltipContent variant="rich" title="Article Summary">
+                        {article.excerpt}
+                        <p className="mt-1 text-xs text-muted-foreground">Click to read the full story</p>
+                      </EnhancedTooltipContent>
+                    </EnhancedTooltip>
                     <p className="text-muted-foreground text-sm line-clamp-3">
                       {article.excerpt}
                     </p>
@@ -167,9 +181,9 @@ const FeaturedArticles = () => {
                 </Card>
               ))}
             </div>
-          </TabsContent>
+          </div>
         ))}
-      </Tabs>
+      </EnhancedTooltipProvider>
     </div>
   );
 };
