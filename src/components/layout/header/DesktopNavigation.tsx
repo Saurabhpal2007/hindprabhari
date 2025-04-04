@@ -39,7 +39,7 @@ const DesktopNavigation = ({
               <Button
                 asChild
                 variant="text"
-                className="h-9 px-3 py-1.5 text-sm font-medium transition-colors hover:text-primary flex items-center rounded-md"
+                className="h-10 px-3 py-2 text-sm font-medium md-transition-standard md-state-layer rounded-none"
               >
                 <NavLink
                   to={item.path}
@@ -52,7 +52,7 @@ const DesktopNavigation = ({
                 >
                   {item.name}
                   <svg
-                    className="ml-1 h-3 w-3 text-muted-foreground transition-transform group-hover:rotate-180"
+                    className="ml-1 h-3 w-3 text-muted-foreground transition-transform group-hover:rotate-180 md-transition-standard"
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
                     height="24"
@@ -68,13 +68,13 @@ const DesktopNavigation = ({
                 </NavLink>
               </Button>
               
-              <div className="absolute left-0 top-full z-50 mt-1 hidden w-56 overflow-hidden rounded-md border bg-popover p-1 shadow-lg group-hover:block">
+              <div className="absolute left-0 top-full z-50 mt-1 hidden w-56 overflow-hidden rounded-md border bg-popover p-1 shadow-md-elevation-1 group-hover:block md-transition-standard">
                 {categories.map((category) => (
                   <Button
                     key={category.id}
                     variant="text"
                     asChild
-                    className="block w-full justify-start px-3 py-2 text-sm hover:bg-accent hover:text-accent-foreground rounded-md h-auto"
+                    className="block w-full justify-start px-3 py-2 text-sm hover:bg-accent hover:text-accent-foreground rounded-md h-12 md-state-layer"
                   >
                     <NavLink
                       to={category.path}
@@ -96,7 +96,7 @@ const DesktopNavigation = ({
             <Button
               key={item.id}
               variant="text"
-              className="h-9 px-3 py-1.5"
+              className="h-10 px-4 py-2 md-state-layer rounded-none"
               asChild
             >
               <NavLink
@@ -109,13 +109,12 @@ const DesktopNavigation = ({
                 }}
                 className={({ isActive }) =>
                   cn(
-                    "text-sm font-medium transition-colors hover:text-primary rounded-md relative group",
-                    isActive ? "text-primary" : ""
+                    "text-sm font-medium md-transition-standard hover:text-primary relative",
+                    isActive ? "text-primary after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-primary" : ""
                   )
                 }
               >
                 {item.name}
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
               </NavLink>
             </Button>
           );

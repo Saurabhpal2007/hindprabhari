@@ -65,41 +65,38 @@ export default {
 				}
 			},
 			borderRadius: {
-				lg: 'var(--radius)',
-				md: 'var(--radius-md)',
-				sm: 'var(--radius-sm)',
-				full: 'var(--radius-full)',
-				// Material You radius scale
-				'xs': '4px',
-				'md': '12px',
-				'lg': '16px',
-				'xl': '24px',
-				'2xl': '28px',
+				// Material Design 3 shape scale
+				'none': '0px',
+				'xs': '4px', // Extra Small
+				'sm': '8px', // Small
+				'md': '12px', // Medium
+				'lg': '16px', // Large
+				'xl': '28px', // Extra Large
+				'full': '9999px', // Full (pill or circular)
+				
+				// Legacy radius values
+				DEFAULT: 'var(--radius)',
+				'DEFAULT': 'var(--radius)',
+				'radius-md': 'var(--radius-md)',
+				'radius-sm': 'var(--radius-sm)',
+				'radius-full': 'var(--radius-full)',
 			},
 			keyframes: {
 				'accordion-down': {
-					from: {
-						height: '0'
-					},
-					to: {
-						height: 'var(--radix-accordion-content-height)'
-					}
+					from: { height: '0' },
+					to: { height: 'var(--radix-accordion-content-height)' }
 				},
 				'accordion-up': {
-					from: {
-						height: 'var(--radix-accordion-content-height)'
-					},
-					to: {
-						height: '0'
-					}
+					from: { height: 'var(--radix-accordion-content-height)' },
+					to: { height: '0' }
 				},
 				'fade-in': {
-					'0%': { opacity: '0', transform: 'translateY(10px)' },
+					'0%': { opacity: '0', transform: 'translateY(8px)' },
 					'100%': { opacity: '1', transform: 'translateY(0)' }
 				},
 				'fade-out': {
 					'0%': { opacity: '1', transform: 'translateY(0)' },
-					'100%': { opacity: '0', transform: 'translateY(10px)' }
+					'100%': { opacity: '0', transform: 'translateY(8px)' }
 				},
 				'scale-in': {
 					'0%': { transform: 'scale(0.95)', opacity: '0' },
@@ -114,17 +111,13 @@ export default {
 					'50%': { opacity: '1' }
 				},
 				'ripple': {
-					'0%': { transform: 'scale(0)', opacity: '0.5' },
-					'100%': { transform: 'scale(2.5)', opacity: '0' }
+					'0%': { transform: 'scale(0)', opacity: '0.12' },
+					'100%': { transform: 'scale(2)', opacity: '0' }
 				},
-				'float': {
-					'0%, 100%': { transform: 'translateY(0)' },
-					'50%': { transform: 'translateY(-10px)' }
-				},
-				// Material You specific animations
+				// Material Design 3 specific animations
 				'md-ripple': {
 					'0%': { transform: 'scale(0)', opacity: '0.12' },
-					'100%': { transform: 'scale(100)', opacity: '0' }
+					'100%': { transform: 'scale(2)', opacity: '0' }
 				},
 				'md-fade-in': {
 					'0%': { opacity: '0', transform: 'translateY(8px)' },
@@ -137,33 +130,30 @@ export default {
 				'md-fade-in-left': {
 					'0%': { opacity: '0', transform: 'translateX(-8px)' },
 					'100%': { opacity: '1', transform: 'translateX(0)' }
-				},
-				'md-stagger-in': {
-					'0%': { opacity: '0', transform: 'translateY(10px)' },
-					'100%': { opacity: '1', transform: 'translateY(0)' }
 				}
 			},
 			animation: {
-				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out',
-				'fade-in': 'fade-in 0.5s ease-out',
-				'fade-out': 'fade-out 0.5s ease-out',
-				'scale-in': 'scale-in 0.3s ease-out',
+				'accordion-down': 'accordion-down 0.2s var(--md-motion-easing-standard)',
+				'accordion-up': 'accordion-up 0.2s var(--md-motion-easing-standard)',
+				'fade-in': 'fade-in 0.3s var(--md-motion-easing-standard)',
+				'fade-out': 'fade-out 0.3s var(--md-motion-easing-standard)',
+				'scale-in': 'scale-in 0.2s var(--md-motion-easing-standard)',
 				'slide': 'slide 25s linear infinite',
 				'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
-				'ripple': 'ripple 0.6s ease-out',
-				'float': 'float 6s ease-in-out infinite',
-				// Material You animations
-				'md-ripple': 'md-ripple 0.5s cubic-bezier(0.2, 0, 0, 1)',
-				'md-fade-in': 'md-fade-in 0.3s cubic-bezier(0.2, 0, 0, 1)',
-				'md-scale-up': 'md-scale-up 0.3s cubic-bezier(0.2, 0, 0, 1)',
-				'md-fade-in-left': 'md-fade-in-left 0.3s cubic-bezier(0.2, 0, 0, 1)',
-				'md-stagger-in': 'md-stagger-in 0.5s cubic-bezier(0.05, 0.7, 0.1, 1)'
+				'ripple': 'ripple 0.5s var(--md-motion-easing-standard)',
+				// Material Design 3 animations
+				'md-ripple': 'md-ripple 0.5s var(--md-motion-easing-standard)',
+				'md-fade-in': 'md-fade-in 0.3s var(--md-motion-easing-standard)',
+				'md-scale-up': 'md-scale-up 0.3s var(--md-motion-easing-standard)',
+				'md-fade-in-left': 'md-fade-in-left 0.3s var(--md-motion-easing-standard)',
 			},
 			boxShadow: {
+				// Material Design 3 elevation levels
 				'elevation-1': 'var(--md-elevation-level1)',
 				'elevation-2': 'var(--md-elevation-level2)',
 				'elevation-3': 'var(--md-elevation-level3)',
+				'elevation-4': 'var(--md-elevation-level4)',
+				'elevation-5': 'var(--md-elevation-level5)',
 			}
 		}
 	},

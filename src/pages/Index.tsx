@@ -55,14 +55,14 @@ const Index = () => {
     }
   }, [location]);
 
-  // Simplified motion variants
+  // Simplified motion variants with reduced animation values
   const sectionVariants = {
-    hidden: { opacity: 0, y: 10 },
+    hidden: { opacity: 0, y: 5 }, // Reduced y value from 10 to 5
     visible: { 
       opacity: 1, 
       y: 0,
       transition: {
-        duration: 0.4
+        duration: 0.3 // Reduced from 0.4 to 0.3 for faster animations
       }
     }
   };
@@ -71,20 +71,20 @@ const Index = () => {
     <div className="min-h-screen flex flex-col bg-background overflow-x-hidden">
       <div className="h-screen flex flex-col">
         <Header />
-        <div className={`flex-grow flex flex-col transition-opacity ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
+        <div className="flex-grow flex flex-col transition-opacity duration-300 ease-in-out" style={{opacity: isLoaded ? 1 : 0}}>
           <HeroSection />
         </div>
         <BreakingNews />
       </div>
       
       <main className="flex-grow">
-        <div className={`transition-opacity ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
+        <div className="transition-opacity duration-300 ease-in-out" style={{opacity: isLoaded ? 1 : 0}}>
           {/* Search bar section */}
           <motion.div 
             className="bg-gradient-to-b from-background/80 to-background py-8 px-4"
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, margin: "-50px" }}
+            viewport={{ once: true, margin: "-100px" }}
             variants={sectionVariants}
           >
             <div className="container mx-auto max-w-4xl">
@@ -97,7 +97,7 @@ const Index = () => {
             className="container mx-auto py-12 px-4"
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, margin: "-50px" }}
+            viewport={{ once: true, margin: "-100px" }}
             variants={sectionVariants}
           >
             <div className="flex justify-between items-center mb-6">
@@ -119,7 +119,7 @@ const Index = () => {
             className="bg-muted/30 py-12 px-4"
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, margin: "-50px" }}
+            viewport={{ once: true, margin: "-100px" }}
             variants={sectionVariants}
           >
             <div className="container mx-auto">
@@ -138,7 +138,7 @@ const Index = () => {
             className="container mx-auto py-12 px-4"
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, margin: "-50px" }}
+            viewport={{ once: true, margin: "-100px" }}
             variants={sectionVariants}
           >
             <div className="flex justify-between items-center mb-6">
@@ -154,7 +154,7 @@ const Index = () => {
             id="about"
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, margin: "-50px" }}
+            viewport={{ once: true, margin: "-100px" }}
             variants={sectionVariants}
           >
             <AboutUsSection />
@@ -164,7 +164,7 @@ const Index = () => {
             id="contact"
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, margin: "-50px" }}
+            viewport={{ once: true, margin: "-100px" }}
             variants={sectionVariants}
           >
             <ContactSection />

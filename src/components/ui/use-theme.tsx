@@ -12,7 +12,7 @@ type ThemeProviderProps = {
 type ThemeProviderState = {
   theme: Theme;
   setTheme: (theme: Theme) => void;
-  toggleTheme: () => void; // Added toggleTheme method to fix the error
+  toggleTheme: () => void; 
 };
 
 const initialState: ThemeProviderState = {
@@ -43,10 +43,15 @@ export function ThemeProvider({
         ? "dark"
         : "light";
       root.classList.add(systemTheme);
+      
+      // Set material theme data attribute for component theming
+      root.setAttribute('data-md-theme', systemTheme);
       return;
     }
 
     root.classList.add(theme);
+    // Set material theme data attribute for component theming
+    root.setAttribute('data-md-theme', theme);
   }, [theme]);
 
   // Add toggleTheme function

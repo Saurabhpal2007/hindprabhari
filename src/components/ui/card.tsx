@@ -77,7 +77,7 @@ const CardFooter = React.forwardRef<
 ))
 CardFooter.displayName = "CardFooter"
 
-// Create new elevation variants for Material You styling
+// Material Design 3 card variants
 const CardElevated = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
@@ -85,7 +85,7 @@ const CardElevated = React.forwardRef<
   <Card
     ref={ref}
     className={cn(
-      "shadow-md hover:shadow-lg md-elevation-2",
+      "border-0 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow",
       className
     )}
     {...props}
@@ -100,7 +100,7 @@ const CardFilled = React.forwardRef<
   <Card
     ref={ref}
     className={cn(
-      "border-0 bg-secondary/30 hover:bg-secondary/40",
+      "border-0 bg-secondary/30 hover:bg-secondary/40 transition-colors",
       className
     )}
     {...props}
@@ -115,7 +115,7 @@ const CardOutlined = React.forwardRef<
   <Card
     ref={ref}
     className={cn(
-      "bg-transparent border-2 border-border hover:border-primary/50 shadow-none",
+      "bg-transparent border border-border hover:border-primary/50 shadow-none transition-colors",
       className
     )}
     {...props}
