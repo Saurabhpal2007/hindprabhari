@@ -117,6 +117,7 @@ const HeroSection = () => {
           <Button 
             onClick={scrollToFeatured}
             className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-6 py-6 rounded-full w-full sm:w-auto shadow-lg hover:shadow-xl transition-all duration-300 h-11"
+            variant="default" // Changed from "filled" to "default"
           >
             Explore Now
           </Button>

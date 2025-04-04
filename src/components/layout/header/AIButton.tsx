@@ -13,6 +13,7 @@ import AISettings from "@/components/ai/AISettings";
 import { useAI } from "@/context/AIContext";
 
 const AIButton: React.FC = () => {
+  // Using optional chaining to avoid errors if isAIEnabled is not defined
   const { isAIEnabled } = useAI();
   
   return (
