@@ -116,13 +116,16 @@ const HeroSection = () => {
         >
           <Button 
             onClick={scrollToFeatured}
+            variant="filled"
+            shape="pill"
+            elevation="medium"
             className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-6 py-6 rounded-full w-full sm:w-auto shadow-lg hover:shadow-xl transition-all duration-300 h-11"
-            variant="default" // Changed from "filled" to "default"
           >
             Explore Now
           </Button>
           <Button 
-            variant="outline" 
+            variant="outlined" 
+            shape="pill"
             onClick={scrollToContact}
             className="border-2 border-orange-500 text-orange-600 dark:text-orange-400 hover:bg-orange-500/10 px-6 py-6 rounded-full w-full sm:w-auto hover:shadow-md transition-all duration-300 h-11"
           >

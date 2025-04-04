@@ -5,7 +5,7 @@ import { useTheme } from "@/components/ui/use-theme";
 import { useToast } from "@/components/ui/use-toast";
 
 interface ThemeToggleProps {
-  variant?: "default" | "outline" | "ghost" | "link" | "destructive" | "secondary";
+  variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link" | "filled" | "tonal" | "elevated" | "text";
   size?: "default" | "sm" | "lg" | "icon";
   showIcon?: boolean;
   showText?: boolean;
