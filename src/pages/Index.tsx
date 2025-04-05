@@ -8,13 +8,14 @@ import BreakingNews from "../components/news/BreakingNews";
 import FeaturedArticles from "../components/news/FeaturedArticles";
 import CategoryCards from "../components/home/CategoryCards";
 import LatestNews from "../components/news/LatestNews";
+import TrendingSection from "../components/news/TrendingSection";
 import AboutUsSection from "../components/home/AboutUsSection";
 import ContactSection from "../components/home/ContactSection";
 import SearchBar from "../components/common/SearchBar";
 import { useToast } from "../components/ui/use-toast";
-import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { ArrowRight, Grid, Clock } from "lucide-react";
 
 const Index = () => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -92,29 +93,17 @@ const Index = () => {
           
           <motion.section 
             id="trending" 
-            className="container mx-auto py-16 px-4"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={sectionVariants}
           >
-            <div className="flex justify-between items-center mb-8">
-              <h2 className="text-3xl font-semibold flex items-center">
-                <span className="text-gradient-heading">Trending</span>
-                <span className="ml-2 text-sm font-medium px-2 py-1 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-full hidden sm:inline-block">
-                  Live
-                </span>
-              </h2>
-              <Link to="/trending" className="flex items-center text-primary hover:underline group md-state-layer px-3 py-2 rounded-full">
-                View All <ArrowRight className="ml-1 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-              </Link>
-            </div>
-            <FeaturedArticles />
+            <TrendingSection />
           </motion.section>
           
           <motion.section 
             id="categories" 
-            className="bg-muted/30 py-16 px-4"
+            className="py-16 px-4 surface-container"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
@@ -122,7 +111,10 @@ const Index = () => {
           >
             <div className="container mx-auto">
               <div className="flex justify-between items-center mb-8">
-                <h2 className="text-3xl font-semibold"><span className="text-gradient-heading">Categories</span></h2>
+                <h2 className="text-3xl font-semibold flex items-center">
+                  <Grid className="mr-2 h-6 w-6 text-primary" />
+                  <span className="text-gradient">Categories</span>
+                </h2>
                 <Link to="/categories" className="flex items-center text-primary hover:underline group md-state-layer px-3 py-2 rounded-full">
                   View All <ArrowRight className="ml-1 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
@@ -140,7 +132,10 @@ const Index = () => {
             variants={sectionVariants}
           >
             <div className="flex justify-between items-center mb-8">
-              <h2 className="text-3xl font-semibold"><span className="text-gradient-heading">Latest News</span></h2>
+              <h2 className="text-3xl font-semibold flex items-center">
+                <Clock className="mr-2 h-6 w-6 text-primary" />
+                <span className="text-gradient">Latest News</span>
+              </h2>
               <Link to="/latest" className="flex items-center text-primary hover:underline group md-state-layer px-3 py-2 rounded-full">
                 View All <ArrowRight className="ml-1 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Link>

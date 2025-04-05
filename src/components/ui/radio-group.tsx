@@ -30,10 +30,9 @@ const RadioGroupItem = React.forwardRef<
       ref={ref}
       className={cn(
         "aspect-square rounded-full border-2 border-primary text-primary relative",
-        "ring-offset-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+        "focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
         "disabled:cursor-not-allowed disabled:opacity-50",
-        "after:absolute after:inset-0 after:rounded-full after:bg-primary after:opacity-0 after:transition-opacity",
-        "hover:after:opacity-10 active:after:opacity-20",
+        "overflow-hidden",
         size === "sm" ? "h-4 w-4" : size === "lg" ? "h-6 w-6" : "h-5 w-5",
         className
       )}
@@ -41,10 +40,11 @@ const RadioGroupItem = React.forwardRef<
     >
       <RadioGroupPrimitive.Indicator className="flex items-center justify-center">
         <Circle className={cn(
-          "fill-current",
+          "fill-current transition-transform scale-90",
           size === "sm" ? "h-2 w-2" : size === "lg" ? "h-3.5 w-3.5" : "h-2.5 w-2.5"
         )} />
       </RadioGroupPrimitive.Indicator>
+      <span className="absolute inset-0 rounded-full bg-primary opacity-0 transition-opacity hover:opacity-8 focus-visible:opacity-12 active:opacity-16"></span>
     </RadioGroupPrimitive.Item>
   )
 })

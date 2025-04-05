@@ -17,6 +17,7 @@ const Switch = React.forwardRef<
       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
       "disabled:cursor-not-allowed disabled:opacity-50",
       "data-[state=checked]:bg-primary data-[state=unchecked]:bg-input",
+      "overflow-hidden",
       size === "sm" 
         ? "h-5 w-9" 
         : size === "lg" 
@@ -38,7 +39,7 @@ const Switch = React.forwardRef<
             : "h-5 w-5 data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0"
       )}
     />
-    <span className="absolute inset-0 rounded-full bg-current opacity-0 transition-opacity peer-hover:opacity-10 peer-active:opacity-20"></span>
+    <span className="absolute inset-0 rounded-full bg-current opacity-0 transition-opacity peer-hover:opacity-8 peer-focus-visible:opacity-12 peer-active:opacity-16"></span>
   </SwitchPrimitives.Root>
 ))
 Switch.displayName = SwitchPrimitives.Root.displayName

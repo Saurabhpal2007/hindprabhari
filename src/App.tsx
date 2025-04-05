@@ -25,14 +25,21 @@ function App() {
   return (
     <Router>
       <Routes>
+        {/* Home and Core Pages */}
         <Route path="/" element={<Index />} />
         <Route path="/trending" element={<TrendingPage />} />
         <Route path="/latest" element={<LatestPage />} />
         <Route path="/articles" element={<AllArticlesPage />} />
         <Route path="/article/:id" element={<ArticlePage />} />
+        
+        {/* Media Content */}
         <Route path="/videos" element={<VideosPage />} />
+        
+        {/* Categories */}
         <Route path="/categories" element={<CategoriesPage />} />
         <Route path="/opinion" element={<OpinionPage />} />
+        
+        {/* News Categories */}
         <Route path="/politics" element={<CategoryPage />} />
         <Route path="/technology" element={<CategoryPage />} />
         <Route path="/sports" element={<CategoryPage />} />
@@ -41,14 +48,35 @@ function App() {
         <Route path="/health" element={<CategoryPage />} />
         <Route path="/world" element={<CategoryPage />} />
         <Route path="/business" element={<CategoryPage />} />
+        <Route path="/science" element={<CategoryPage />} />
+        <Route path="/environment" element={<CategoryPage />} />
+        <Route path="/lifestyle" element={<CategoryPage />} />
+        <Route path="/culture" element={<CategoryPage />} />
+        
+        {/* Regional Categories */}
+        <Route path="/india" element={<CategoryPage />} />
+        <Route path="/asia" element={<CategoryPage />} />
+        <Route path="/europe" element={<CategoryPage />} />
+        <Route path="/americas" element={<CategoryPage />} />
+        <Route path="/middle-east" element={<CategoryPage />} />
+        <Route path="/africa" element={<CategoryPage />} />
+        <Route path="/oceania" element={<CategoryPage />} />
+        
+        {/* Company Pages */}
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/privacy" element={<PrivacyPage />} />
         <Route path="/terms" element={<TermsPage />} />
         <Route path="/cookies" element={<CookiesPage />} />
         <Route path="/sitemap" element={<SitemapPage />} />
+        
+        {/* Dynamic Category Route */}
         <Route path="/:category" element={<CategoryPage />} />
+        
+        {/* Admin Portal */}
         <Route path="/admin" element={<AdminPortal />} />
+        
+        {/* 404 Route */}
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Toaster />

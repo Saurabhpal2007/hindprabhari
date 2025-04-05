@@ -16,38 +16,40 @@ const buttonVariants = cva(
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline:
           "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-        outlined: // Adding 'outlined' as an alias for 'outline' for backward compatibility
-          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
         
         // Material Design 3 specific button variants
-        filled: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm",
-        tonal: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        elevated: "bg-background text-foreground shadow-sm hover:shadow-md border border-border/50",
-        text: "text-primary hover:bg-primary/10",
+        filled: "bg-primary text-primary-foreground hover:bg-primary/90",
+        tonal: "bg-primary/10 text-primary hover:bg-primary/20",
+        elevated: "bg-surface-container text-foreground shadow-sm hover:shadow-md hover:bg-surface-container-high",
+        text: "text-primary hover:bg-primary/8",
+        outlined: "border border-outline text-primary bg-transparent hover:bg-primary/8",
       },
       size: {
         default: "h-10 px-4 py-2",
-        sm: "h-9 rounded-md px-3",
-        lg: "h-11 rounded-md px-8",
-        icon: "h-10 w-10",
+        sm: "h-9 px-3 py-1.5 text-xs",
+        lg: "h-12 px-6 py-3 text-base",
+        icon: "h-10 w-10 p-2",
+        "icon-sm": "h-8 w-8 p-1.5",
+        "icon-lg": "h-12 w-12 p-3",
       },
       shape: {
         default: "rounded-md",
         full: "rounded-full",
         pill: "rounded-[999px]",
+        none: "rounded-none",
       },
       elevation: {
         none: "",
-        low: "shadow-sm",
-        medium: "shadow-md",
-        high: "shadow-lg",
+        low: "shadow-sm hover:shadow",
+        medium: "shadow hover:shadow-md",
+        high: "shadow-md hover:shadow-lg",
       },
       stateLayer: {
-        true: "after:absolute after:inset-0 after:rounded-[inherit] after:bg-current after:opacity-0 after:transition-opacity hover:after:opacity-10 active:after:opacity-20",
+        true: "after:absolute after:inset-0 after:rounded-[inherit] after:bg-current after:opacity-0 after:transition-opacity hover:after:opacity-8 focus-visible:after:opacity-12 active:after:opacity-16",
         false: "",
       },
     },
