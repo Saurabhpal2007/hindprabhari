@@ -1,245 +1,260 @@
 
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Clock, TrendingUp, Zap, BarChart3 } from "lucide-react";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { 
+  TrendingUp, 
+  ArrowRight, 
+  Clock, 
+  ThumbsUp, 
+  Share2, 
+  MessageSquare, 
+  Bookmark 
+} from "lucide-react";
+import { SegmentedControl } from "@/components/ui/segmented-control";
+import { Card, CardContent } from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Skeleton } from "@/components/ui/skeleton";
-import { SegmentedControl, SegmentedControlItem } from "@/components/ui/segmented-control";
 
-// Mock data for trending categories
-const trendingCategories = [
-  { id: "trending", label: "Trending", icon: <TrendingUp className="h-4 w-4" /> },
-  { id: "latest", label: "Latest", icon: <Clock className="h-4 w-4" /> },
-  { id: "popular", label: "Popular", icon: <BarChart3 className="h-4 w-4" /> },
-  { id: "breaking", label: "Breaking", icon: <Zap className="h-4 w-4" /> },
+const trendingCategories = ["All", "Politics", "Business", "Technology", "Entertainment"];
+
+interface TrendingArticle {
+  id: string;
+  title: string;
+  excerpt: string;
+  category: string;
+  image: string;
+  author: {
+    name: string;
+    avatar: string;
+  };
+  date: string;
+  readTime: string;
+  engagement: {
+    likes: number;
+    comments: number;
+    shares: number;
+  };
+}
+
+const mockTrendingArticles: TrendingArticle[] = [
+  {
+    id: "1",
+    title: "Finance Minister Announces New Economic Stimulus Package",
+    excerpt: "The government has unveiled a comprehensive economic package aiming to boost post-pandemic recovery...",
+    category: "Politics",
+    image: "https://images.unsplash.com/photo-1540910419892-4a36d2c3266c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZmluYW5jZXxlbnwwfHwwfHx8MA%3D%3D",
+    author: {
+      name: "Rajiv Sharma",
+      avatar: "https://i.pravatar.cc/150?img=1",
+    },
+    date: "2 hours ago",
+    readTime: "6 min read",
+    engagement: {
+      likes: 452,
+      comments: 89,
+      shares: 112
+    }
+  },
+  {
+    id: "2",
+    title: "Tech Giant Launches Revolutionary AI-Powered Smartphone",
+    excerpt: "The new flagship device features cutting-edge artificial intelligence capabilities that could reshape the mobile industry...",
+    category: "Technology",
+    image: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c21hcnRwaG9uZXxlbnwwfHwwfHx8MA%3D%3D",
+    author: {
+      name: "Priya Patel",
+      avatar: "https://i.pravatar.cc/150?img=5",
+    },
+    date: "4 hours ago",
+    readTime: "5 min read",
+    engagement: {
+      likes: 827,
+      comments: 214,
+      shares: 345
+    }
+  },
+  {
+    id: "3",
+    title: "IPL 2023: Mumbai Indians Clinch Last-Ball Thriller Against Chennai",
+    excerpt: "In a nail-biting finish at Wankhede Stadium, Mumbai secured victory with a six off the final delivery...",
+    category: "Sports",
+    image: "https://images.unsplash.com/photo-1531415074968-036ba1b575da?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Y3JpY2tldHxlbnwwfHwwfHx8MA%3D%3D",
+    author: {
+      name: "Arjun Reddy",
+      avatar: "https://i.pravatar.cc/150?img=3",
+    },
+    date: "6 hours ago",
+    readTime: "4 min read",
+    engagement: {
+      likes: 1245,
+      comments: 563,
+      shares: 412
+    }
+  },
+  {
+    id: "4",
+    title: "Global Climate Summit Concludes with Ambitious Carbon Reduction Targets",
+    excerpt: "World leaders have agreed to accelerate emission cuts and increase funding for climate adaptation initiatives...",
+    category: "World",
+    image: "https://images.unsplash.com/photo-1621451537984-a5aa446d3355?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fGNsaW1hdGUlMjBjaGFuZ2V8ZW58MHx8MHx8fDA%3D",
+    author: {
+      name: "Meera Joshi",
+      avatar: "https://i.pravatar.cc/150?img=9",
+    },
+    date: "8 hours ago",
+    readTime: "7 min read",
+    engagement: {
+      likes: 892,
+      comments: 207,
+      shares: 304
+    }
+  },
+  {
+    id: "5",
+    title: "Bollywood Blockbuster Breaks Opening Weekend Box Office Records",
+    excerpt: "The much-anticipated action drama has shattered previous records, grossing over ₹150 crore in its first three days...",
+    category: "Entertainment",
+    image: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8bW92aWV8ZW58MHx8MHx8fDA%3D",
+    author: {
+      name: "Deepak Verma",
+      avatar: "https://i.pravatar.cc/150?img=7",
+    },
+    date: "12 hours ago",
+    readTime: "3 min read",
+    engagement: {
+      likes: 1876,
+      comments: 451,
+      shares: 738
+    }
+  },
+  {
+    id: "6",
+    title: "Reserve Bank Keeps Interest Rates Unchanged Amid Inflation Concerns",
+    excerpt: "The central bank has maintained its cautious stance despite growing pressure to ease monetary policy...",
+    category: "Business",
+    image: "https://images.unsplash.com/photo-1565514020179-026b92b2d7c7?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8YmFua3xlbnwwfHwwfHx8MA%3D%3D",
+    author: {
+      name: "Amit Singh",
+      avatar: "https://i.pravatar.cc/150?img=11",
+    },
+    date: "14 hours ago",
+    readTime: "5 min read",
+    engagement: {
+      likes: 542,
+      comments: 127,
+      shares: 98
+    }
+  }
 ];
 
-// Mock trending articles data
-const mockTrendingData = {
-  trending: [
-    {
-      id: "1",
-      title: "Global Markets Respond to Latest Economic Indicators",
-      excerpt: "Major indices show mixed reactions as inflation data surprises economists...",
-      category: "Business",
-      time: "2 hours ago",
-      imageUrl: "/placeholder.svg",
-      readTime: "4 min read",
-    },
-    {
-      id: "2",
-      title: "Tech Innovation Summit Announces Breakthrough AI Research",
-      excerpt: "Industry leaders reveal advancements in artificial intelligence technology...",
-      category: "Technology",
-      time: "5 hours ago",
-      imageUrl: "/placeholder.svg",
-      readTime: "6 min read",
-    },
-    {
-      id: "3",
-      title: "Climate Agreement Reaches New Milestone with Global Participation",
-      excerpt: "Nations commit to ambitious carbon reduction targets in historic accord...",
-      category: "Environment",
-      time: "7 hours ago",
-      imageUrl: "/placeholder.svg",
-      readTime: "5 min read",
-    },
-    {
-      id: "4",
-      title: "Cultural Festival Celebrates Diversity with Record Attendance",
-      excerpt: "Annual event showcases traditional arts, cuisine, and performances...",
-      category: "Culture",
-      time: "9 hours ago",
-      imageUrl: "/placeholder.svg",
-      readTime: "3 min read",
-    },
-  ],
-  latest: [
-    {
-      id: "5",
-      title: "Healthcare Initiative Expands Access to Rural Communities",
-      excerpt: "New program brings medical services to underserved areas with mobile clinics...",
-      category: "Health",
-      time: "Just now",
-      imageUrl: "/placeholder.svg",
-      readTime: "4 min read",
-    },
-    {
-      id: "6",
-      title: "Education Reform Bill Passes with Bipartisan Support",
-      excerpt: "Legislation introduces major changes to funding and curriculum standards...",
-      category: "Education",
-      time: "30 minutes ago",
-      imageUrl: "/placeholder.svg",
-      readTime: "7 min read",
-    },
-    {
-      id: "7",
-      title: "Sports Championship Sees Dramatic Final-Minute Victory",
-      excerpt: "Underdog team claims title with remarkable comeback in closing moments...",
-      category: "Sports",
-      time: "1 hour ago",
-      imageUrl: "/placeholder.svg",
-      readTime: "5 min read",
-    },
-    {
-      id: "8",
-      title: "Space Mission Successfully Deploys New Satellite Constellation",
-      excerpt: "Network will provide advanced communications capabilities globally...",
-      category: "Science",
-      time: "2 hours ago",
-      imageUrl: "/placeholder.svg",
-      readTime: "6 min read",
-    },
-  ],
-  popular: [
-    {
-      id: "9",
-      title: "Celebrity Interview Reveals Behind-the-Scenes Industry Insights",
-      excerpt: "Award-winning actor discusses upcoming projects and career challenges...",
-      category: "Entertainment",
-      time: "1 day ago",
-      imageUrl: "/placeholder.svg",
-      readTime: "8 min read",
-    },
-    {
-      id: "10",
-      title: "Food Trend Analysis Shows Shift Toward Sustainable Choices",
-      excerpt: "Consumer preferences increasingly favor eco-friendly production methods...",
-      category: "Food",
-      time: "2 days ago",
-      imageUrl: "/placeholder.svg",
-      readTime: "4 min read",
-    },
-    {
-      id: "11",
-      title: "Historical Discovery Changes Understanding of Ancient Civilization",
-      excerpt: "Archaeological find provides new evidence of advanced technologies...",
-      category: "History",
-      time: "3 days ago",
-      imageUrl: "/placeholder.svg",
-      readTime: "9 min read",
-    },
-    {
-      id: "12",
-      title: "Travel Destination Named World's Best for Third Consecutive Year",
-      excerpt: "Combination of natural beauty and cultural experiences cited as key factors...",
-      category: "Travel",
-      time: "4 days ago",
-      imageUrl: "/placeholder.svg",
-      readTime: "5 min read",
-    },
-  ],
-  breaking: [
-    {
-      id: "13",
-      title: "BREAKING: Major Policy Announcement Expected Within Hours",
-      excerpt: "Government officials prepare statement on significant regulatory changes...",
-      category: "Politics",
-      time: "10 minutes ago",
-      imageUrl: "/placeholder.svg",
-      readTime: "2 min read",
-    },
-    {
-      id: "14",
-      title: "BREAKING: Emergency Response Activated Following Regional Incident",
-      excerpt: "Authorities coordinate efforts as situation develops in eastern district...",
-      category: "National",
-      time: "25 minutes ago",
-      imageUrl: "/placeholder.svg",
-      readTime: "3 min read",
-    },
-    {
-      id: "15",
-      title: "BREAKING: Scientific Breakthrough Announced in Medical Research",
-      excerpt: "Team reports potential revolution in treatment of widespread condition...",
-      category: "Health",
-      time: "45 minutes ago",
-      imageUrl: "/placeholder.svg",
-      readTime: "4 min read",
-    },
-    {
-      id: "16",
-      title: "BREAKING: International Agreement Reached After Marathon Negotiations",
-      excerpt: "Diplomatic solution found to long-standing dispute between nations...",
-      category: "World",
-      time: "1 hour ago",
-      imageUrl: "/placeholder.svg",
-      readTime: "5 min read",
-    },
-  ],
-};
-
 const TrendingSection = () => {
-  const [activeCategory, setActiveCategory] = useState("trending");
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  
+  const filteredArticles = selectedCategory === "All" 
+    ? mockTrendingArticles 
+    : mockTrendingArticles.filter(article => article.category === selectedCategory);
 
   return (
-    <section className="py-8 md:py-12 bg-muted/30" id="trending">
+    <section className="py-12 bg-muted/30">
       <div className="container mx-auto px-4">
-        <div className="flex flex-col items-center mb-8">
-          <h2 className="text-2xl md:text-3xl font-bold text-center mb-4">
-            What's Happening Now
-          </h2>
-          <div className="w-full max-w-xl">
-            <SegmentedControl value={activeCategory} onValueChange={setActiveCategory}>
-              {trendingCategories.map((category) => (
-                <SegmentedControlItem 
-                  key={category.id} 
-                  value={category.id}
-                  className="flex items-center gap-2"
-                >
-                  {category.icon}
-                  <span>{category.label}</span>
-                </SegmentedControlItem>
-              ))}
-            </SegmentedControl>
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+          <div className="flex items-center">
+            <TrendingUp className="h-6 w-6 text-primary mr-2" />
+            <h2 className="text-3xl font-bold tracking-tight">Trending Now</h2>
+          </div>
+          
+          <div className="w-full md:w-auto">
+            <SegmentedControl 
+              segments={trendingCategories}
+              value={selectedCategory}
+              onValueChange={setSelectedCategory}
+              className="max-w-md"
+            />
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {mockTrendingData[activeCategory as keyof typeof mockTrendingData]?.map((article) => (
-            <Card key={article.id} className="overflow-hidden transition-all duration-300 hover:shadow-md">
-              <Link to={`/article/${article.id}`}>
-                <div className="relative aspect-video">
-                  <img 
-                    src={article.imageUrl} 
-                    alt={article.title} 
-                    className="w-full h-full object-cover"
-                  />
-                  <Badge className="absolute top-3 left-3 bg-primary/80 backdrop-blur-sm">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredArticles.map((article) => (
+            <Card key={article.id} className="overflow-hidden hover:shadow-md transition-shadow duration-300">
+              <CardContent className="p-0">
+                <div className="relative h-48 overflow-hidden">
+                  <Link to={`/article/${article.id}`}>
+                    <img 
+                      src={article.image} 
+                      alt={article.title}
+                      className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                    />
+                  </Link>
+                  <Badge 
+                    className="absolute top-3 left-3 bg-primary hover:bg-primary/90"
+                  >
                     {article.category}
                   </Badge>
                 </div>
-              </Link>
-              <CardContent className="p-4">
-                <Link to={`/article/${article.id}`}>
-                  <h3 className="font-semibold text-lg line-clamp-2 mb-2 hover:text-primary transition-colors">
-                    {article.title}
-                  </h3>
-                </Link>
-                <p className="text-muted-foreground text-sm line-clamp-2 mb-2">
-                  {article.excerpt}
-                </p>
+                
+                <div className="p-5 space-y-4">
+                  <Link to={`/article/${article.id}`} className="hover:text-primary transition-colors">
+                    <h3 className="font-bold text-lg line-clamp-2">{article.title}</h3>
+                  </Link>
+                  
+                  <p className="text-muted-foreground line-clamp-2 text-sm">{article.excerpt}</p>
+                  
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2">
+                      <Avatar className="h-8 w-8">
+                        <AvatarImage src={article.author.avatar} alt={article.author.name} />
+                        <AvatarFallback>{article.author.name.charAt(0)}</AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <p className="text-sm font-medium">{article.author.name}</p>
+                        <div className="flex items-center text-xs text-muted-foreground">
+                          <Clock className="mr-1 h-3 w-3" />
+                          <span>{article.date} · {article.readTime}</span>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <Button variant="ghost" size="icon" className="h-8 w-8">
+                      <Bookmark className="h-4 w-4" />
+                      <span className="sr-only">Bookmark</span>
+                    </Button>
+                  </div>
+                  
+                  <div className="flex items-center justify-between pt-2 border-t border-border">
+                    <div className="flex space-x-2">
+                      <Button variant="ghost" size="sm" className="h-8 px-2">
+                        <ThumbsUp className="h-4 w-4 mr-1" />
+                        <span className="text-xs">{article.engagement.likes}</span>
+                      </Button>
+                      <Button variant="ghost" size="sm" className="h-8 px-2">
+                        <MessageSquare className="h-4 w-4 mr-1" />
+                        <span className="text-xs">{article.engagement.comments}</span>
+                      </Button>
+                      <Button variant="ghost" size="sm" className="h-8 px-2">
+                        <Share2 className="h-4 w-4 mr-1" />
+                        <span className="text-xs">{article.engagement.shares}</span>
+                      </Button>
+                    </div>
+                    
+                    <Button variant="ghost" size="sm" asChild className="h-8">
+                      <Link to={`/article/${article.id}`}>
+                        Read <ArrowRight className="ml-1 h-3 w-3" />
+                      </Link>
+                    </Button>
+                  </div>
+                </div>
               </CardContent>
-              <CardFooter className="p-4 pt-0 flex justify-between text-xs text-muted-foreground">
-                <span>{article.time}</span>
-                <span>{article.readTime}</span>
-              </CardFooter>
             </Card>
           ))}
         </div>
 
         <div className="flex justify-center mt-8">
-          <Link 
-            to={`/${activeCategory}`}
-            className="inline-flex items-center gap-2 px-6 py-2.5 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors"
-          >
-            View all {activeCategory}
-            <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z" fill="currentColor" fillRule="evenodd" clipRule="evenodd"></path>
-            </svg>
-          </Link>
+          <Button asChild variant="outline" className="group">
+            <Link to="/trending">
+              View All Trending Stories <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </Button>
         </div>
       </div>
     </section>

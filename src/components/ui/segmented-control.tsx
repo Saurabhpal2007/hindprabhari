@@ -10,6 +10,8 @@ interface SegmentedControlProps extends React.HTMLAttributes<HTMLDivElement> {
   controlClassName?: string;
   activeSegmentClassName?: string;
   inactiveSegmentClassName?: string;
+  value?: string;
+  onValueChange?: (value: string) => void;
 }
 
 export const SegmentedControl = React.forwardRef<HTMLDivElement, SegmentedControlProps>(
@@ -21,6 +23,8 @@ export const SegmentedControl = React.forwardRef<HTMLDivElement, SegmentedContro
     controlClassName,
     activeSegmentClassName,
     inactiveSegmentClassName,
+    value,
+    onValueChange,
     ...props
   }, ref) => {
     const [activeIndex, setActiveIndex] = useState(defaultIndex);
@@ -45,10 +49,23 @@ export const SegmentedControl = React.forwardRef<HTMLDivElement, SegmentedContro
       return () => window.removeEventListener('resize', () => updateSliderStyle(activeIndex));
     }, [activeIndex]);
 
+    // If value is provided, find the corresponding index
+    useEffect(() => {
+      if (value !== undefined) {
+        const index = segments.findIndex(segment => segment.toLowerCase() === value.toLowerCase());
+        if (index !== -1) {
+          setActiveIndex(index);
+        }
+      }
+    }, [value, segments]);
+
     const handleSegmentClick = (index: number) => {
       setActiveIndex(index);
       if (onSegmentChange) {
         onSegmentChange(segments[index], index);
+      }
+      if (onValueChange) {
+        onValueChange(segments[index]);
       }
     };
 

@@ -8,7 +8,7 @@ import FeaturedArticles from "@/components/news/FeaturedArticles";
 import CategoryCards from "@/components/home/CategoryCards";
 import AboutUsSection from "@/components/home/AboutUsSection";
 import ContactSection from "@/components/home/ContactSection";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 const Home = () => {
   useEffect(() => {
