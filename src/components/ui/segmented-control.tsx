@@ -1,92 +1,96 @@
 
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "@/lib/utils";
+import React, { useState, useRef, useEffect } from 'react';
+import { cn } from '@/lib/utils';
 
-const segmentedControlVariants = cva(
-  "group flex w-full overflow-hidden rounded-full p-1 bg-background border border-input",
-  {
-    variants: {
-      variant: {
-        default: "",
-        outline: "bg-transparent",
-      },
-      size: {
-        default: "h-10",
-        sm: "h-8",
-        lg: "h-12",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-      size: "default",
-    },
-  }
-);
-
-export interface SegmentedControlProps
-  extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof segmentedControlVariants> {
-  value: string;
-  onValueChange: (value: string) => void;
+interface SegmentedControlProps extends React.HTMLAttributes<HTMLDivElement> {
+  segments: string[];
+  defaultIndex?: number;
+  onSegmentChange?: (segment: string, index: number) => void;
+  className?: string;
+  controlClassName?: string;
+  activeSegmentClassName?: string;
+  inactiveSegmentClassName?: string;
 }
 
-const SegmentedControl = React.forwardRef<HTMLDivElement, SegmentedControlProps>(
-  ({ className, children, variant, size, value, onValueChange, ...props }, ref) => {
-    return (
-      <div
-        ref={ref}
-        className={cn(segmentedControlVariants({ variant, size, className }))}
-        {...props}
-      >
-        {React.Children.map(children, (child) => {
-          if (React.isValidElement(child)) {
-            return React.cloneElement(child, {
-              onClick: () => {
-                onValueChange(child.props.value);
-              },
-              active: child.props.value === value,
-            });
-          }
-          return child;
-        })}
-      </div>
-    );
-  }
-);
-SegmentedControl.displayName = "SegmentedControl";
+export const SegmentedControl = React.forwardRef<HTMLDivElement, SegmentedControlProps>(
+  ({ 
+    segments = [], 
+    defaultIndex = 0,
+    onSegmentChange,
+    className,
+    controlClassName,
+    activeSegmentClassName,
+    inactiveSegmentClassName,
+    ...props
+  }, ref) => {
+    const [activeIndex, setActiveIndex] = useState(defaultIndex);
+    const [sliderStyle, setSliderStyle] = useState({});
+    const segmentRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
-export interface SegmentedControlItemProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  value: string;
-  active?: boolean;
-}
+    const updateSliderStyle = (index: number) => {
+      const currentSegment = segmentRefs.current[index];
+      if (currentSegment) {
+        setSliderStyle({
+          width: `${currentSegment.offsetWidth}px`,
+          transform: `translateX(${currentSegment.offsetLeft}px)`,
+          height: `${currentSegment.offsetHeight}px`,
+        });
+      }
+    };
 
-const SegmentedControlItem = React.forwardRef<HTMLButtonElement, SegmentedControlItemProps>(
-  ({ className, children, value, active, ...props }, ref) => {
+    useEffect(() => {
+      updateSliderStyle(activeIndex);
+      // Add resize listener to handle responsive changes
+      window.addEventListener('resize', () => updateSliderStyle(activeIndex));
+      return () => window.removeEventListener('resize', () => updateSliderStyle(activeIndex));
+    }, [activeIndex]);
+
+    const handleSegmentClick = (index: number) => {
+      setActiveIndex(index);
+      if (onSegmentChange) {
+        onSegmentChange(segments[index], index);
+      }
+    };
+
     return (
-      <button
-        ref={ref}
-        type="button"
+      <div 
+        ref={ref} 
         className={cn(
-          "relative flex-1 flex items-center justify-center px-3 py-1 text-sm font-medium transition-all",
-          "focus-visible:z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-          "overflow-hidden transition-all duration-200 ease-in-out",
-          active
-            ? "text-primary-foreground"
-            : "text-muted-foreground hover:text-foreground hover:bg-muted/50",
+          "relative w-full rounded-full overflow-hidden bg-muted",
           className
         )}
         {...props}
       >
-        {children}
-        {active && (
-          <span className="absolute inset-0 bg-primary rounded-full shadow-sm z-[-1]"></span>
-        )}
-        <span className="absolute inset-0 rounded-full bg-current opacity-0 transition-opacity group-hover:opacity-5 peer-hover:opacity-10 active:opacity-16"></span>
-      </button>
+        <div 
+          className={cn(
+            "flex relative z-10",
+            controlClassName
+          )}
+        >
+          {segments.map((segment, index) => (
+            <button
+              key={segment}
+              ref={(el) => (segmentRefs.current[index] = el)}
+              type="button"
+              className={cn(
+                "flex-1 text-sm font-medium text-center py-2 px-3 z-10 transition-colors",
+                index === activeIndex 
+                  ? cn("text-primary-foreground", activeSegmentClassName)
+                  : cn("text-muted-foreground hover:text-foreground", inactiveSegmentClassName)
+              )}
+              onClick={() => handleSegmentClick(index)}
+            >
+              {segment}
+            </button>
+          ))}
+        </div>
+        <div 
+          className="absolute rounded-full bg-primary transition-all duration-300 ease-in-out z-0"
+          style={sliderStyle}
+        />
+      </div>
     );
   }
 );
-SegmentedControlItem.displayName = "SegmentedControlItem";
 
-export { SegmentedControl, SegmentedControlItem };
+SegmentedControl.displayName = "SegmentedControl";
