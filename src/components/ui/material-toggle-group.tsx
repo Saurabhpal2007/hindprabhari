@@ -29,10 +29,10 @@ export function MaterialToggleGroup({
 }: MaterialToggleGroupProps) {
   return (
     <ToggleGroup
-      type={type}
-      value={value}
-      defaultValue={defaultValue}
-      onValueChange={onValueChange}
+      type={type as "single"}
+      value={type === "single" ? value as string : value as string[]}
+      defaultValue={type === "single" ? defaultValue as string : defaultValue as string[]}
+      onValueChange={onValueChange as (value: string) => void}
       className={cn(
         "inline-flex rounded-full border border-border p-1 bg-background",
         variant === "pills" && "overflow-hidden",
