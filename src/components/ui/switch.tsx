@@ -31,7 +31,7 @@ const Switch = React.forwardRef<
     <SwitchPrimitives.Thumb
       className={cn(
         "pointer-events-none block rounded-full bg-background shadow-md ring-0 transition-transform",
-        "data-[state=checked]:shadow-lg",
+        "data-[state=checked]:shadow-lg data-[state=checked]:scale-105 data-[state=unchecked]:scale-100 transition-all",
         size === "sm" 
           ? "h-4 w-4 data-[state=checked]:translate-x-4 data-[state=unchecked]:translate-x-0" 
           : size === "lg" 
@@ -39,7 +39,8 @@ const Switch = React.forwardRef<
             : "h-5 w-5 data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0"
       )}
     />
-    <span className="absolute inset-0 rounded-full bg-current opacity-0 transition-opacity peer-hover:opacity-8 peer-focus-visible:opacity-12 peer-active:opacity-16"></span>
+    {/* Material Design 3 ripple effect */}
+    <span className="absolute inset-0 rounded-full bg-current opacity-0 transition-opacity peer-hover:opacity-8 peer-focus-visible:opacity-12 peer-active:opacity-16 dark:peer-hover:opacity-10 dark:peer-focus-visible:opacity-15 dark:peer-active:opacity-20"></span>
   </SwitchPrimitives.Root>
 ))
 Switch.displayName = SwitchPrimitives.Root.displayName

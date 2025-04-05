@@ -40,11 +40,12 @@ const RadioGroupItem = React.forwardRef<
     >
       <RadioGroupPrimitive.Indicator className="flex items-center justify-center">
         <Circle className={cn(
-          "fill-current transition-transform scale-90",
+          "fill-current transition-transform scale-0 data-[state=checked]:scale-90 transition-all duration-200",
           size === "sm" ? "h-2 w-2" : size === "lg" ? "h-3.5 w-3.5" : "h-2.5 w-2.5"
         )} />
       </RadioGroupPrimitive.Indicator>
-      <span className="absolute inset-0 rounded-full bg-primary opacity-0 transition-opacity hover:opacity-8 focus-visible:opacity-12 active:opacity-16"></span>
+      {/* Material Design 3 ripple effect */}
+      <span className="absolute inset-0 rounded-full bg-primary opacity-0 transition-opacity hover:opacity-8 focus-visible:opacity-12 active:opacity-16 data-[state=checked]:opacity-0 dark:hover:opacity-10 dark:focus-visible:opacity-15 dark:active:opacity-20"></span>
     </RadioGroupPrimitive.Item>
   )
 })

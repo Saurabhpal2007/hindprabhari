@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 
 const Footer = () => {
@@ -32,19 +32,29 @@ const Footer = () => {
     }
   };
   
-  // Footer sections
+  // Footer sections aligned with our site structure
   const sections = [
     {
-      title: "Categories",
+      title: "News Categories",
       links: [
-        { name: "Politics", href: "/politics" },
+        { name: "World", href: "/world" },
+        { name: "Politics", href: "/india/politics" },
+        { name: "Business", href: "/business" },
         { name: "Technology", href: "/technology" },
         { name: "Sports", href: "/sports" },
-        { name: "Entertainment", href: "/entertainment" },
-        { name: "Education", href: "/education" },
-        { name: "Health", href: "/health" },
-        { name: "World", href: "/world" },
-        { name: "Business", href: "/business" }
+        { name: "Science", href: "/science" },
+        { name: "Health", href: "/health" }
+      ]
+    },
+    {
+      title: "Content Formats",
+      links: [
+        { name: "Videos", href: "/video" },
+        { name: "Audio", href: "/audio" },
+        { name: "Photos", href: "/photos" },
+        { name: "Data & Graphics", href: "/data" },
+        { name: "Opinion", href: "/opinion" },
+        { name: "Fact Check", href: "/fact-check" }
       ]
     },
     {
@@ -52,10 +62,9 @@ const Footer = () => {
       links: [
         { name: "Latest News", href: "/latest" },
         { name: "Trending Now", href: "/trending" },
-        { name: "Videos", href: "/videos" },
-        { name: "Opinion", href: "/opinion" },
-        { name: "About Us", href: "/about" },
-        { name: "Contact", href: "/contact" }
+        { name: "Investigations", href: "/investigations" },
+        { name: "Live Updates", href: "/live" },
+        { name: "Special Reports", href: "/special-reports" }
       ]
     },
     {
@@ -65,10 +74,8 @@ const Footer = () => {
         { name: "Contact", href: "/contact" },
         { name: "Careers", href: "/careers" },
         { name: "Advertise", href: "/advertise" },
-        { name: "Privacy Policy", href: "/privacy" },
-        { name: "Terms of Service", href: "/terms" },
-        { name: "Cookies Policy", href: "/cookies" },
-        { name: "Sitemap", href: "/sitemap" }
+        { name: "Editorial Policy", href: "/editorial-policy" },
+        { name: "Ethics", href: "/ethics" }
       ]
     }
   ];
@@ -83,11 +90,11 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-card border-t">
+    <footer className="bg-card border-t relative">
       <div className="container mx-auto px-4 pt-12 pb-8">
-        <div className="grid grid-cols-1 md:grid-cols-6 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-7 gap-8">
           {/* Brand section */}
-          <div className="md:col-span-2">
+          <div className="md:col-span-3">
             <Link to="/" className="inline-block mb-4">
               <div className="flex items-center">
                 <div className="h-12 w-auto mr-2">
@@ -142,8 +149,8 @@ const Footer = () => {
           </div>
           
           {/* Navigation sections */}
-          {sections.map((section) => (
-            <div key={section.title} className="md:col-span-1">
+          {sections.map((section, index) => (
+            <div key={section.title} className={`md:col-span-1 ${index === sections.length - 1 ? 'md:col-span-1' : ''}`}>
               <h3 className="font-semibold mb-4 text-base">{section.title}</h3>
               <ul className="space-y-2">
                 {section.links.map((link) => (
@@ -201,8 +208,8 @@ const Footer = () => {
             <Link to="/cookies" className="text-muted-foreground hover:text-foreground transition-colors">
               Cookies Policy
             </Link>
-            <Link to="/sitemap" className="text-muted-foreground hover:text-foreground transition-colors">
-              Sitemap
+            <Link to="/help" className="text-muted-foreground hover:text-foreground transition-colors">
+              Help & FAQ
             </Link>
           </div>
         </div>
