@@ -1,13 +1,28 @@
-
-import { Helmet } from "react-helmet-async";
-import { Link } from "react-router-dom";
-import { ChevronRight, Newspaper, BriefcaseBusiness, Cpu, Gamepad2, FileVideo2, Globe, BookOpen, Mountains, MapPin, Heart, Landmark, GraduationCap, Bike, ShoppingBag, Building, Music, PanelTop } from "lucide-react";
+import { 
+  ChevronRight, 
+  Newspaper, 
+  BriefcaseBusiness, 
+  Cpu, 
+  Gamepad2, 
+  FileVideo2, 
+  Globe, 
+  BookOpen, 
+  Mountain, 
+  MapPin, 
+  Heart, 
+  Landmark, 
+  GraduationCap, 
+  Bike, 
+  ShoppingBag, 
+  Building, 
+  Music, 
+  PanelTop 
+} from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
 import { useState } from "react";
 
-// Define category structure with subcategories
 const categories = [
   {
     id: "politics",
@@ -150,7 +165,6 @@ const CategoriesPage = () => {
           </p>
         </div>
 
-        {/* Search Bar */}
         <div className="max-w-md mb-8">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
@@ -164,7 +178,6 @@ const CategoriesPage = () => {
           </div>
         </div>
 
-        {/* Categories Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredCategories.map((category) => (
             <div key={category.id} className="rounded-xl border bg-card overflow-hidden hover:shadow-md transition-shadow">
@@ -178,7 +191,6 @@ const CategoriesPage = () => {
               <div className="p-6">
                 <p className="text-muted-foreground mb-4">{category.description}</p>
                 
-                {/* Subcategories */}
                 <div className="space-y-2">
                   {category.subcategories.map((subcategory) => (
                     <Link 

@@ -1,6 +1,5 @@
-
 import { Link } from "react-router-dom";
-import { Facebook, Twitter, Instagram, Linkedin, YouTube, Mail, Phone, MapPin } from "lucide-react";
+import { Facebook, Twitter, Instagram, Linkedin, Youtube, Mail, Phone, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
@@ -65,7 +64,7 @@ const Footer = () => {
     { name: "Twitter", icon: <Twitter className="h-5 w-5" />, href: "https://twitter.com" },
     { name: "Instagram", icon: <Instagram className="h-5 w-5" />, href: "https://instagram.com" },
     { name: "LinkedIn", icon: <Linkedin className="h-5 w-5" />, href: "https://linkedin.com" },
-    { name: "YouTube", icon: <YouTube className="h-5 w-5" />, href: "https://youtube.com" }
+    { name: "YouTube", icon: <Youtube className="h-5 w-5" />, href: "https://youtube.com" }
   ];
 
   return (
