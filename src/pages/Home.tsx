@@ -1,57 +1,128 @@
+
 import { Helmet } from "react-helmet-async";
-import FeaturedSlider from "@/components/home/FeaturedSlider";
-import TrendingColumn from "@/components/home/TrendingColumn";
+import HeroSection from "@/components/home/HeroSection";
 import CategoryGrid from "@/components/home/CategoryGrid";
+import TrendingColumn from "@/components/home/TrendingColumn";
+import BreakingNews from "@/components/news/BreakingNews";
+import FeaturedArticles from "@/components/news/FeaturedArticles";
+import LatestNews from "@/components/news/LatestNews";
 import AboutUsSection from "@/components/home/AboutUsSection";
 import ContactSection from "@/components/home/ContactSection";
-import NewsGrid from "@/components/news/NewsGrid";
+import { motion } from "framer-motion";
+import { Grid, Clock, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Home = () => {
+  const sectionVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: {
+        duration: 0.5,
+        ease: "easeOut"
+      }
+    }
+  };
+
   return (
     <>
       <Helmet>
-        <title>HindPrabhari - Latest News from India and Around the World</title>
+        <title>HindPrabhari - The Pulse of Bharat</title>
         <meta 
           name="description" 
-          content="Stay informed with the latest news, breaking stories, and in-depth analysis from India and around the world at HindPrabhari."
+          content="HindPrabhari - Your trusted source for the latest news from India and around the world."
         />
       </Helmet>
 
-      <div className="pt-8 pb-12">
-        {/* Hero Section: Featured Articles + Trending */}
-        <section className="container mx-auto px-4 mb-12">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-2">
-              <FeaturedSlider />
+      <div className="container mx-auto px-4">
+        <HeroSection />
+        
+        <motion.section 
+          id="trending" 
+          className="py-12"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={sectionVariants}
+        >
+          <div className="flex justify-between items-center mb-8">
+            <h2 className="text-3xl font-semibold">Trending Now</h2>
+            <Link to="/trending" className="flex items-center text-primary hover:underline">
+              View All <ArrowRight className="ml-1 h-5 w-5" />
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            <div className="lg:col-span-3">
+              <FeaturedArticles />
             </div>
             <div className="lg:col-span-1">
               <TrendingColumn />
             </div>
           </div>
-        </section>
+        </motion.section>
 
-        {/* Categories Section */}
-        <section className="mb-12">
-          <CategoryGrid />
-        </section>
-
-        {/* Latest News Section */}
-        <section className="container mx-auto px-4 mb-12">
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl font-bold">Latest News</h2>
+        <motion.section 
+          id="categories" 
+          className="py-12"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={sectionVariants}
+        >
+          <div className="flex justify-between items-center mb-8">
+            <h2 className="text-3xl font-semibold flex items-center">
+              <Grid className="mr-2 h-6 w-6 text-primary" />
+              <span>Categories</span>
+            </h2>
+            <Link to="/categories" className="flex items-center text-primary hover:underline">
+              View All <ArrowRight className="ml-1 h-5 w-5" />
+            </Link>
           </div>
-          <NewsGrid category="latest" limit={6} />
-        </section>
-
-        {/* About Us Section (keep existing) */}
-        <section id="about" className="scroll-mt-20">
+          <CategoryGrid />
+        </motion.section>
+        
+        <motion.section 
+          id="latest"
+          className="py-12"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={sectionVariants}
+        >
+          <div className="flex justify-between items-center mb-8">
+            <h2 className="text-3xl font-semibold flex items-center">
+              <Clock className="mr-2 h-6 w-6 text-primary" />
+              <span>Latest News</span>
+            </h2>
+            <Link to="/latest" className="flex items-center text-primary hover:underline">
+              View All <ArrowRight className="ml-1 h-5 w-5" />
+            </Link>
+          </div>
+          <LatestNews />
+        </motion.section>
+        
+        <motion.section 
+          id="about"
+          className="py-12"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={sectionVariants}
+        >
           <AboutUsSection />
-        </section>
-
-        {/* Contact Section (keep existing) */}
-        <section id="contact" className="scroll-mt-20">
+        </motion.section>
+        
+        <motion.section 
+          id="contact"
+          className="py-12"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={sectionVariants}
+        >
           <ContactSection />
-        </section>
+        </motion.section>
       </div>
     </>
   );

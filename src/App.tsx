@@ -28,22 +28,22 @@ function App() {
         <Route path="/" element={<Layout />}>
           {/* Core Pages */}
           <Route index element={<Home />} />
-          <Route path="/india" element={<IndiaPage />} />
-          <Route path="/world" element={<WorldPage />} />
-          <Route path="/trending" element={<TrendingPage />} />
-          <Route path="/videos" element={<VideosPage />} />
-          <Route path="/categories" element={<CategoriesPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/about" element={<AboutUs />} />
+          <Route path="india" element={<IndiaPage />} />
+          <Route path="world" element={<WorldPage />} />
+          <Route path="trending" element={<TrendingPage />} />
+          <Route path="videos" element={<VideosPage />} />
+          <Route path="categories" element={<CategoriesPage />} />
+          <Route path="contact" element={<ContactPage />} />
+          <Route path="about" element={<AboutUs />} />
           
           {/* Dynamic Pages */}
-          <Route path="/article/:id" element={<ArticlePage />} />
-          <Route path="/search" element={<SearchPage />} />
+          <Route path="article/:id" element={<ArticlePage />} />
+          <Route path="search" element={<SearchPage />} />
           
           {/* Legal Pages */}
-          <Route path="/terms" element={<TermsOfService />} />
-          <Route path="/privacy" element={<PrivacyPolicy />} />
-          <Route path="/cookies" element={<CookiePolicy />} />
+          <Route path="terms" element={<TermsOfService />} />
+          <Route path="privacy" element={<PrivacyPolicy />} />
+          <Route path="cookies" element={<CookiePolicy />} />
           
           {/* 404 Route */}
           <Route path="*" element={<NotFound />} />
