@@ -8,23 +8,10 @@ import FeaturedArticles from "@/components/news/FeaturedArticles";
 import LatestNews from "@/components/news/LatestNews";
 import AboutUsSection from "@/components/home/AboutUsSection";
 import ContactSection from "@/components/home/ContactSection";
-import { motion } from "framer-motion";
-import { Grid, Clock, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { Grid, Clock, ArrowRight } from "lucide-react";
 
 const Home = () => {
-  const sectionVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: {
-        duration: 0.5,
-        ease: "easeOut"
-      }
-    }
-  };
-
   return (
     <>
       <Helmet>
@@ -38,14 +25,7 @@ const Home = () => {
       <div className="container mx-auto px-4">
         <HeroSection />
         
-        <motion.section 
-          id="trending" 
-          className="py-12"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={sectionVariants}
-        >
+        <section id="trending" className="py-12">
           <div className="flex justify-between items-center mb-8">
             <h2 className="text-3xl font-semibold">Trending Now</h2>
             <Link to="/trending" className="flex items-center text-primary hover:underline">
@@ -60,16 +40,9 @@ const Home = () => {
               <TrendingColumn />
             </div>
           </div>
-        </motion.section>
+        </section>
 
-        <motion.section 
-          id="categories" 
-          className="py-12"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={sectionVariants}
-        >
+        <section id="categories" className="py-12">
           <div className="flex justify-between items-center mb-8">
             <h2 className="text-3xl font-semibold flex items-center">
               <Grid className="mr-2 h-6 w-6 text-primary" />
@@ -80,16 +53,9 @@ const Home = () => {
             </Link>
           </div>
           <CategoryGrid />
-        </motion.section>
+        </section>
         
-        <motion.section 
-          id="latest"
-          className="py-12"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={sectionVariants}
-        >
+        <section id="latest" className="py-12">
           <div className="flex justify-between items-center mb-8">
             <h2 className="text-3xl font-semibold flex items-center">
               <Clock className="mr-2 h-6 w-6 text-primary" />
@@ -100,29 +66,15 @@ const Home = () => {
             </Link>
           </div>
           <LatestNews />
-        </motion.section>
+        </section>
         
-        <motion.section 
-          id="about"
-          className="py-12"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={sectionVariants}
-        >
+        <section id="about" className="py-12">
           <AboutUsSection />
-        </motion.section>
+        </section>
         
-        <motion.section 
-          id="contact"
-          className="py-12"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={sectionVariants}
-        >
+        <section id="contact" className="py-12">
           <ContactSection />
-        </motion.section>
+        </section>
       </div>
     </>
   );

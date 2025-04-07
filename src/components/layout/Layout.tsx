@@ -20,7 +20,7 @@ const Layout = () => {
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <Navbar />
-      <div className={`${isHomePage ? 'pt-16' : 'pt-16'}`}>
+      <div className={isHomePage ? 'pt-16' : 'pt-16'}>
         {isHomePage && <NewsTicker className="mt-4" />}
         <main className="flex-grow">
           <Outlet />
