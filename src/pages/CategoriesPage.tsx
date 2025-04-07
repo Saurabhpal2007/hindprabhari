@@ -1,178 +1,218 @@
 
-import Header from "../components/layout/Header";
-import Footer from "../components/layout/Footer";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { FileText, TrendingUp, Calendar, ArrowRight } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
+import { ChevronRight, Newspaper, BriefcaseBusiness, Cpu, Gamepad2, FileVideo2, Globe, BookOpen, Mountains, MapPin, Heart, Landmark, GraduationCap, Bike, ShoppingBag, Building, Music, PanelTop } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Search } from "lucide-react";
+import { useState } from "react";
+
+// Define category structure with subcategories
+const categories = [
+  {
+    id: "politics",
+    name: "Politics",
+    description: "Government, elections, and political developments",
+    icon: <Landmark className="h-6 w-6" />,
+    color: "from-blue-500 to-blue-700",
+    subcategories: ["National", "Regional", "International", "Elections", "Policy"]
+  },
+  {
+    id: "business",
+    name: "Business",
+    description: "Economy, markets, and corporate news",
+    icon: <BriefcaseBusiness className="h-6 w-6" />,
+    color: "from-green-500 to-green-700",
+    subcategories: ["Economy", "Markets", "Companies", "Startups", "Finance"]
+  },
+  {
+    id: "technology",
+    name: "Technology",
+    description: "Latest in tech, gadgets, and digital trends",
+    icon: <Cpu className="h-6 w-6" />,
+    color: "from-purple-500 to-purple-700",
+    subcategories: ["Mobile", "Internet", "Gadgets", "AI", "Cybersecurity"]
+  },
+  {
+    id: "sports",
+    name: "Sports",
+    description: "Cricket, football, and all sporting events",
+    icon: <Gamepad2 className="h-6 w-6" />,
+    color: "from-red-500 to-red-700",
+    subcategories: ["Cricket", "Football", "Tennis", "Athletics", "Other Sports"]
+  },
+  {
+    id: "entertainment",
+    name: "Entertainment",
+    description: "Bollywood, Hollywood, TV, and streaming",
+    icon: <FileVideo2 className="h-6 w-6" />,
+    color: "from-yellow-500 to-yellow-700",
+    subcategories: ["Bollywood", "Hollywood", "Television", "Music", "Streaming"]
+  },
+  {
+    id: "health",
+    name: "Health",
+    description: "Medical news, wellness, and healthcare",
+    icon: <Heart className="h-6 w-6" />,
+    color: "from-pink-500 to-pink-700",
+    subcategories: ["Medicine", "Wellness", "Fitness", "Mental Health", "Nutrition"]
+  },
+  {
+    id: "education",
+    name: "Education",
+    description: "Schools, universities, and learning trends",
+    icon: <GraduationCap className="h-6 w-6" />,
+    color: "from-indigo-500 to-indigo-700",
+    subcategories: ["Schools", "Higher Education", "Exams", "Study Abroad", "E-learning"]
+  },
+  {
+    id: "science",
+    name: "Science",
+    description: "Scientific discoveries and research news",
+    icon: <PanelTop className="h-6 w-6" />,
+    color: "from-teal-500 to-teal-700",
+    subcategories: ["Physics", "Space", "Biology", "Environment", "Research"]
+  },
+  {
+    id: "travel",
+    name: "Travel",
+    description: "Destinations, tourism, and travel guides",
+    icon: <MapPin className="h-6 w-6" />,
+    color: "from-orange-500 to-orange-700",
+    subcategories: ["Destinations", "Tourism", "Adventure", "Budget Travel", "Hotels"]
+  },
+  {
+    id: "lifestyle",
+    name: "Lifestyle",
+    description: "Fashion, food, and modern living",
+    icon: <ShoppingBag className="h-6 w-6" />,
+    color: "from-emerald-500 to-emerald-700",
+    subcategories: ["Fashion", "Food", "Relationships", "Home", "Luxury"]
+  },
+  {
+    id: "culture",
+    name: "Culture",
+    description: "Arts, literature, and cultural events",
+    icon: <BookOpen className="h-6 w-6" />,
+    color: "from-amber-500 to-amber-700",
+    subcategories: ["Arts", "Literature", "Heritage", "Festivals", "Religion"]
+  },
+  {
+    id: "automotive",
+    name: "Automotive",
+    description: "Cars, bikes, and transportation news",
+    icon: <Bike className="h-6 w-6" />,
+    color: "from-slate-500 to-slate-700",
+    subcategories: ["Cars", "Bikes", "Reviews", "Electric Vehicles", "Industry"]
+  },
+  {
+    id: "real-estate",
+    name: "Real Estate",
+    description: "Property market and housing trends",
+    icon: <Building className="h-6 w-6" />,
+    color: "from-cyan-500 to-cyan-700",
+    subcategories: ["Residential", "Commercial", "Market Trends", "Investments", "Architecture"]
+  },
+  {
+    id: "world",
+    name: "World",
+    description: "International news from around the globe",
+    icon: <Globe className="h-6 w-6" />,
+    color: "from-blue-400 to-blue-600",
+    subcategories: ["Asia", "Europe", "Americas", "Middle East", "Africa", "Oceania"]
+  }
+];
 
 const CategoriesPage = () => {
-  const categories = [
-    {
-      id: "politics",
-      name: "Politics",
-      description: "Latest political news, policy updates, and government affairs.",
-      articles: 342,
-      trending: "Election Commission Announces New Guidelines",
-      image: "/placeholder.svg",
-      color: "bg-red-100 dark:bg-red-900",
-      textColor: "text-red-600 dark:text-red-400",
-      borderColor: "border-red-200 dark:border-red-800"
-    },
-    {
-      id: "technology",
-      name: "Technology",
-      description: "Innovations, digital trends, and tech industry developments.",
-      articles: 256,
-      trending: "New AI Chipset Breaks Performance Records",
-      image: "/placeholder.svg",
-      color: "bg-blue-100 dark:bg-blue-900",
-      textColor: "text-blue-600 dark:text-blue-400",
-      borderColor: "border-blue-200 dark:border-blue-800"
-    },
-    {
-      id: "sports",
-      name: "Sports",
-      description: "Sports news, match results, player updates, and analysis.",
-      articles: 189,
-      trending: "Cricket: India Wins Test Series Against Australia",
-      image: "/placeholder.svg",
-      color: "bg-green-100 dark:bg-green-900",
-      textColor: "text-green-600 dark:text-green-400",
-      borderColor: "border-green-200 dark:border-green-800"
-    },
-    {
-      id: "entertainment",
-      name: "Entertainment",
-      description: "Film, music, celebrity news, and culture updates.",
-      articles: 275,
-      trending: "National Film Awards Announced: Complete List",
-      image: "/placeholder.svg",
-      color: "bg-purple-100 dark:bg-purple-900",
-      textColor: "text-purple-600 dark:text-purple-400",
-      borderColor: "border-purple-200 dark:border-purple-800"
-    },
-    {
-      id: "education",
-      name: "Education",
-      description: "Educational policies, academic developments, and learning resources.",
-      articles: 148,
-      trending: "New National Education Framework Released",
-      image: "/placeholder.svg",
-      color: "bg-yellow-100 dark:bg-yellow-900",
-      textColor: "text-yellow-600 dark:text-yellow-400",
-      borderColor: "border-yellow-200 dark:border-yellow-800"
-    },
-    {
-      id: "health",
-      name: "Health",
-      description: "Health news, medical breakthroughs, and wellness advice.",
-      articles: 182,
-      trending: "Health Ministry Issues New Dietary Guidelines",
-      image: "/placeholder.svg",
-      color: "bg-teal-100 dark:bg-teal-900",
-      textColor: "text-teal-600 dark:text-teal-400",
-      borderColor: "border-teal-200 dark:border-teal-800"
-    },
-    {
-      id: "world",
-      name: "World",
-      description: "International news, global affairs, and foreign policies.",
-      articles: 213,
-      trending: "UN Climate Summit: Nations Pledge Carbon Reduction",
-      image: "/placeholder.svg",
-      color: "bg-indigo-100 dark:bg-indigo-900",
-      textColor: "text-indigo-600 dark:text-indigo-400",
-      borderColor: "border-indigo-200 dark:border-indigo-800"
-    },
-    {
-      id: "business",
-      name: "Business",
-      description: "Business news, economic updates, and market trends.",
-      articles: 231,
-      trending: "Stock Market Hits All-Time High Amid Economic Growth",
-      image: "/placeholder.svg",
-      color: "bg-orange-100 dark:bg-orange-900",
-      textColor: "text-orange-600 dark:text-orange-400",
-      borderColor: "border-orange-200 dark:border-orange-800"
-    }
-  ];
+  const [searchQuery, setSearchQuery] = useState("");
+  
+  const filteredCategories = categories.filter(category => 
+    category.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    category.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    category.subcategories.some(sub => sub.toLowerCase().includes(searchQuery.toLowerCase()))
+  );
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
-      <Header />
-      
-      <main className="flex-grow">
-        <div className="container mx-auto px-4 py-12">
-          <h1 className="text-4xl font-bold mb-8 text-center">News Categories</h1>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {categories.map((category) => (
-              <Link to={`/${category.id}`} key={category.id}>
-                <Card className={`overflow-hidden transition-all duration-300 hover:shadow-lg border-2 ${category.borderColor} hover:-translate-y-1`}>
-                  <div className="h-36 relative">
-                    <div className={`absolute inset-0 ${category.color} opacity-30`}></div>
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <h2 className={`text-3xl font-bold ${category.textColor}`}>{category.name}</h2>
-                    </div>
-                  </div>
-                  <CardContent className="p-6">
-                    <p className="text-muted-foreground mb-4">{category.description}</p>
-                    <div className="flex justify-between items-center mb-4">
-                      <div className="flex items-center text-sm text-muted-foreground">
-                        <FileText className="h-4 w-4 mr-1" />
-                        <span>{category.articles} articles</span>
-                      </div>
-                      <Badge className="bg-primary/10 text-primary border-none">Active</Badge>
-                    </div>
-                    <div className="border-t pt-4">
-                      <div className="flex items-start">
-                        <TrendingUp className="h-4 w-4 text-primary mt-1 mr-2 flex-shrink-0" />
-                        <div>
-                          <div className="text-xs text-muted-foreground mb-1">Trending Now</div>
-                          <p className="font-medium line-clamp-2">{category.trending}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </Link>
-            ))}
-          </div>
-          
-          <div className="mt-16 bg-muted rounded-xl p-8">
-            <div className="text-center mb-8">
-              <h2 className="text-2xl font-bold mb-2">Explore More Categories</h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Beyond our main categories, we also cover specialized topics to provide comprehensive news coverage across various domains
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {[
-                "Opinion", "Science", "Environment", "Culture", 
-                "Travel", "Food", "Real Estate", "Automobiles"
-              ].map((specialty, index) => (
-                <Button 
-                  key={index} 
-                  variant="outline" 
-                  className="justify-start h-auto py-4"
-                  asChild
-                >
-                  <Link to={`/${specialty.toLowerCase()}`}>
-                    <span className="flex-1 text-left">{specialty}</span>
-                    <ArrowRight className="h-4 w-4 ml-2" />
-                  </Link>
-                </Button>
-              ))}
-            </div>
+    <>
+      <Helmet>
+        <title>Categories - HindPrabhari</title>
+        <meta 
+          name="description" 
+          content="Browse all news categories on HindPrabhari. Find the latest news in politics, business, technology, sports, entertainment, and more."
+        />
+      </Helmet>
+
+      <div className="container mx-auto px-4 py-8">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold mb-4">Categories</h1>
+          <p className="text-muted-foreground max-w-3xl">
+            Explore our comprehensive collection of news categories. From politics and business to entertainment and lifestyle, find the topics that interest you most.
+          </p>
+        </div>
+
+        {/* Search Bar */}
+        <div className="max-w-md mb-8">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+            <Input
+              type="text"
+              placeholder="Search categories..."
+              className="pl-10 pr-4"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
           </div>
         </div>
-      </main>
-      
-      <Footer />
-    </div>
+
+        {/* Categories Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredCategories.map((category) => (
+            <div key={category.id} className="rounded-xl border bg-card overflow-hidden hover:shadow-md transition-shadow">
+              <div className={`h-20 bg-gradient-to-r ${category.color} flex items-center px-6`}>
+                <div className="bg-white/20 p-3 rounded-full">
+                  {category.icon}
+                </div>
+                <h2 className="text-xl font-bold ml-4 text-white">{category.name}</h2>
+              </div>
+              
+              <div className="p-6">
+                <p className="text-muted-foreground mb-4">{category.description}</p>
+                
+                {/* Subcategories */}
+                <div className="space-y-2">
+                  {category.subcategories.map((subcategory) => (
+                    <Link 
+                      key={`${category.id}-${subcategory}`}
+                      to={`/categories/${category.id.toLowerCase()}/${subcategory.toLowerCase().replace(/\s+/g, '-')}`}
+                      className="flex items-center text-sm hover:text-primary transition-colors"
+                    >
+                      <ChevronRight className="h-4 w-4 mr-1 flex-shrink-0" />
+                      <span>{subcategory}</span>
+                    </Link>
+                  ))}
+                </div>
+                
+                <div className="mt-4 pt-4 border-t">
+                  <Button asChild variant="outline" className="w-full">
+                    <Link to={`/categories/${category.id.toLowerCase()}`}>
+                      Browse All {category.name}
+                    </Link>
+                  </Button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        
+        {filteredCategories.length === 0 && (
+          <div className="text-center py-12">
+            <h3 className="text-lg font-semibold mb-2">No categories found</h3>
+            <p className="text-muted-foreground mb-4">Try a different search term</p>
+            <Button onClick={() => setSearchQuery("")}>Clear Search</Button>
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 

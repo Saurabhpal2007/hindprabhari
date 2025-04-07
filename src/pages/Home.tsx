@@ -1,47 +1,57 @@
-
-import { useEffect } from "react";
-import HeroSection from "@/components/home/HeroSection";
-import BreakingNews from "@/components/news/BreakingNews";
-import TrendingSection from "@/components/news/TrendingSection";
-import LatestNews from "@/components/news/LatestNews";
-import FeaturedArticles from "@/components/news/FeaturedArticles";
-import CategoryCards from "@/components/home/CategoryCards";
+import { Helmet } from "react-helmet-async";
+import FeaturedSlider from "@/components/home/FeaturedSlider";
+import TrendingColumn from "@/components/home/TrendingColumn";
+import CategoryGrid from "@/components/home/CategoryGrid";
 import AboutUsSection from "@/components/home/AboutUsSection";
 import ContactSection from "@/components/home/ContactSection";
-import { Helmet } from "react-helmet-async";
+import NewsGrid from "@/components/news/NewsGrid";
 
 const Home = () => {
-  useEffect(() => {
-    document.title = "HindPrabhari - Latest News, Breaking News, India News";
-  }, []);
-
   return (
     <>
       <Helmet>
-        <meta name="description" content="HindPrabhari - Latest news, breaking news, and in-depth stories from India and around the world. Your trusted source for politics, business, technology, sports, and more." />
+        <title>HindPrabhari - Latest News from India and Around the World</title>
+        <meta 
+          name="description" 
+          content="Stay informed with the latest news, breaking stories, and in-depth analysis from India and around the world at HindPrabhari."
+        />
       </Helmet>
 
-      <div className="space-y-10 mb-10">
-        <BreakingNews />
-        <HeroSection />
-        <TrendingSection />
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="pt-8 pb-12">
+        {/* Hero Section: Featured Articles + Trending */}
+        <section className="container mx-auto px-4 mb-12">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="lg:col-span-2">
-              <LatestNews />
+              <FeaturedSlider />
             </div>
-            <div className="lg:col-span-1 space-y-8">
-              <FeaturedArticles />
+            <div className="lg:col-span-1">
+              <TrendingColumn />
             </div>
           </div>
-        </div>
-        <CategoryCards />
-        <div id="about" className="scroll-mt-20">
+        </section>
+
+        {/* Categories Section */}
+        <section className="mb-12">
+          <CategoryGrid />
+        </section>
+
+        {/* Latest News Section */}
+        <section className="container mx-auto px-4 mb-12">
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-2xl font-bold">Latest News</h2>
+          </div>
+          <NewsGrid category="latest" limit={6} />
+        </section>
+
+        {/* About Us Section (keep existing) */}
+        <section id="about" className="scroll-mt-20">
           <AboutUsSection />
-        </div>
-        <div id="contact" className="scroll-mt-20">
+        </section>
+
+        {/* Contact Section (keep existing) */}
+        <section id="contact" className="scroll-mt-20">
           <ContactSection />
-        </div>
+        </section>
       </div>
     </>
   );

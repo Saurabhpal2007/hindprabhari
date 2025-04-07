@@ -1,16 +1,6 @@
 
 import { Link } from "react-router-dom";
-import { 
-  Facebook, 
-  Twitter, 
-  Instagram, 
-  Youtube, 
-  Linkedin, 
-  ChevronRight,
-  Mail,
-  Phone,
-  MapPin
-} from "lucide-react";
+import { Facebook, Twitter, Instagram, Linkedin, YouTube, Mail, Phone, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
@@ -35,47 +25,36 @@ const Footer = () => {
   // Footer sections aligned with our site structure
   const sections = [
     {
-      title: "News Categories",
-      links: [
-        { name: "World", href: "/world" },
-        { name: "Politics", href: "/india/politics" },
-        { name: "Business", href: "/business" },
-        { name: "Technology", href: "/technology" },
-        { name: "Sports", href: "/sports" },
-        { name: "Science", href: "/science" },
-        { name: "Health", href: "/health" }
-      ]
-    },
-    {
-      title: "Content Formats",
-      links: [
-        { name: "Videos", href: "/video" },
-        { name: "Audio", href: "/audio" },
-        { name: "Photos", href: "/photos" },
-        { name: "Data & Graphics", href: "/data" },
-        { name: "Opinion", href: "/opinion" },
-        { name: "Fact Check", href: "/fact-check" }
-      ]
-    },
-    {
       title: "Quick Links",
       links: [
-        { name: "Latest News", href: "/latest" },
-        { name: "Trending Now", href: "/trending" },
-        { name: "Investigations", href: "/investigations" },
-        { name: "Live Updates", href: "/live" },
-        { name: "Special Reports", href: "/special-reports" }
+        { name: "Home", href: "/" },
+        { name: "Trending", href: "/trending" },
+        { name: "India", href: "/india" },
+        { name: "World", href: "/world" },
+        { name: "Videos", href: "/videos" },
+        { name: "Categories", href: "/categories" }
+      ]
+    },
+    {
+      title: "Categories",
+      links: [
+        { name: "Politics", href: "/categories/politics" },
+        { name: "Business", href: "/categories/business" },
+        { name: "Technology", href: "/categories/technology" },
+        { name: "Sport", href: "/categories/sport" },
+        { name: "Entertainment", href: "/categories/entertainment" },
+        { name: "Science", href: "/categories/science" }
       ]
     },
     {
       title: "Company",
       links: [
         { name: "About Us", href: "/about" },
-        { name: "Contact", href: "/contact" },
+        { name: "Contact Us", href: "/contact" },
         { name: "Careers", href: "/careers" },
         { name: "Advertise", href: "/advertise" },
-        { name: "Editorial Policy", href: "/editorial-policy" },
-        { name: "Ethics", href: "/ethics" }
+        { name: "Privacy Policy", href: "/privacy" },
+        { name: "Terms of Service", href: "/terms" }
       ]
     }
   ];
@@ -85,37 +64,35 @@ const Footer = () => {
     { name: "Facebook", icon: <Facebook className="h-5 w-5" />, href: "https://facebook.com" },
     { name: "Twitter", icon: <Twitter className="h-5 w-5" />, href: "https://twitter.com" },
     { name: "Instagram", icon: <Instagram className="h-5 w-5" />, href: "https://instagram.com" },
-    { name: "Youtube", icon: <Youtube className="h-5 w-5" />, href: "https://youtube.com" },
-    { name: "LinkedIn", icon: <Linkedin className="h-5 w-5" />, href: "https://linkedin.com" }
+    { name: "LinkedIn", icon: <Linkedin className="h-5 w-5" />, href: "https://linkedin.com" },
+    { name: "YouTube", icon: <YouTube className="h-5 w-5" />, href: "https://youtube.com" }
   ];
 
   return (
-    <footer className="bg-card border-t relative">
-      <div className="container mx-auto px-4 pt-12 pb-8">
-        <div className="grid grid-cols-1 md:grid-cols-7 gap-8">
-          {/* Brand section */}
-          <div className="md:col-span-3">
+    <footer className="bg-card border-t">
+      <div className="container mx-auto px-4 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {/* Logo and Company Info */}
+          <div className="md:col-span-1 lg:col-span-1">
             <Link to="/" className="inline-block mb-4">
               <div className="flex items-center">
-                <div className="h-12 w-auto mr-2">
-                  <img 
-                    src="/assets/logo-main.png" 
-                    alt="HindPrabhari" 
-                    className="h-full w-auto object-contain"
-                  />
-                </div>
-                <span className="text-xl font-semibold">HindPrabhari</span>
+                <img 
+                  src="/assets/logo-main.png" 
+                  alt="HindPrabhari" 
+                  className="h-10 w-auto mr-2"
+                />
+                <span className="text-xl font-bold">HindPrabhari</span>
               </div>
             </Link>
-            <p className="text-muted-foreground mb-6 max-w-md">
-              HindPrabhari is a modern news platform delivering the pulse of Bharat with a focus on accuracy, 
-              depth, and cultural relevance across politics, technology, sports, and more.
+            <p className="text-muted-foreground mb-6">
+              Your trusted source for news from India and around the world.
+              Unbiased, accurate, and timely reporting on politics, business, technology, and more.
             </p>
             
-            <div className="mb-6 space-y-2">
+            <div className="space-y-2 mb-6">
               <div className="flex items-start">
                 <MapPin className="h-5 w-5 text-primary mt-0.5 mr-2" />
-                <span className="text-sm">123 News Street, New Delhi, 110001, India</span>
+                <span className="text-sm">123 Media Street, New Delhi, 110001, India</span>
               </div>
               <div className="flex items-center">
                 <Phone className="h-5 w-5 text-primary mr-2" />
@@ -123,43 +100,38 @@ const Footer = () => {
               </div>
               <div className="flex items-center">
                 <Mail className="h-5 w-5 text-primary mr-2" />
-                <span className="text-sm">contact@hindprabhari.com</span>
+                <span className="text-sm">contact@hindprabhari.in</span>
               </div>
             </div>
             
             {/* Social links */}
-            <div className="flex space-x-4">
+            <div className="flex space-x-3">
               {socialLinks.map((link) => (
                 <a 
                   key={link.name}
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-muted/50 hover:bg-primary hover:text-primary-foreground p-2 rounded-full transition-colors group"
+                  className="bg-muted/50 hover:bg-primary hover:text-primary-foreground p-2 rounded-full transition-colors"
                   aria-label={link.name}
                 >
-                  <span className="sr-only">{link.name}</span>
-                  <div className="relative">
-                    {link.icon}
-                    <span className="absolute inset-0 rounded-full bg-primary/0 group-hover:bg-primary/20 group-hover:blur-md transition-all duration-300"></span>
-                  </div>
+                  {link.icon}
                 </a>
               ))}
             </div>
           </div>
           
-          {/* Navigation sections */}
-          {sections.map((section, index) => (
-            <div key={section.title} className={`md:col-span-1 ${index === sections.length - 1 ? 'md:col-span-1' : ''}`}>
-              <h3 className="font-semibold mb-4 text-base">{section.title}</h3>
+          {/* Footer Sections */}
+          {sections.map((section) => (
+            <div key={section.title} className="md:col-span-1 lg:col-span-1">
+              <h3 className="font-semibold mb-4">{section.title}</h3>
               <ul className="space-y-2">
                 {section.links.map((link) => (
                   <li key={link.name}>
                     <Link 
                       to={link.href}
-                      className="text-muted-foreground hover:text-foreground transition-colors inline-flex items-center group"
+                      className="text-muted-foreground hover:text-foreground transition-colors inline-flex items-center"
                     >
-                      <ChevronRight className="h-3 w-3 mr-1 transition-transform group-hover:translate-x-1" />
                       <span>{link.name}</span>
                     </Link>
                   </li>
@@ -169,24 +141,23 @@ const Footer = () => {
           ))}
           
           {/* Newsletter */}
-          <div className="md:col-span-1">
-            <h3 className="font-semibold mb-4 text-base">Stay Updated</h3>
+          <div className="md:col-span-2 lg:col-span-1">
+            <h3 className="font-semibold mb-4">Newsletter</h3>
             <p className="text-muted-foreground text-sm mb-4">
               Subscribe to our newsletter for the latest news and updates.
             </p>
             <form className="space-y-2" onSubmit={handleSubscribe}>
               <Input
                 type="email"
-                placeholder="Your email"
-                className="w-full px-3 py-2 text-sm rounded-md border focus:ring-2 focus:ring-primary focus:border-primary focus:outline-none"
+                placeholder="Your email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                aria-label="Email for newsletter"
                 required
               />
               <Button 
                 type="submit" 
-                className="w-full py-2 px-4 bg-gradient-to-r from-yellow-500 to-orange-500 text-white rounded-md hover:from-yellow-600 hover:to-orange-600 transition-colors text-sm font-medium"
+                className="w-full"
+                variant="filled"
               >
                 Subscribe
               </Button>
@@ -194,22 +165,19 @@ const Footer = () => {
           </div>
         </div>
         
-        <div className="border-t mt-12 pt-6 flex flex-col md:flex-row justify-between items-center">
+        <div className="border-t mt-8 pt-6 flex flex-col md:flex-row justify-between items-center">
           <p className="text-muted-foreground text-sm mb-4 md:mb-0">
-            © {currentYear} HindPrabhari. All rights reserved.
+            © {currentYear} HindPrabhari. All Rights Reserved.
           </p>
-          <div className="flex flex-wrap justify-center gap-4 md:gap-6 text-sm">
-            <Link to="/privacy" className="text-muted-foreground hover:text-foreground transition-colors">
+          <div className="flex space-x-4 text-sm">
+            <Link to="/privacy" className="text-muted-foreground hover:text-foreground">
               Privacy Policy
             </Link>
-            <Link to="/terms" className="text-muted-foreground hover:text-foreground transition-colors">
+            <Link to="/terms" className="text-muted-foreground hover:text-foreground">
               Terms of Service
             </Link>
-            <Link to="/cookies" className="text-muted-foreground hover:text-foreground transition-colors">
-              Cookies Policy
-            </Link>
-            <Link to="/help" className="text-muted-foreground hover:text-foreground transition-colors">
-              Help & FAQ
+            <Link to="/cookies" className="text-muted-foreground hover:text-foreground">
+              Cookie Policy
             </Link>
           </div>
         </div>

@@ -6,84 +6,54 @@
 @layer base {
   :root {
     /* Material Design 3 color system - light mode */
+    --md-sys-color-primary: 25 95% 53%;
+    --md-sys-color-on-primary: 0 0% 100%;
+    --md-sys-color-primary-container: 25 100% 92%;
+    --md-sys-color-on-primary-container: 25 100% 10%;
     
-    /* Primary */
-    --md-ref-palette-primary40: 24.6 95% 53.1%;
-    --md-ref-palette-primary80: 25 100% 82%;
-    --md-ref-palette-primary100: 25 100% 97%;
+    --md-sys-color-secondary: 40 100% 50%;
+    --md-sys-color-on-secondary: 0 0% 100%;
+    --md-sys-color-secondary-container: 40 100% 90%;
+    --md-sys-color-on-secondary-container: 40 100% 10%;
     
-    /* Secondary */
-    --md-ref-palette-secondary40: 40 100% 50%;
-    --md-ref-palette-secondary80: 40 100% 80%;
-    --md-ref-palette-secondary100: 40 100% 97%;
+    --md-sys-color-tertiary: 340 80% 50%;
+    --md-sys-color-on-tertiary: 0 0% 100%;
+    --md-sys-color-tertiary-container: 340 80% 90%;
+    --md-sys-color-on-tertiary-container: 340 80% 10%;
     
-    /* Tertiary */
-    --md-ref-palette-tertiary40: 340 80% 50%;
-    --md-ref-palette-tertiary80: 340 80% 80%;
-    --md-ref-palette-tertiary100: 340 80% 97%;
+    --md-sys-color-error: 0 85% 60%;
+    --md-sys-color-on-error: 0 0% 100%;
+    --md-sys-color-error-container: 0 85% 90%;
+    --md-sys-color-on-error-container: 0 85% 10%;
     
-    /* Neutral */
-    --md-ref-palette-neutral10: 20 10% 10%;
-    --md-ref-palette-neutral20: 20 10% 20%;
-    --md-ref-palette-neutral90: 20 10% 90%;
-    --md-ref-palette-neutral95: 20 10% 95%;
-    --md-ref-palette-neutral99: 20 10% 99%;
+    --md-sys-color-background: 25 10% 99%;
+    --md-sys-color-on-background: 25 10% 10%;
     
-    /* Neutral Variant */
-    --md-ref-palette-neutral-variant30: 25 18% 30%;
-    --md-ref-palette-neutral-variant50: 25 18% 50%;
-    --md-ref-palette-neutral-variant80: 25 18% 80%;
-    --md-ref-palette-neutral-variant90: 25 18% 90%;
-    --md-ref-palette-neutral-variant95: 25 18% 95%;
+    --md-sys-color-surface: 25 10% 99%;
+    --md-sys-color-on-surface: 25 10% 10%;
     
-    /* Surface */
-    --background: 36 100% 97%;
-    --foreground: 20 14.3% 4.1%;
+    --md-sys-color-surface-variant: 25 18% 90%;
+    --md-sys-color-on-surface-variant: 25 18% 30%;
     
-    --card: 0 0% 100%;
-    --card-foreground: 20 14.3% 4.1%;
+    --md-sys-color-outline: 25 18% 50%;
+    --md-sys-color-outline-variant: 25 18% 80%;
     
-    --popover: 0 0% 100%;
-    --popover-foreground: 20 14.3% 4.1%;
+    --md-sys-color-shadow: 0 0% 0%;
+    --md-sys-color-surface-tint: 25 95% 53%;
     
-    --primary: var(--md-ref-palette-primary40);
-    --primary-foreground: 60 9.1% 97.8%;
+    --md-sys-color-inverse-surface: 25 10% 10%;
+    --md-sys-color-inverse-on-surface: 25 10% 95%;
+    --md-sys-color-inverse-primary: 25 95% 80%;
     
-    --secondary: 60 4.8% 95.9%;
-    --secondary-foreground: 24 9.8% 10%;
+    /* Light Mode Surface Containers */
+    --md-sys-color-surface-dim: 25 10% 95%;
+    --md-sys-color-surface-bright: 25 10% 99%;
+    --md-sys-color-surface-container-lowest: 25 10% 100%;
+    --md-sys-color-surface-container-low: 25 10% 97%;
+    --md-sys-color-surface-container: 25 10% 94%;
+    --md-sys-color-surface-container-high: 25 10% 92%;
+    --md-sys-color-surface-container-highest: 25 10% 90%;
     
-    --muted: 60 4.8% 95.9%;
-    --muted-foreground: 25 5.3% 44.7%;
-    
-    --accent: 60 4.8% 95.9%;
-    --accent-foreground: 24 9.8% 10%;
-    
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 60 9.1% 97.8%;
-    
-    --border: 20 5.9% 90%;
-    --input: 20 5.9% 90%;
-    --ring: 24.6 95% 53.1%;
-    
-    /* Material Design 3 Surface colors */
-    --md-sys-color-surface: var(--md-ref-palette-neutral99);
-    --md-sys-color-surface-dim: var(--md-ref-palette-neutral90);
-    --md-sys-color-surface-bright: var(--md-ref-palette-neutral99);
-    --md-sys-color-surface-container-lowest: var(--md-ref-palette-neutral100);
-    --md-sys-color-surface-container-low: var(--md-ref-palette-neutral95);
-    --md-sys-color-surface-container: var(--md-ref-palette-neutral90);
-    --md-sys-color-surface-container-high: var(--md-ref-palette-neutral95);
-    --md-sys-color-surface-container-highest: var(--md-ref-palette-neutral95);
-    
-    /* Material Design 3 on-colors */
-    --md-sys-color-on-primary: hsl(var(--md-ref-palette-primary100));
-    --md-sys-color-on-primary-container: hsl(var(--md-ref-palette-primary10));
-    --md-sys-color-on-secondary: hsl(var(--md-ref-palette-secondary100));
-    --md-sys-color-on-tertiary: hsl(var(--md-ref-palette-tertiary100));
-    
-    --md-sys-color-outline: hsl(var(--md-ref-palette-neutral-variant50));
-    --md-sys-color-outline-variant: hsl(var(--md-ref-palette-neutral-variant80));
-
     /* Material Design elevation levels */
     --md-elevation-level1: 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
     --md-elevation-level2: 0px 3px 6px 0px rgba(0, 0, 0, 0.15);
@@ -93,122 +63,131 @@
     --haptic-short: 100ms;
     --haptic-medium: 200ms;
     --haptic-long: 300ms;
+    
+    /* Shadcn UI system colors */
+    --background: var(--md-sys-color-background);
+    --foreground: var(--md-sys-color-on-background);
+    
+    --card: var(--md-sys-color-surface-container-low);
+    --card-foreground: var(--md-sys-color-on-surface);
+    
+    --popover: var(--md-sys-color-surface);
+    --popover-foreground: var(--md-sys-color-on-surface);
+    
+    --primary: var(--md-sys-color-primary);
+    --primary-foreground: var(--md-sys-color-on-primary);
+    
+    --secondary: var(--md-sys-color-secondary-container);
+    --secondary-foreground: var(--md-sys-color-on-secondary-container);
+    
+    --muted: var(--md-sys-color-surface-variant);
+    --muted-foreground: var(--md-sys-color-on-surface-variant);
+    
+    --accent: var(--md-sys-color-tertiary-container);
+    --accent-foreground: var(--md-sys-color-on-tertiary-container);
+    
+    --destructive: var(--md-sys-color-error);
+    --destructive-foreground: var(--md-sys-color-on-error);
+    
+    --border: var(--md-sys-color-outline-variant);
+    --input: var(--md-sys-color-outline);
+    --ring: var(--md-sys-color-primary);
 
     /* Border radii */
-    --radius: 1rem;
+    --radius: 0.75rem;
     --radius-full: 9999px;
-    --radius-md: 0.75rem;
-    --radius-sm: 0.5rem;
+    --radius-md: 0.5rem;
+    --radius-sm: 0.25rem;
     
     /* State layer opacities */
     --md-state-hover-opacity: 0.08;
     --md-state-focus-opacity: 0.12;
     --md-state-pressed-opacity: 0.16;
-    
-    /* Sidebar colors */
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
   .dark {
     /* Material Design 3 color system - dark mode */
+    --md-sys-color-primary: 25 95% 70%;
+    --md-sys-color-on-primary: 25 95% 15%;
+    --md-sys-color-primary-container: 25 95% 30%;
+    --md-sys-color-on-primary-container: 25 95% 90%;
     
-    /* Primary */
-    --md-ref-palette-primary80: 24.6 95% 80%;
-    --md-ref-palette-primary40: 24.6 95% 40%;
-    --md-ref-palette-primary20: 24.6 95% 20%;
+    --md-sys-color-secondary: 40 100% 70%;
+    --md-sys-color-on-secondary: 40 100% 15%;
+    --md-sys-color-secondary-container: 40 100% 30%;
+    --md-sys-color-on-secondary-container: 40 100% 90%;
     
-    /* Secondary */
-    --md-ref-palette-secondary80: 40 100% 80%;
-    --md-ref-palette-secondary40: 40 100% 40%;
-    --md-ref-palette-secondary20: 40 100% 20%;
+    --md-sys-color-tertiary: 340 80% 70%;
+    --md-sys-color-on-tertiary: 340 80% 15%;
+    --md-sys-color-tertiary-container: 340 80% 30%;
+    --md-sys-color-on-tertiary-container: 340 80% 90%;
     
-    /* Tertiary */
-    --md-ref-palette-tertiary80: 340 80% 80%;
-    --md-ref-palette-tertiary40: 340 80% 40%;
-    --md-ref-palette-tertiary20: 340 80% 20%;
+    --md-sys-color-error: 0 85% 70%;
+    --md-sys-color-on-error: 0 85% 15%;
+    --md-sys-color-error-container: 0 85% 30%;
+    --md-sys-color-on-error-container: 0 85% 90%;
     
-    /* Neutral */
-    --md-ref-palette-neutral10: 20 10% 10%;
-    --md-ref-palette-neutral20: 20 10% 20%;
-    --md-ref-palette-neutral90: 20 10% 90%;
-    --md-ref-palette-neutral95: 20 10% 95%;
-    --md-ref-palette-neutral99: 20 10% 99%;
+    --md-sys-color-background: 25 10% 8%;
+    --md-sys-color-on-background: 25 10% 95%;
     
-    /* Neutral Variant */
-    --md-ref-palette-neutral-variant30: 25 18% 30%;
-    --md-ref-palette-neutral-variant50: 25 18% 50%;
-    --md-ref-palette-neutral-variant80: 25 18% 80%;
-    --md-ref-palette-neutral-variant90: 25 18% 90%;
-    --md-ref-palette-neutral-variant95: 25 18% 95%;
+    --md-sys-color-surface: 25 10% 8%;
+    --md-sys-color-on-surface: 25 10% 95%;
     
-    /* Surface */
-    --background: 20 14.3% 4.1%;
-    --foreground: 60 9.1% 97.8%;
+    --md-sys-color-surface-variant: 25 18% 25%;
+    --md-sys-color-on-surface-variant: 25 18% 80%;
     
-    --card: 20 14.3% 4.1%;
-    --card-foreground: 60 9.1% 97.8%;
+    --md-sys-color-outline: 25 18% 60%;
+    --md-sys-color-outline-variant: 25 18% 30%;
     
-    --popover: 20 14.3% 4.1%;
-    --popover-foreground: 60 9.1% 97.8%;
+    --md-sys-color-shadow: 0 0% 0%;
+    --md-sys-color-surface-tint: 25 95% 70%;
     
-    --primary: var(--md-ref-palette-primary80);
-    --primary-foreground: 20 14.3% 4.1%;
+    --md-sys-color-inverse-surface: 25 10% 95%;
+    --md-sys-color-inverse-on-surface: 25 10% 20%;
+    --md-sys-color-inverse-primary: 25 95% 40%;
     
-    --secondary: 12 6.5% 15.1%;
-    --secondary-foreground: 60 9.1% 97.8%;
-    
-    --muted: 12 6.5% 15.1%;
-    --muted-foreground: 24 5.4% 63.9%;
-    
-    --accent: 12 6.5% 15.1%;
-    --accent-foreground: 60 9.1% 97.8%;
-    
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 60 9.1% 97.8%;
-    
-    --border: 12 6.5% 15.1%;
-    --input: 12 6.5% 15.1%;
-    --ring: var(--md-ref-palette-primary80);
-    
-    /* Material Design 3 Surface colors */
-    --md-sys-color-surface: var(--md-ref-palette-neutral10);
-    --md-sys-color-surface-dim: var(--md-ref-palette-neutral10);
-    --md-sys-color-surface-bright: var(--md-ref-palette-neutral20);
-    --md-sys-color-surface-container-lowest: var(--md-ref-palette-neutral10);
-    --md-sys-color-surface-container-low: var(--md-ref-palette-neutral10);
-    --md-sys-color-surface-container: var(--md-ref-palette-neutral20);
-    --md-sys-color-surface-container-high: var(--md-ref-palette-neutral20);
-    --md-sys-color-surface-container-highest: var(--md-ref-palette-neutral20);
-    
-    /* Material Design 3 on-colors */
-    --md-sys-color-on-primary: hsl(var(--md-ref-palette-primary20));
-    --md-sys-color-on-primary-container: hsl(var(--md-ref-palette-primary90));
-    --md-sys-color-on-secondary: hsl(var(--md-ref-palette-secondary20));
-    --md-sys-color-on-tertiary: hsl(var(--md-ref-palette-tertiary20));
-    
-    --md-sys-color-outline: hsl(var(--md-ref-palette-neutral-variant50));
-    --md-sys-color-outline-variant: hsl(var(--md-ref-palette-neutral-variant30));
+    /* Dark Mode Surface Containers */
+    --md-sys-color-surface-dim: 25 10% 6%;
+    --md-sys-color-surface-bright: 25 10% 12%;
+    --md-sys-color-surface-container-lowest: 25 10% 4%;
+    --md-sys-color-surface-container-low: 25 10% 10%;
+    --md-sys-color-surface-container: 25 10% 12%;
+    --md-sys-color-surface-container-high: 25 10% 16%;
+    --md-sys-color-surface-container-highest: 25 10% 20%;
     
     /* Material Design elevation levels for dark mode */
     --md-elevation-level1: 0px 1px 3px 0px rgba(0, 0, 0, 0.5);
     --md-elevation-level2: 0px 3px 6px 0px rgba(0, 0, 0, 0.6);
     --md-elevation-level3: 0px 10px 20px 0px rgba(0, 0, 0, 0.7);
-
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    
+    /* Shadcn UI system colors */
+    --background: var(--md-sys-color-background);
+    --foreground: var(--md-sys-color-on-background);
+    
+    --card: var(--md-sys-color-surface-container-low);
+    --card-foreground: var(--md-sys-color-on-surface);
+    
+    --popover: var(--md-sys-color-surface);
+    --popover-foreground: var(--md-sys-color-on-surface);
+    
+    --primary: var(--md-sys-color-primary);
+    --primary-foreground: var(--md-sys-color-on-primary);
+    
+    --secondary: var(--md-sys-color-secondary-container);
+    --secondary-foreground: var(--md-sys-color-on-secondary-container);
+    
+    --muted: var(--md-sys-color-surface-variant);
+    --muted-foreground: var(--md-sys-color-on-surface-variant);
+    
+    --accent: var(--md-sys-color-tertiary-container);
+    --accent-foreground: var(--md-sys-color-on-tertiary-container);
+    
+    --destructive: var(--md-sys-color-error);
+    --destructive-foreground: var(--md-sys-color-on-error);
+    
+    --border: var(--md-sys-color-outline-variant);
+    --input: var(--md-sys-color-outline);
+    --ring: var(--md-sys-color-primary);
   }
 }
 
@@ -224,7 +203,7 @@
   
   /* Material Design 3 typography scale */
   h1 {
-    @apply text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl;
+    @apply text-4xl font-bold tracking-tight sm:text-5xl;
   }
   
   h2 {
@@ -251,11 +230,11 @@
 @layer utilities {
   /* Text gradient utilities */
   .text-gradient {
-    @apply bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-primary via-primary/90 to-primary/80 bg-clip-text text-transparent;
   }
   
-  .bg-gradient {
-    @apply bg-gradient-to-r from-orange-500 to-amber-500;
+  .text-gradient-warm {
+    @apply bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent;
   }
   
   /* Material Design 3 elevation classes */
@@ -304,6 +283,7 @@
   
   .md-state-layer::after {
     @apply absolute inset-0 bg-current opacity-0 transition-opacity duration-300 content-[''];
+    border-radius: inherit;
   }
   
   .md-state-layer:hover::after {
@@ -319,26 +299,36 @@
     animation: ripple var(--haptic-short) ease-out;
   }
   
-  /* Material Design 3 container shapes */
-  .md-container-shape {
-    @apply rounded-2xl overflow-hidden;
+  /* Hide scrollbars but keep functionality */
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
   }
   
-  .md-container-shape-lg {
-    @apply rounded-3xl overflow-hidden;
+  /* Line clamp utilities */
+  .line-clamp-1 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
   
-  .md-container-shape-full {
-    @apply rounded-full overflow-hidden;
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
   
-  /* Glassmorphism utility */
-  .glassmorphism {
-    @apply bg-background/80 backdrop-blur-lg border border-border/50 shadow-sm;
-  }
-  
-  .hover-glow {
-    @apply hover:shadow-[0_0_15px_rgba(255,152,0,0.5)] transition-shadow duration-300;
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
   
   /* Material Design 3 ripple animation */
@@ -351,5 +341,86 @@
       transform: scale(2.5);
       opacity: 0;
     }
+  }
+  
+  /* Animate-in utilities */
+  .animate-in {
+    animation: animate-in 0.5s ease-out forwards;
+  }
+  
+  @keyframes animate-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Prose styles for article content */
+  .prose {
+    @apply text-foreground leading-7;
+  }
+  
+  .prose p {
+    @apply mb-4;
+  }
+  
+  .prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
+    @apply font-bold text-foreground mt-8 mb-4;
+  }
+  
+  .prose a {
+    @apply text-primary underline hover:text-primary/80;
+  }
+  
+  .prose blockquote {
+    @apply border-l-4 border-muted pl-4 italic my-4;
+  }
+  
+  .prose ul {
+    @apply list-disc pl-6 mb-4;
+  }
+  
+  .prose ol {
+    @apply list-decimal pl-6 mb-4;
+  }
+  
+  .prose li {
+    @apply mb-1;
+  }
+  
+  .prose img {
+    @apply my-4 rounded-md max-w-full;
+  }
+  
+  .prose pre {
+    @apply bg-muted p-4 rounded-md overflow-x-auto my-4;
+  }
+  
+  .prose code {
+    @apply bg-muted px-1 py-0.5 rounded-sm text-sm;
+  }
+  
+  .prose table {
+    @apply w-full border-collapse my-4;
+  }
+  
+  .prose th {
+    @apply border bg-muted font-medium px-4 py-2 text-left;
+  }
+  
+  .prose td {
+    @apply border px-4 py-2;
+  }
+  
+  .prose-lg {
+    @apply text-lg;
+  }
+  
+  .prose-lg p {
+    @apply my-5;
   }
 }

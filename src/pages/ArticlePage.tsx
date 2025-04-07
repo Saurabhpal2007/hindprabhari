@@ -1,422 +1,471 @@
+
 import { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
-import Header from "../components/layout/Header";
-import Footer from "../components/layout/Footer";
+import { useParams } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
+import { Link } from "react-router-dom";
+import { Facebook, Twitter, Linkedin, Mail, Bookmark, ThumbsUp, ThumbsDown, Share2, Calendar, Clock, User, MessageSquare, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
-import { 
-  Bookmark, 
-  Calendar, 
-  Clock, 
-  Eye, 
-  Facebook, 
-  MessageSquare, 
-  Share2, 
-  ThumbsUp, 
-  Twitter, 
-  Linkedin, 
-  Mail,
-  ArrowRight
-} from "lucide-react";
-import { useToast } from "../components/ui/use-toast";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useForm } from "react-hook-form";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useToast } from "@/hooks/use-toast";
+import NewsGrid from "@/components/news/NewsGrid";
 
-// Sample article data
-const sampleArticle = {
-  id: "pol-1",
-  title: "New Policy Reform Announced by Government",
-  content: `<p class="text-lg mb-4">The government announced a comprehensive policy reform today addressing key sectors including education, healthcare, and infrastructure development. The initiative aims to boost economic growth and improve quality of life for citizens across the country.</p>
-  <p class="mb-4">Finance Minister Nirmala Sitharaman, who unveiled the policy package at a press conference, emphasized the government's commitment to inclusive growth and sustainable development. "These reforms represent a holistic approach to addressing challenges in critical sectors while creating opportunities for all segments of society," she stated.</p>
-  <h2 class="text-2xl font-bold mt-8 mb-4">Education Reform</h2>
-  <p class="mb-4">The education component of the reform includes significant increases in budget allocation, with a focus on digital infrastructure and teacher training programs. The government plans to establish centers of excellence in every state to promote research and innovation.</p>
-  <p class="mb-4">"We are committed to transforming our education system to meet the demands of the 21st century," said Education Minister Dharmendra Pradhan. "These reforms will help bridge the digital divide and ensure quality education for all."</p>
-  <h2 class="text-2xl font-bold mt-8 mb-4">Healthcare Initiatives</h2>
-  <p class="mb-4">The healthcare aspect of the reform package includes expanded coverage under the Ayushman Bharat scheme and increased investment in medical infrastructure, particularly in rural areas. The government also announced plans to establish new AIIMS-like institutions in underserved regions.</p>
-  <p class="mb-4">Health Minister Mansukh Mandaviya highlighted the importance of accessible healthcare, stating, "Our goal is to ensure that every citizen has access to quality healthcare services regardless of their geographic location or economic status."</p>
-  <h2 class="text-2xl font-bold mt-8 mb-4">Infrastructure Development</h2>
-  <p class="mb-4">The infrastructure component includes major investments in road networks, railways, and digital connectivity. The government has allocated ₹10,000 crore for new projects aimed at improving connectivity between rural and urban areas.</p>
-  <blockquote class="border-l-4 border-primary pl-4 italic my-6">"Infrastructure development is the backbone of economic growth. These investments will create jobs, improve logistics, and enhance the overall quality of life for our citizens," said Minister for Road Transport and Highways Nitin Gadkari.</blockquote>
-  <p class="mb-4">The policy reform has been generally well-received by industry leaders and economists, though some have expressed concerns about implementation challenges and fiscal implications.</p>
-  <p class="mb-4">"The direction is positive, but execution will be key," said economist Raghuram Rajan. "The government needs to ensure that these reforms are implemented effectively and that the benefits reach those who need them most."</p>
-  <p>Opposition leaders have called for more transparency in the implementation process and have raised questions about funding sources for the ambitious programs. The government has indicated that detailed implementation plans will be released in the coming weeks.</p>`,
-  date: "2023-05-15",
-  readTime: "5 min",
-  author: "Rahul Sharma",
-  authorBio: "Senior Political Correspondent with over 15 years of experience covering national politics and policy developments.",
-  authorAvatar: "RS",
-  category: "Politics",
-  views: 1245,
-  likes: 342,
+interface Comment {
+  id: number;
+  user: {
+    name: string;
+    avatar?: string;
+  };
+  content: string;
+  date: string;
+  likes: number;
+}
+
+interface Article {
+  id: number;
+  title: string;
+  content: string[];
+  category: string;
+  subcategory?: string;
+  author: {
+    name: string;
+    role: string;
+    avatar?: string;
+    url: string;
+  };
+  date: string;
+  readTime: string;
+  views: number;
+  likes: number;
+  dislikes: number;
+  comments: Comment[];
+  tags: string[];
+  imageUrl: string;
+  relatedArticles: number[];
+}
+
+// Mock article data
+const mockArticle: Article = {
+  id: 1,
+  title: "India's Digital Revolution: How Technology is Transforming Rural Communities",
+  content: [
+    "India is witnessing a remarkable digital transformation that extends beyond its bustling urban centers into the heart of rural communities. This technological revolution is reshaping the social, economic, and educational landscape of villages across the country.",
+    
+    "The government's Digital India initiative, launched in 2015, has been instrumental in bringing high-speed internet, digital literacy programs, and e-governance services to remote areas. What began as an ambitious vision is now showing tangible results, with millions of rural citizens gaining access to digital tools that were previously unavailable to them.",
+    
+    "One of the most significant impacts has been in financial inclusion. With the introduction of digital payment systems and mobile banking solutions, villagers who once had to travel long distances to access banking services can now conduct transactions from their phones. Farmers are receiving direct subsidies through digital transfers, eliminating intermediaries and reducing corruption.",
+    
+    "Education has also seen a dramatic transformation. Rural schools are being equipped with computers and internet connectivity, exposing students to global learning resources. During the pandemic, many villages set up community digital centers where students could access online classes when schools were closed.",
+    
+    "Healthcare delivery has improved through telemedicine initiatives, allowing villagers to consult with specialists in cities without the need for expensive and time-consuming travel. Digital health records are making it easier to track and manage healthcare needs in underserved communities.",
+    
+    "Agriculture, the backbone of rural India, is becoming smarter with the adoption of precision farming techniques, weather forecasting apps, and online marketplaces that connect farmers directly with buyers. This technological integration is helping increase yields, reduce waste, and improve income levels for farming families.",
+    
+    "However, challenges remain. Digital literacy levels vary widely, and many elderly residents struggle to adapt to new technologies. Infrastructure limitations, including unreliable electricity and internet connectivity in some areas, continue to be obstacles. There's also the concern of the digital divide widening between those who can access and effectively use digital tools and those who cannot.",
+    
+    "Despite these challenges, the momentum of digital transformation in rural India continues to build. Government initiatives are being complemented by efforts from private companies, NGOs, and social entrepreneurs who see the potential for technology to address longstanding problems in rural development.",
+    
+    "As this digital revolution progresses, it's creating new opportunities for rural youth who can now access remote work, online education, and entrepreneurship resources without migrating to cities. This could potentially slow or even reverse the rural-to-urban migration trend that has characterized India's development for decades.",
+    
+    "The story of India's rural digital transformation is still being written, but it's already clear that technology is becoming a powerful force for positive change in the country's vast countryside."
+  ],
+  category: "Technology",
+  subcategory: "Digital India",
+  author: {
+    name: "Priya Sharma",
+    role: "Technology Editor",
+    avatar: "https://randomuser.me/api/portraits/women/43.jpg",
+    url: "/author/priya-sharma"
+  },
+  date: "2023-04-15",
+  readTime: "8 min read",
+  views: 12580,
+  likes: 843,
+  dislikes: 52,
   comments: [
     {
-      id: "c1",
-      user: "Ankit Patel",
-      userAvatar: "AP",
-      date: "2023-05-15",
-      content: "This is a much-needed reform. I hope the implementation is done properly this time.",
+      id: 1,
+      user: {
+        name: "Rahul Verma",
+        avatar: "https://randomuser.me/api/portraits/men/32.jpg"
+      },
+      content: "This is a great summary of how technology is changing life in rural areas. I've seen these changes firsthand in my village in Maharashtra. The digital payment systems have made life so much easier for everyone.",
+      date: "2023-04-15",
       likes: 24
     },
     {
-      id: "c2",
-      user: "Priya Singh",
-      userAvatar: "PS",
-      date: "2023-05-15",
-      content: "While the education reforms sound promising, I'm concerned about the funding allocation. Will this be sustainable in the long run?",
+      id: 2,
+      user: {
+        name: "Anjali Patel"
+      },
+      content: "While there has been progress, I think the article could have addressed the issue of internet reliability more. In many villages, connectivity is still a major problem, especially during monsoon season.",
+      date: "2023-04-14",
       likes: 18
     },
     {
-      id: "c3",
-      user: "Rajesh Kumar",
-      userAvatar: "RK",
-      date: "2023-05-16",
-      content: "The infrastructure development plan could be transformative for rural connectivity. Looking forward to seeing how this unfolds.",
-      likes: 15
+      id: 3,
+      user: {
+        name: "Sunil Kumar",
+        avatar: "https://randomuser.me/api/portraits/men/45.jpg"
+      },
+      content: "The point about telemedicine is spot on. My father in our village was able to consult with a cardiologist in Delhi without traveling. This technology is literally saving lives!",
+      date: "2023-04-14",
+      likes: 32
     }
   ],
-  relatedArticles: [
-    {
-      id: "pol-2",
-      title: "Parliament Debates New Economic Measures",
-      excerpt: "Members of Parliament engage in heated debate over proposed economic measures aimed at boosting growth.",
-      date: "2023-05-10",
-      image: "https://images.unsplash.com/photo-1575320181282-9afab399332c?ixlib=rb-4.0.3"
-    },
-    {
-      id: "pol-3",
-      title: "Election Commission Announces Poll Dates",
-      excerpt: "The Election Commission has released the schedule for upcoming state assembly elections in five states.",
-      date: "2023-05-05",
-      image: "https://images.unsplash.com/photo-1581025026888-77f223d2e352?ixlib=rb-4.0.3"
-    },
-    {
-      id: "pol-4",
-      title: "International Relations: PM's Foreign Visit",
-      excerpt: "Prime Minister concludes successful diplomatic visit to neighboring countries, signs multiple agreements.",
-      date: "2023-04-28",
-      image: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-4.0.3"
-    }
-  ],
-  image: "https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?ixlib=rb-4.0.3"
+  tags: ["Digital India", "Rural Development", "Technology", "Digital Literacy", "Internet"],
+  imageUrl: "https://source.unsplash.com/random/1200x600?india,technology,rural",
+  relatedArticles: [2, 3, 4, 5]
 };
 
-interface CommentFormValues {
-  comment: string;
-}
-
 const ArticlePage = () => {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
+  const [article, setArticle] = useState<Article | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [commentText, setCommentText] = useState("");
+  const [bookmarked, setBookmarked] = useState(false);
+  const [liked, setLiked] = useState(false);
+  const [disliked, setDisliked] = useState(false);
   const { toast } = useToast();
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [article, setArticle] = useState(sampleArticle);
-  const [isLiked, setIsLiked] = useState(false);
-  const [isBookmarked, setIsBookmarked] = useState(false);
-
-  const form = useForm<CommentFormValues>({
-    defaultValues: {
-      comment: "",
-    },
-  });
 
   useEffect(() => {
-    // Simulate loading article data
-    const timer = setTimeout(() => {
-      setIsLoaded(true);
-      // In a real app, fetch the article by ID
-      // For now, we're using the sample article
-    }, 300);
+    // Simulate API call to fetch article based on ID
+    setLoading(true);
+    window.scrollTo(0, 0);
     
-    // Scroll to comments if hash is present
-    if (window.location.hash === '#comments') {
-      setTimeout(() => {
-        const commentsSection = document.getElementById('comments');
-        if (commentsSection) {
-          commentsSection.scrollIntoView({ behavior: 'smooth' });
-        }
-      }, 500);
-    }
-    
-    return () => clearTimeout(timer);
+    // In a real app, this would be an API call
+    setTimeout(() => {
+      // Using mock data for now
+      setArticle(mockArticle);
+      setLoading(false);
+    }, 800);
   }, [id]);
 
-  const handleLike = () => {
-    setIsLiked(!isLiked);
-    if (!isLiked) {
-      setArticle(prev => ({...prev, likes: prev.likes + 1}));
+  const handleCommentSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (commentText.trim()) {
       toast({
-        title: "Article Liked",
-        description: "You've successfully liked this article.",
+        title: "Comment Submitted",
+        description: "Your comment has been submitted for review.",
       });
-    } else {
-      setArticle(prev => ({...prev, likes: prev.likes - 1}));
+      setCommentText("");
     }
   };
 
   const handleBookmark = () => {
-    setIsBookmarked(!isBookmarked);
+    setBookmarked(!bookmarked);
     toast({
-      title: isBookmarked ? "Bookmark Removed" : "Article Bookmarked",
-      description: isBookmarked 
-        ? "This article has been removed from your bookmarks." 
-        : "This article has been saved to your bookmarks.",
+      title: bookmarked ? "Removed from Bookmarks" : "Added to Bookmarks",
+      description: bookmarked ? "Article removed from your bookmarks." : "Article saved to your bookmarks.",
     });
   };
 
-  const handleCommentLike = (commentId: string) => {
-    setArticle(prev => ({
-      ...prev,
-      comments: prev.comments.map(comment => 
-        comment.id === commentId 
-          ? {...comment, likes: comment.likes + 1} 
-          : comment
-      )
-    }));
+  const handleLike = () => {
+    if (disliked) setDisliked(false);
+    setLiked(!liked);
+    
     toast({
-      title: "Comment Liked",
-      description: "You've liked this comment.",
+      title: liked ? "Removed Like" : "Article Liked",
+      description: liked ? "You've removed your like from this article." : "Thanks for liking this article!",
     });
   };
 
-  const handleShare = (platform: string) => {
+  const handleDislike = () => {
+    if (liked) setLiked(false);
+    setDisliked(!disliked);
+    
     toast({
-      title: "Share Article",
-      description: `Sharing to ${platform}. This feature will be fully implemented soon.`,
+      title: disliked ? "Removed Dislike" : "Article Disliked",
+      description: disliked ? "You've removed your dislike from this article." : "Thanks for your feedback.",
     });
   };
 
-  const onSubmitComment = (data: CommentFormValues) => {
-    if (!data.comment.trim()) return;
-    
-    // In a real app, send this to the server
-    const newComment = {
-      id: `c${article.comments.length + 1}`,
-      user: "Guest User",
-      userAvatar: "GU",
-      date: new Date().toISOString().split('T')[0],
-      content: data.comment,
-      likes: 0
-    };
-    
-    setArticle(prev => ({
-      ...prev,
-      comments: [...prev.comments, newComment]
-    }));
-    
-    form.reset();
-    
-    toast({
-      title: "Comment Posted",
-      description: "Your comment has been successfully posted.",
-    });
+  const handleShare = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: article?.title,
+        url: window.location.href,
+      });
+    } else {
+      // Copy to clipboard as fallback
+      navigator.clipboard.writeText(window.location.href);
+      toast({
+        title: "Link Copied",
+        description: "Article link copied to clipboard.",
+      });
+    }
   };
+
+  const formatDate = (dateString: string) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  };
+
+  if (loading) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="max-w-4xl mx-auto">
+          <Skeleton className="h-8 w-3/4 mb-2" />
+          <Skeleton className="h-8 w-1/2 mb-8" />
+          <Skeleton className="h-[400px] w-full mb-8 rounded-lg" />
+          <div className="space-y-4 mb-8">
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-3/4" />
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-5/6" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!article) {
+    return (
+      <div className="container mx-auto px-4 py-8 text-center">
+        <h1 className="text-2xl font-bold mb-4">Article Not Found</h1>
+        <p className="text-muted-foreground mb-6">The article you're looking for doesn't exist or has been removed.</p>
+        <Button asChild>
+          <Link to="/">Back to Home</Link>
+        </Button>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
-      <Header />
-      
-      <main className="flex-grow">
-        <div className={`transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
-          {/* Hero Section */}
-          <div className="relative h-[40vh] md:h-[50vh] lg:h-[60vh] overflow-hidden">
-            <div className="absolute inset-0">
-              <img 
-                src={article.image} 
-                alt={article.title}
-                className="object-cover w-full h-full"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-transparent"></div>
-            </div>
-            <div className="absolute bottom-0 left-0 right-0 p-6 md:p-12">
-              <div className="container mx-auto">
-                <Link to={`/${article.category.toLowerCase()}`} className="inline-block mb-3 text-sm font-medium bg-primary/20 text-primary px-3 py-1 rounded-full">
-                  {article.category}
-                </Link>
-                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 max-w-4xl">
-                  {article.title}
-                </h1>
-                <div className="flex flex-wrap items-center text-sm space-x-4 text-muted-foreground">
-                  <div className="flex items-center">
-                    <Calendar className="h-3.5 w-3.5 mr-1" />
-                    <span>{article.date}</span>
-                  </div>
-                  <div className="flex items-center">
-                    <Clock className="h-3.5 w-3.5 mr-1" />
-                    <span>{article.readTime} read</span>
-                  </div>
-                  <div className="flex items-center">
-                    <Eye className="h-3.5 w-3.5 mr-1" />
-                    <span>{article.views} views</span>
-                  </div>
+    <>
+      <Helmet>
+        <title>{article.title} - HindPrabhari</title>
+        <meta name="description" content={article.content[0]} />
+      </Helmet>
+
+      <article className="container mx-auto px-4 py-8">
+        <div className="max-w-4xl mx-auto">
+          {/* Category and Tags */}
+          <div className="flex flex-wrap items-center gap-2 mb-4">
+            <Link to={`/categories/${article.category.toLowerCase()}`}>
+              <Badge variant="outline" className="text-primary border-primary">
+                {article.category}
+              </Badge>
+            </Link>
+            {article.subcategory && (
+              <Badge variant="outline">
+                {article.subcategory}
+              </Badge>
+            )}
+          </div>
+          
+          {/* Title */}
+          <h1 className="text-3xl md:text-4xl font-bold mb-6">{article.title}</h1>
+          
+          {/* Author and Metadata */}
+          <div className="flex flex-wrap items-center justify-between mb-6">
+            <div className="flex items-center">
+              <Link to={article.author.url} className="flex items-center mr-4">
+                <Avatar className="h-10 w-10 mr-2">
+                  <AvatarImage src={article.author.avatar} />
+                  <AvatarFallback>{article.author.name[0]}</AvatarFallback>
+                </Avatar>
+                <div>
+                  <p className="text-sm font-medium">{article.author.name}</p>
+                  <p className="text-xs text-muted-foreground">{article.author.role}</p>
                 </div>
+              </Link>
+            </div>
+            
+            <div className="flex items-center space-x-4 text-sm text-muted-foreground">
+              <div className="flex items-center">
+                <Calendar className="h-4 w-4 mr-1" />
+                <span>{formatDate(article.date)}</span>
+              </div>
+              <div className="flex items-center">
+                <Clock className="h-4 w-4 mr-1" />
+                <span>{article.readTime}</span>
+              </div>
+              <div className="flex items-center">
+                <Eye className="h-4 w-4 mr-1" />
+                <span>{article.views.toLocaleString()}</span>
               </div>
             </div>
           </div>
           
+          {/* Featured Image */}
+          <div className="mb-8">
+            <img 
+              src={article.imageUrl} 
+              alt={article.title}
+              className="w-full max-h-[600px] object-cover rounded-lg"
+            />
+          </div>
+          
           {/* Article Content */}
-          <div className="container mx-auto px-4 py-8">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-              {/* Article Main Content */}
-              <div className="lg:col-span-8">
-                <div className="flex items-center mb-6 p-4 bg-muted/30 rounded-lg">
-                  <Avatar className="h-12 w-12 mr-4">
-                    <AvatarFallback>{article.authorAvatar}</AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <h3 className="font-medium">{article.author}</h3>
-                    <p className="text-sm text-muted-foreground">{article.authorBio}</p>
-                  </div>
+          <div className="prose prose-lg max-w-none mb-8">
+            {article.content.map((paragraph, index) => (
+              <p key={index} className="mb-4">{paragraph}</p>
+            ))}
+          </div>
+          
+          {/* Tags */}
+          <div className="mb-8">
+            <h3 className="text-sm font-medium mb-2">Tags:</h3>
+            <div className="flex flex-wrap gap-2">
+              {article.tags.map((tag) => (
+                <Link key={tag} to={`/search?tag=${encodeURIComponent(tag)}`}>
+                  <Badge variant="secondary">
+                    {tag}
+                  </Badge>
+                </Link>
+              ))}
+            </div>
+          </div>
+          
+          {/* Engagement */}
+          <div className="flex flex-wrap items-center justify-between py-4 border-t border-b mb-8">
+            <div className="flex items-center space-x-2">
+              <Button
+                variant="outline"
+                size="sm"
+                className={`flex items-center ${liked ? 'bg-primary/10 text-primary' : ''}`}
+                onClick={handleLike}
+              >
+                <ThumbsUp className="h-4 w-4 mr-2" />
+                <span>{(article.likes + (liked ? 1 : 0)).toLocaleString()}</span>
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                className={`flex items-center ${disliked ? 'bg-destructive/10 text-destructive' : ''}`}
+                onClick={handleDislike}
+              >
+                <ThumbsDown className="h-4 w-4 mr-2" />
+                <span>{(article.dislikes + (disliked ? 1 : 0)).toLocaleString()}</span>
+              </Button>
+            </div>
+            
+            <div className="flex items-center space-x-2">
+              <Button
+                variant="outline"
+                size="sm"
+                className={`flex items-center ${bookmarked ? 'bg-primary/10 text-primary' : ''}`}
+                onClick={handleBookmark}
+              >
+                <Bookmark className={`h-4 w-4 mr-2 ${bookmarked ? 'fill-current' : ''}`} />
+                <span>Bookmark</span>
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                className="flex items-center"
+                onClick={handleShare}
+              >
+                <Share2 className="h-4 w-4 mr-2" />
+                <span>Share</span>
+              </Button>
+            </div>
+          </div>
+          
+          {/* Social Share */}
+          <div className="flex items-center justify-center space-x-3 mb-8">
+            <span className="text-sm font-medium">Share on:</span>
+            <Button variant="ghost" size="icon" className="rounded-full bg-[#1877F2] text-white hover:bg-[#1877F2]/90">
+              <Facebook className="h-5 w-5" />
+            </Button>
+            <Button variant="ghost" size="icon" className="rounded-full bg-[#1DA1F2] text-white hover:bg-[#1DA1F2]/90">
+              <Twitter className="h-5 w-5" />
+            </Button>
+            <Button variant="ghost" size="icon" className="rounded-full bg-[#0A66C2] text-white hover:bg-[#0A66C2]/90">
+              <Linkedin className="h-5 w-5" />
+            </Button>
+            <Button variant="ghost" size="icon" className="rounded-full bg-[#EA4335] text-white hover:bg-[#EA4335]/90">
+              <Mail className="h-5 w-5" />
+            </Button>
+          </div>
+          
+          {/* Comments Section */}
+          <div className="mb-12">
+            <Tabs defaultValue="comments">
+              <TabsList className="mb-4">
+                <TabsTrigger value="comments" className="flex items-center">
+                  <MessageSquare className="h-4 w-4 mr-2" />
+                  <span>Comments ({article.comments.length})</span>
+                </TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="comments">
+                {/* Comment Form */}
+                <div className="mb-6">
+                  <h3 className="text-lg font-medium mb-4">Leave a Comment</h3>
+                  <form onSubmit={handleCommentSubmit}>
+                    <Textarea
+                      placeholder="Share your thoughts on this article..."
+                      value={commentText}
+                      onChange={(e) => setCommentText(e.target.value)}
+                      className="mb-4"
+                      rows={4}
+                    />
+                    <div className="flex justify-between items-center">
+                      <p className="text-xs text-muted-foreground">
+                        All comments are reviewed before being published.
+                      </p>
+                      <Button type="submit" disabled={!commentText.trim()}>
+                        Submit Comment
+                      </Button>
+                    </div>
+                  </form>
                 </div>
                 
-                <div 
-                  className="prose prose-lg max-w-none dark:prose-invert mb-8"
-                  dangerouslySetInnerHTML={{ __html: article.content }}
-                />
+                <Separator className="my-6" />
                 
-                {/* Article Actions */}
-                <div className="flex flex-wrap justify-between items-center py-4 mb-8 border-t border-b">
-                  <div className="flex space-x-2 mb-2 sm:mb-0">
-                    <Button
-                      variant={isLiked ? "default" : "outline"} 
-                      onClick={handleLike}
-                      className="rounded-full"
-                    >
-                      <ThumbsUp className="h-5 w-5 mr-1" />
-                      <span>{article.likes}</span>
-                    </Button>
-                    <Button
-                      variant={isBookmarked ? "default" : "outline"} 
-                      onClick={handleBookmark}
-                      className="rounded-full"
-                    >
-                      <Bookmark className="h-5 w-5 mr-1" />
-                      <span>Save</span>
-                    </Button>
-                  </div>
-                  
-                  <div className="flex space-x-2">
-                    <Button variant="outline" size="icon" className="rounded-full" onClick={() => handleShare('Facebook')}>
-                      <Facebook className="h-5 w-5" />
-                    </Button>
-                    <Button variant="outline" size="icon" className="rounded-full" onClick={() => handleShare('Twitter')}>
-                      <Twitter className="h-5 w-5" />
-                    </Button>
-                    <Button variant="outline" size="icon" className="rounded-full" onClick={() => handleShare('LinkedIn')}>
-                      <Linkedin className="h-5 w-5" />
-                    </Button>
-                    <Button variant="outline" size="icon" className="rounded-full" onClick={() => handleShare('Email')}>
-                      <Mail className="h-5 w-5" />
-                    </Button>
-                  </div>
-                </div>
-                
-                {/* Comments Section */}
-                <div id="comments" className="mt-12">
-                  <h2 className="text-2xl font-bold mb-6">Comments ({article.comments.length})</h2>
-                  
-                  {/* Comment Form */}
-                  <Card className="mb-8">
-                    <CardContent className="pt-6">
-                      <Form {...form}>
-                        <form onSubmit={form.handleSubmit(onSubmitComment)} className="space-y-4">
-                          <FormField
-                            control={form.control}
-                            name="comment"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormControl>
-                                  <Textarea
-                                    placeholder="Share your thoughts..."
-                                    className="min-h-24 resize-none"
-                                    {...field}
-                                  />
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                          <div className="flex justify-end">
-                            <Button type="submit">Post Comment</Button>
-                          </div>
-                        </form>
-                      </Form>
-                    </CardContent>
-                  </Card>
-                  
-                  {/* Comments List */}
-                  <div className="space-y-6">
-                    {article.comments.map((comment) => (
-                      <div key={comment.id} className="p-4 border rounded-lg">
-                        <div className="flex items-center mb-2">
-                          <Avatar className="h-10 w-10 mr-3">
-                            <AvatarFallback>{comment.userAvatar}</AvatarFallback>
-                          </Avatar>
+                {/* Comments List */}
+                <div className="space-y-6">
+                  {article.comments.map((comment) => (
+                    <div key={comment.id} className="flex space-x-4">
+                      <Avatar>
+                        <AvatarImage src={comment.user.avatar} />
+                        <AvatarFallback>{comment.user.name[0]}</AvatarFallback>
+                      </Avatar>
+                      <div className="flex-1">
+                        <div className="flex items-start justify-between">
                           <div>
-                            <h4 className="font-medium">{comment.user}</h4>
-                            <p className="text-xs text-muted-foreground">{comment.date}</p>
+                            <h4 className="font-medium">{comment.user.name}</h4>
+                            <p className="text-xs text-muted-foreground">{formatDate(comment.date)}</p>
                           </div>
-                        </div>
-                        <p className="mb-3 text-sm ml-13">{comment.content}</p>
-                        <div className="flex justify-end">
                           <Button 
                             variant="ghost" 
                             size="sm" 
-                            onClick={() => handleCommentLike(comment.id)}
-                            className="rounded-full text-muted-foreground hover:text-primary"
+                            className="text-xs flex items-center"
+                            onClick={() => toast({
+                              title: "Comment Liked",
+                              description: "Thanks for your feedback!"
+                            })}
                           >
-                            <ThumbsUp className="h-4 w-4 mr-1" />
+                            <ThumbsUp className="h-3 w-3 mr-1" />
                             <span>{comment.likes}</span>
                           </Button>
                         </div>
+                        <p className="text-sm mt-2">{comment.content}</p>
                       </div>
-                    ))}
-                  </div>
+                    </div>
+                  ))}
                 </div>
-              </div>
-              
-              {/* Sidebar */}
-              <div className="lg:col-span-4">
-                {/* Related Articles */}
-                <div className="sticky top-20">
-                  <h3 className="text-xl font-bold mb-4">Related Articles</h3>
-                  <div className="space-y-4">
-                    {article.relatedArticles.map((related) => (
-                      <Link key={related.id} to={`/article/${related.id}`}>
-                        <div className="group flex space-x-3 items-start hover:bg-muted/50 p-2 rounded-lg transition-colors">
-                          <img 
-                            src={related.image} 
-                            alt={related.title}
-                            className="w-24 h-16 object-cover rounded-md flex-shrink-0"
-                          />
-                          <div className="flex-1">
-                            <h4 className="font-medium text-sm line-clamp-2 group-hover:text-primary transition-colors">{related.title}</h4>
-                            <p className="text-xs text-muted-foreground mt-1">{related.date}</p>
-                          </div>
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                  
-                  <div className="mt-8">
-                    <h3 className="text-xl font-bold mb-4">More in {article.category}</h3>
-                    <Link 
-                      to={`/${article.category.toLowerCase()}`} 
-                      className="flex items-center text-primary hover:underline"
-                    >
-                      View all articles <ArrowRight className="ml-1 h-4 w-4" />
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
+              </TabsContent>
+            </Tabs>
+          </div>
+          
+          {/* Related Articles */}
+          <div>
+            <h2 className="text-2xl font-bold mb-6">Related Articles</h2>
+            <NewsGrid category="all" limit={3} />
           </div>
         </div>
-      </main>
-      
-      <Footer />
-    </div>
+      </article>
+    </>
   );
 };
 
