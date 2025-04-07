@@ -1,31 +1,12 @@
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
 
 const HeroSection = () => {
-  const [offset, setOffset] = useState(0);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setOffset(window.pageYOffset);
-    };
-
-    const timer = setTimeout(() => {
-      setIsVisible(true);
-    }, 300);
-    
-    window.addEventListener("scroll", handleScroll);
-    
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      clearTimeout(timer);
-    };
-  }, []);
+  const [isVisible] = useState(true);
 
   const scrollToFeatured = () => {
-    const featuredSection = document.getElementById("trending");
+    const featuredSection = document.getElementById("about");
     if (featuredSection) {
       featuredSection.scrollIntoView({ behavior: "smooth" });
     }
@@ -42,20 +23,9 @@ const HeroSection = () => {
     <section 
       id="home"
       className="relative h-full w-full flex items-center justify-center overflow-hidden py-16"
-      style={{
-        backgroundPosition: `50% ${offset * 0.5}px`
-      }}
     >
       {/* Gradient background */}
       <div className="absolute inset-0 bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-950/50 dark:to-orange-950/50"></div>
-      
-      {/* Parallax dots pattern */}
-      <div 
-        className="absolute inset-0 bg-[radial-gradient(#f97316_1px,transparent_1px)] [background-size:24px_24px] opacity-30"
-        style={{
-          transform: `translateY(${offset * 0.2}px)`
-        }}
-      ></div>
       
       <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
         {/* Logo */}
@@ -91,7 +61,7 @@ const HeroSection = () => {
             Explore Now
           </Button>
           <Button 
-            variant="outlined" 
+            variant="outline" 
             onClick={scrollToContact}
             className="border-2 border-orange-500 text-orange-600 dark:text-orange-400 hover:bg-orange-500/10 px-6 py-6 rounded-full w-full sm:w-auto hover:shadow-md transition-all duration-300 h-11"
           >
