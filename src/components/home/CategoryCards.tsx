@@ -1,174 +1,108 @@
 
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { 
-  Briefcase, 
-  Cpu, 
-  Trophy, 
-  Film, 
-  GraduationCap, 
-  Heart, 
-  Globe, 
-  TrendingUp 
-} from "lucide-react";
-import { cn } from "@/lib/utils";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { ChevronRight } from 'lucide-react';
 
-const categories = [
+interface CategoryCardProps {
+  title: string;
+  description: string;
+  imageSrc: string;
+  path: string;
+  color: string;
+}
+
+const categories: CategoryCardProps[] = [
   {
-    id: "politics",
-    name: "Politics",
-    icon: <Briefcase className="h-8 w-8" />,
-    gradient: "from-orange-400 to-red-500",
-    description: "Latest political developments and policy updates"
+    title: "Politics",
+    description: "Latest political developments and governance news",
+    imageSrc: "https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=800&auto=format&fit=crop",
+    path: "/india/politics",
+    color: "bg-blue-600"
   },
   {
-    id: "technology",
-    name: "Technology",
-    icon: <Cpu className="h-8 w-8" />,
-    gradient: "from-blue-400 to-indigo-500",
-    description: "Innovation, startups, and digital transformation"
+    title: "Business",
+    description: "Corporate updates, market trends, and economic analysis",
+    imageSrc: "https://images.unsplash.com/photo-1444653389962-8149286c578a?w=800&auto=format&fit=crop",
+    path: "/business",
+    color: "bg-amber-600"
   },
   {
-    id: "sports",
-    name: "Sports",
-    icon: <Trophy className="h-8 w-8" />,
-    gradient: "from-green-400 to-emerald-500",
-    description: "Cricket, football, and all sporting events"
+    title: "Technology",
+    description: "Latest innovations, digital trends, and tech insights",
+    imageSrc: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=800&auto=format&fit=crop",
+    path: "/technology",
+    color: "bg-green-600"
   },
   {
-    id: "entertainment",
-    name: "Entertainment",
-    icon: <Film className="h-8 w-8" />,
-    gradient: "from-purple-400 to-pink-500",
-    description: "Bollywood, OTT, and celebrity news"
+    title: "Health",
+    description: "Healthcare advancements, wellness tips, and medical research",
+    imageSrc: "https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?w=800&auto=format&fit=crop",
+    path: "/health",
+    color: "bg-red-600"
   },
   {
-    id: "education",
-    name: "Education",
-    icon: <GraduationCap className="h-8 w-8" />,
-    gradient: "from-yellow-400 to-amber-500",
-    description: "Educational policies and academic updates"
+    title: "Entertainment",
+    description: "Film, music, celebrity news, and cultural highlights",
+    imageSrc: "https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?w=800&auto=format&fit=crop",
+    path: "/entertainment",
+    color: "bg-purple-600"
   },
   {
-    id: "health",
-    name: "Health",
-    icon: <Heart className="h-8 w-8" />,
-    gradient: "from-rose-400 to-red-500",
-    description: "Healthcare innovations and wellness tips"
+    title: "Sports",
+    description: "Match results, player updates, and sporting events coverage",
+    imageSrc: "https://images.unsplash.com/photo-1552667466-07770ae110d0?w=800&auto=format&fit=crop",
+    path: "/sports",
+    color: "bg-orange-600"
   },
   {
-    id: "world",
-    name: "World",
-    icon: <Globe className="h-8 w-8" />,
-    gradient: "from-sky-400 to-blue-500",
-    description: "International news and global affairs"
+    title: "Science",
+    description: "Scientific breakthroughs, research updates, and discoveries",
+    imageSrc: "https://images.unsplash.com/photo-1507413245164-6160d8298b31?w=800&auto=format&fit=crop",
+    path: "/science",
+    color: "bg-indigo-600"
   },
   {
-    id: "business",
-    name: "Business",
-    icon: <TrendingUp className="h-8 w-8" />,
-    gradient: "from-teal-400 to-emerald-500",
-    description: "Economy, markets, and business news"
+    title: "Culture",
+    description: "Arts, literature, traditions, and cultural explorations",
+    imageSrc: "https://images.unsplash.com/photo-1464509896603-ee6bdd5588a3?w=800&auto=format&fit=crop",
+    path: "/culture",
+    color: "bg-pink-600"
   }
 ];
 
-const CategoryCards = () => {
-  const [visibleCategories, setVisibleCategories] = useState<number[]>([]);
-  const [activeCategory, setActiveCategory] = useState<string | null>(null);
-
-  useEffect(() => {
-    // Staggered animation for categories appearing
-    categories.forEach((_, index) => {
-      setTimeout(() => {
-        setVisibleCategories(prev => [...prev, index]);
-      }, index * 100);
-    });
-    
-    // Setup hash navigation to scroll to specific category
-    const handleHashChange = () => {
-      const hash = window.location.hash;
-      if (hash && hash.includes("category-")) {
-        const categoryId = hash.replace("#category-", "");
-        setActiveCategory(categoryId);
-        const categoryElement = document.getElementById(categoryId);
-        if (categoryElement) {
-          setTimeout(() => {
-            categoryElement.scrollIntoView({ behavior: "smooth" });
-          }, 100);
-        }
-      }
-    };
-    
-    window.addEventListener("hashchange", handleHashChange);
-    
-    // Check for hash on initial load
-    if (window.location.hash && window.location.hash.includes("category-")) {
-      handleHashChange();
-    }
-    
-    // Listen for scroll events to highlight active category
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      
-      // Find which category is currently most visible
-      categories.forEach(category => {
-        const element = document.getElementById(category.id);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          if (rect.top >= 0 && rect.top <= window.innerHeight / 2) {
-            setActiveCategory(category.id);
-          }
-        }
-      });
-    };
-    
-    window.addEventListener("scroll", handleScroll);
-    
-    return () => {
-      window.removeEventListener("hashchange", handleHashChange);
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
+const CategoryCards: React.FC = () => {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-      {categories.map((category, index) => (
-        <div id={category.id} key={category.id}>
-          <Link 
-            to={`/${category.id}`}
-            className={cn(
-              "block rounded-2xl overflow-hidden transition-all duration-500 transform hover:scale-102 bg-card border hover:shadow-lg relative h-full",
-              visibleCategories.includes(index) ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10",
-              activeCategory === category.id ? "ring-2 ring-primary ring-offset-2" : ""
-            )}
-          >
-            {/* Hidden gradient background that appears on hover */}
-            <div 
-              className={cn(
-                `absolute inset-0 opacity-0 bg-gradient-to-br ${category.gradient} transition-opacity duration-300`,
-                "group-hover:opacity-100"
-              )}
-            ></div>
-            
-            <div className="relative z-10 p-6 h-full group">
-              <div className={cn(
-                "mx-auto flex items-center justify-center w-16 h-16 rounded-full mb-4 transition-colors",
-                `bg-${category.gradient.split('-')[1]}-100/20 text-${category.gradient.split('-')[2].split(' ')[0]}-500`,
-                "group-hover:bg-white/10 group-hover:text-white"
-              )}>
-                {category.icon}
-              </div>
-              
-              <h3 className="font-bold mb-2 text-lg text-center transition-colors group-hover:text-white">
-                {category.name}
-              </h3>
-              
-              <p className="text-sm text-muted-foreground text-center transition-colors group-hover:text-white/80">
-                {category.description}
-              </p>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {categories.map((category) => (
+        <Link
+          to={category.path}
+          key={category.title}
+          className="group overflow-hidden rounded-lg shadow-md transition duration-300 hover:shadow-xl relative flex flex-col h-full"
+        >
+          <div className="h-48 overflow-hidden">
+            <img 
+              src={category.imageSrc} 
+              alt={category.title}
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+            />
+            <div className={`absolute top-4 left-4 ${category.color} text-white text-xs font-medium px-2 py-1 rounded`}>
+              {category.title}
             </div>
-          </Link>
-        </div>
+          </div>
+          
+          <div className="p-4 flex flex-col flex-grow bg-card">
+            <h3 className="text-lg font-bold mb-2 group-hover:text-primary transition-colors">
+              {category.title}
+            </h3>
+            <p className="text-muted-foreground text-sm mb-4">
+              {category.description}
+            </p>
+            <div className="mt-auto flex items-center text-primary text-sm font-medium">
+              <span>Browse Articles</span>
+              <ChevronRight className="h-4 w-4 ml-1 transition-transform group-hover:translate-x-1" />
+            </div>
+          </div>
+        </Link>
       ))}
     </div>
   );

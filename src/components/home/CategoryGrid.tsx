@@ -1,105 +1,93 @@
 
+import React from "react";
 import { Link } from "react-router-dom";
-import { ChevronRight, Newspaper, BriefcaseBusiness, Cpu, Gamepad2, FileVideo2, Globe, SlidersHorizontal } from "lucide-react";
+import { 
+  NewspaperIcon, 
+  ChipIcon, 
+  HeartIcon, 
+  CurrencyRupeeIcon, 
+  FilmIcon, 
+  DotsHorizontalIcon 
+} from "@heroicons/react/outline";
+import { ChevronRight } from "lucide-react";
 
-const categories = [
+interface CategoryCard {
+  title: string;
+  icon: React.ElementType;
+  description: string;
+  path: string;
+  gradient: string;
+}
+
+const categories: CategoryCard[] = [
   {
-    id: "politics",
-    name: "Politics",
-    description: "Latest political news and updates",
-    icon: <Newspaper className="h-6 w-6" />,
-    url: "/categories/politics",
-    color: "from-blue-500 to-blue-700"
+    title: "Politics",
+    icon: NewspaperIcon,
+    description: "Latest political updates and analysis",
+    path: "/india/politics",
+    gradient: "from-blue-500 to-indigo-500"
   },
   {
-    id: "business",
-    name: "Business",
-    description: "Business news and market updates",
-    icon: <BriefcaseBusiness className="h-6 w-6" />,
-    url: "/categories/business",
-    color: "from-green-500 to-green-700"
+    title: "Technology",
+    icon: ChipIcon,
+    description: "Innovation and digital transformation",
+    path: "/technology",
+    gradient: "from-green-400 to-emerald-500"
   },
   {
-    id: "technology",
-    name: "Technology",
-    description: "Tech news and innovations",
-    icon: <Cpu className="h-6 w-6" />,
-    url: "/categories/technology",
-    color: "from-purple-500 to-purple-700"
+    title: "Health",
+    icon: HeartIcon,
+    description: "Wellness and healthcare news",
+    path: "/health",
+    gradient: "from-red-400 to-rose-500"
   },
   {
-    id: "sports",
-    name: "Sports",
-    description: "Sports news and results",
-    icon: <Gamepad2 className="h-6 w-6" />,
-    url: "/categories/sports",
-    color: "from-red-500 to-red-700"
+    title: "Economy",
+    icon: CurrencyRupeeIcon,
+    description: "Business and finance updates",
+    path: "/business",
+    gradient: "from-amber-400 to-yellow-500"
   },
   {
-    id: "entertainment",
-    name: "Entertainment",
-    description: "Movies, music, and more",
-    icon: <FileVideo2 className="h-6 w-6" />,
-    url: "/categories/entertainment",
-    color: "from-yellow-500 to-yellow-700"
+    title: "Entertainment",
+    icon: FilmIcon,
+    description: "Movies, music, and celebrity news",
+    path: "/entertainment",
+    gradient: "from-purple-400 to-pink-500"
   },
   {
-    id: "world",
-    name: "World",
-    description: "International news and events",
-    icon: <Globe className="h-6 w-6" />,
-    url: "/world",
-    color: "from-indigo-500 to-indigo-700"
-  },
-  {
-    id: "more",
-    name: "More Categories",
-    description: "Explore all news categories",
-    icon: <SlidersHorizontal className="h-6 w-6" />,
-    url: "/categories",
-    color: "from-gray-600 to-gray-800"
+    title: "More Categories",
+    icon: DotsHorizontalIcon,
+    description: "Explore all our news sections",
+    path: "/categories",
+    gradient: "from-gray-400 to-gray-600"
   }
 ];
 
 const CategoryGrid = () => {
   return (
-    <div className="container mx-auto px-4 py-12">
-      <div className="flex items-center justify-between mb-8">
-        <h2 className="text-2xl font-bold">News Categories</h2>
+    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+      {categories.map((category) => (
         <Link 
-          to="/categories" 
-          className="text-sm font-medium text-primary flex items-center hover:underline"
+          to={category.path} 
+          key={category.title}
+          className="group relative overflow-hidden rounded-xl shadow-md transition-all hover:shadow-lg"
         >
-          <span>View All Categories</span>
-          <ChevronRight className="h-4 w-4 ml-1" />
-        </Link>
-      </div>
-      
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {categories.map((category) => (
-          <Link 
-            key={category.id} 
-            to={category.url}
-            className="group"
-          >
-            <div className={`h-full rounded-xl bg-gradient-to-br ${category.color} text-white p-6 hover:shadow-lg transition-all duration-300 flex flex-col justify-between min-h-[160px]`}>
-              <div className="mb-4">
-                {category.icon}
-              </div>
-              <div>
-                <h3 className="font-bold text-lg mb-1">{category.name}</h3>
-                <p className="text-sm text-white/80">{category.description}</p>
-              </div>
-              <div className="mt-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                <div className="flex items-center text-sm font-medium">
-                  <span>Explore</span>
-                  <ChevronRight className="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform" />
-                </div>
-              </div>
+          <div className={`absolute inset-0 bg-gradient-to-br ${category.gradient} opacity-90 group-hover:opacity-100 transition-opacity`}></div>
+          
+          <div className="relative p-6 text-white flex flex-col h-full min-h-[150px]">
+            <category.icon className="w-8 h-8 mb-3" />
+            
+            <h3 className="text-lg font-bold mb-1">{category.title}</h3>
+            <p className="text-sm opacity-90 mb-4">{category.description}</p>
+            
+            <div className="mt-auto flex items-center text-xs font-medium">
+              <span>Explore</span>
+              <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
             </div>
-          </Link>
-        ))}
-      </div>
+          </div>
+        </Link>
+      ))}
     </div>
   );
 };
