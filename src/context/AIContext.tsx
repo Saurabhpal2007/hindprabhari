@@ -56,6 +56,7 @@ export const AIProvider: React.FC<{ children: React.ReactNode }> = ({ children }
       description: isAIEnabled 
         ? "AI assistant and smart search are now turned off." 
         : "AI assistant and smart search are now active.",
+      className: "bg-card border-primary/20 md-elevation-2",
     });
   };
 
@@ -65,6 +66,7 @@ export const AIProvider: React.FC<{ children: React.ReactNode }> = ({ children }
         title: "API Key Required",
         description: "Please set a Google Gemini API key in settings first.",
         variant: "destructive",
+        className: "bg-card border-destructive/20 md-elevation-2",
       });
       return;
     }
@@ -98,6 +100,7 @@ export const AIProvider: React.FC<{ children: React.ReactNode }> = ({ children }
           title: "AI Error",
           description: "Failed to get response from AI. Please try again later.",
           variant: "destructive",
+          className: "bg-card border-destructive/20 md-elevation-2",
         });
         setIsLoading(false);
       }
@@ -109,6 +112,7 @@ export const AIProvider: React.FC<{ children: React.ReactNode }> = ({ children }
     toast({
       title: "Chat Cleared",
       description: "All conversation history has been cleared.",
+      className: "bg-card border-primary/20 md-elevation-2",
     });
   };
 

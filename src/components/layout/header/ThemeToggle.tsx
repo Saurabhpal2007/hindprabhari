@@ -34,7 +34,7 @@ const ThemeToggle = ({
       variant={variant} 
       size={size}
       onClick={handleToggleTheme}
-      className="w-full"
+      className="w-full md-state-layer rounded-full"
       aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
     >
       {showIcon && (

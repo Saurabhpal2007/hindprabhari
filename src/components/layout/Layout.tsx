@@ -18,8 +18,8 @@ const Layout = () => {
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <Header />
-      <div className="pt-16">
-        <NewsTicker className="my-4" />
+      <div className="pt-16 md-elevation-1">
+        <NewsTicker className="my-4 md-elevation-1" />
         <main className="flex-grow">
           <Outlet />
         </main>

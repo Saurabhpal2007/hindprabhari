@@ -4,6 +4,11 @@
   margin: 0 auto;
 }
 
+/* Theme transition */
+.theme-transition {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
 /* Material Design Typography and Spacing */
 :root {
   --md-sys-typescale-headline-large-size: 2.25rem;
@@ -445,4 +450,71 @@ section:not(:first-child) {
   height: 3px;
   background: linear-gradient(90deg, #ff9800, #f44336);
   border-radius: 3px;
+}
+
+/* Material You M3 Card Component with Dynamic Elevation */
+.m3-card {
+  @apply rounded-xl bg-card overflow-hidden transition-all duration-300;
+  box-shadow: var(--md-elevation-level1);
+}
+
+.m3-card:hover {
+  box-shadow: var(--md-elevation-level2);
+}
+
+.m3-card:active {
+  box-shadow: var(--md-elevation-level1);
+}
+
+/* Material You M3 Button Styles */
+.m3-button {
+  @apply rounded-full relative overflow-hidden transition-all duration-300;
+  position: relative;
+}
+
+.m3-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: currentColor;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.m3-button:hover::before {
+  opacity: 0.08;
+}
+
+.m3-button:focus-visible::before {
+  opacity: 0.12;
+}
+
+.m3-button:active::before {
+  opacity: 0.16;
+}
+
+/* Dark mode adjustments for content */
+.dark .text-gradient-heading {
+  background: linear-gradient(90deg, #ffb74d, #ff7043);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.dark .card-hover:hover {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
 }

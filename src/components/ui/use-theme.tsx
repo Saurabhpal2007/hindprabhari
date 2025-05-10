@@ -15,6 +15,7 @@ const ThemeContext = createContext<ThemeContextType>({
 
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   const [theme, setTheme] = useState<Theme>("light");
+  const [isInitialized, setIsInitialized] = useState(false);
 
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
@@ -30,7 +31,20 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
     const initialTheme = storedTheme || (prefersDark ? "dark" : "light");
     setTheme(initialTheme);
     document.documentElement.classList.toggle("dark", initialTheme === "dark");
+    setIsInitialized(true);
+
+    // Add transition class after initial load to enable smooth theme transitions
+    const timer = setTimeout(() => {
+      document.documentElement.classList.add('theme-transition');
+    }, 100);
+
+    return () => clearTimeout(timer);
   }, []);
+
+  // Don't render children until theme is initialized
+  if (!isInitialized) {
+    return null;
+  }
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
