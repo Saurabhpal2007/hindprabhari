@@ -5,6 +5,7 @@ import Footer from "./Footer";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import NewsTicker from "../news/NewsTicker";
+import ChatBubble from "../ai/ChatBubble";
 
 const Layout = () => {
   const location = useLocation();
@@ -18,11 +19,13 @@ const Layout = () => {
     <div className="flex flex-col min-h-screen bg-background">
       <Header />
       <div className="pt-16">
+        <NewsTicker className="my-4" />
         <main className="flex-grow">
           <Outlet />
         </main>
       </div>
       <Footer />
+      <ChatBubble />
     </div>
   );
 };

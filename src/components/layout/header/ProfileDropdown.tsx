@@ -20,10 +20,21 @@ import ChatInterface from "@/components/ai/ChatInterface";
 
 const ProfileDropdown = () => {
   const { toast } = useToast();
-  const { isAIEnabled, toggleAI } = useAI();
   const { theme } = useTheme();
   const [chatOpen, setChatOpen] = useState(false);
   const navigate = useNavigate();
+  
+  // Try-catch to handle potential errors with useAI hook
+  let isAIEnabled = false;
+  let toggleAI = () => {};
+  
+  try {
+    const aiContext = useAI();
+    isAIEnabled = aiContext.isAIEnabled;
+    toggleAI = aiContext.toggleAI;
+  } catch (error) {
+    console.error("Error using AI context in ProfileDropdown:", error);
+  }
 
   const handleLogin = () => {
     toast({

@@ -92,26 +92,6 @@ export const AIProvider: React.FC<{ children: React.ReactNode }> = ({ children }
           setChatHistory(prev => [...prev, aiResponse]);
           setIsLoading(false);
         }, 1500);
-        
-        // In a real implementation, we would call the Gemini API here
-        // const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent", {
-        //   method: "POST",
-        //   headers: {
-        //     "Content-Type": "application/json",
-        //     "Authorization": `Bearer ${apiKey}`
-        //   },
-        //   body: JSON.stringify({
-        //     contents: [
-        //       {
-        //         parts: [
-        //           {
-        //             text: content
-        //           }
-        //         ]
-        //       }
-        //     ]
-        //   })
-        // });
       } catch (error) {
         console.error("Error calling AI API:", error);
         toast({
