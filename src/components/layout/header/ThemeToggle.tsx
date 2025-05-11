@@ -12,7 +12,7 @@ interface ThemeToggleProps {
 }
 
 const ThemeToggle = ({ 
-  variant = "ghost", 
+  variant = "tonal", 
   size = "default",
   showIcon = true, 
   showText = false 
@@ -29,24 +29,26 @@ const ThemeToggle = ({
     });
   };
 
+  const isDark = theme === "dark";
+
   return (
     <Button 
       variant={variant} 
       size={size}
       onClick={handleToggleTheme}
-      className="w-full md-state-layer rounded-full"
-      aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
+      className="md-state-layer rounded-full transition-all duration-300 hover:shadow-sm"
+      aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
     >
       {showIcon && (
-        theme === "light" ? (
-          <Moon className="h-5 w-5" />
+        isDark ? (
+          <Sun className="h-5 w-5 text-primary" />
         ) : (
-          <Sun className="h-5 w-5" />
+          <Moon className="h-5 w-5 text-primary" />
         )
       )}
       {showText && (
         <span className={showIcon ? "ml-2" : ""}>
-          {theme === "light" ? "Dark Mode" : "Light Mode"}
+          {isDark ? "Light Mode" : "Dark Mode"}
         </span>
       )}
     </Button>

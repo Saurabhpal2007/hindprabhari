@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/tooltip";
 
 const AIAccessButton = () => {
-  // Try-catch to handle any potential errors with the useAI hook
   try {
     const { isAIEnabled, toggleAI } = useAI();
 
@@ -20,15 +19,16 @@ const AIAccessButton = () => {
         <Tooltip>
           <TooltipTrigger asChild>
             <Button
-              variant={isAIEnabled ? "filled" : "outlined"}
+              variant={isAIEnabled ? "filled" : "tonal"}
               size="sm"
-              className="relative rounded-full md-state-layer"
+              shape="pill"
+              className="relative transition-all duration-300"
               onClick={toggleAI}
             >
-              <Bot className="h-4 w-4 mr-1" />
+              <Bot className={`h-4 w-4 mr-1 ${isAIEnabled ? "text-on-primary" : "text-primary"}`} />
               <span className="hidden sm:inline">AI Assistant</span>
               {isAIEnabled && (
-                <Sparkles className="absolute -top-1 -right-1 h-3 w-3 text-yellow-400 animate-pulse-glow" />
+                <Sparkles className="absolute -top-1 -right-1 h-3 w-3 text-tertiary animate-pulse-glow" />
               )}
             </Button>
           </TooltipTrigger>
@@ -42,7 +42,7 @@ const AIAccessButton = () => {
     );
   } catch (error) {
     console.error("Error rendering AIAccessButton:", error);
-    return null; // Fallback rendering in case of errors
+    return null;
   }
 };
 

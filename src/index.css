@@ -5,27 +5,33 @@
 
 @layer base {
   :root {
-    /* Material Design 3 color system - light mode */
-    --md-sys-color-primary: 25 95% 53%;
-    --md-sys-color-on-primary: 0 0% 100%;
-    --md-sys-color-primary-container: 25 100% 92%;
-    --md-sys-color-on-primary-container: 25 100% 10%;
+    /* Material Design 3 color system - light mode with custom orange and pink */
     
+    /* Primary (Orange) */
+    --md-sys-color-primary: 25 95% 53%; /* #F27B3D */
+    --md-sys-color-on-primary: 0 0% 100%; /* #FFFFFF */
+    --md-sys-color-primary-container: 25 100% 92%; /* #FFEEDD */
+    --md-sys-color-on-primary-container: 25 95% 13%; /* #422100 */
+    
+    /* Secondary/Neutral */
     --md-sys-color-secondary: 40 100% 50%;
     --md-sys-color-on-secondary: 0 0% 100%;
     --md-sys-color-secondary-container: 40 100% 90%;
     --md-sys-color-on-secondary-container: 40 100% 10%;
     
-    --md-sys-color-tertiary: 340 80% 50%;
-    --md-sys-color-on-tertiary: 0 0% 100%;
-    --md-sys-color-tertiary-container: 340 80% 90%;
-    --md-sys-color-on-tertiary-container: 340 80% 10%;
+    /* Tertiary (Pink) */
+    --md-sys-color-tertiary: 340 80% 50%; /* #E84C8C */
+    --md-sys-color-on-tertiary: 0 0% 100%; /* #FFFFFF */
+    --md-sys-color-tertiary-container: 340 80% 95%; /* #FCE8F2 */
+    --md-sys-color-on-tertiary-container: 340 80% 20%; /* #4A1B31 */
     
+    /* Error */
     --md-sys-color-error: 0 85% 60%;
     --md-sys-color-on-error: 0 0% 100%;
     --md-sys-color-error-container: 0 85% 90%;
     --md-sys-color-on-error-container: 0 85% 10%;
     
+    /* Background/Surface */
     --md-sys-color-background: 25 10% 99%;
     --md-sys-color-on-background: 25 10% 10%;
     
@@ -39,7 +45,7 @@
     --md-sys-color-outline-variant: 25 18% 80%;
     
     --md-sys-color-shadow: 0 0% 0%;
-    --md-sys-color-surface-tint: 25 95% 53%;
+    --md-sys-color-surface-tint: 25 95% 53%; /* #F27B3D */
     
     --md-sys-color-inverse-surface: 25 10% 10%;
     --md-sys-color-inverse-on-surface: 25 10% 95%;
@@ -106,27 +112,33 @@
   }
 
   .dark {
-    /* Material Design 3 color system - dark mode */
-    --md-sys-color-primary: 25 95% 70%;
-    --md-sys-color-on-primary: 25 95% 15%;
-    --md-sys-color-primary-container: 25 95% 30%;
-    --md-sys-color-on-primary-container: 25 95% 90%;
+    /* Material Design 3 color system - dark mode with custom orange and pink */
     
+    /* Primary (Orange) */
+    --md-sys-color-primary: 25 95% 70%; /* #F79E6E */
+    --md-sys-color-on-primary: 0 0% 0%; /* #000000 */
+    --md-sys-color-primary-container: 25 95% 30%; /* #8B4A25 */
+    --md-sys-color-on-primary-container: 25 100% 92%; /* #FFEEDD */
+    
+    /* Secondary/Neutral */
     --md-sys-color-secondary: 40 100% 70%;
     --md-sys-color-on-secondary: 40 100% 15%;
     --md-sys-color-secondary-container: 40 100% 30%;
     --md-sys-color-on-secondary-container: 40 100% 90%;
     
-    --md-sys-color-tertiary: 340 80% 70%;
-    --md-sys-color-on-tertiary: 340 80% 15%;
-    --md-sys-color-tertiary-container: 340 80% 30%;
-    --md-sys-color-on-tertiary-container: 340 80% 90%;
+    /* Tertiary (Pink) */
+    --md-sys-color-tertiary: 340 80% 70%; /* #F07BC0 */
+    --md-sys-color-on-tertiary: 340 80% 5%; /* #1A0A10 */
+    --md-sys-color-tertiary-container: 340 80% 30%; /* #9C2667 */
+    --md-sys-color-on-tertiary-container: 340 80% 95%; /* #FCE8F2 */
     
+    /* Error */
     --md-sys-color-error: 0 85% 70%;
     --md-sys-color-on-error: 0 85% 15%;
     --md-sys-color-error-container: 0 85% 30%;
     --md-sys-color-on-error-container: 0 85% 90%;
     
+    /* Background/Surface */
     --md-sys-color-background: 25 10% 8%;
     --md-sys-color-on-background: 25 10% 95%;
     
@@ -140,7 +152,7 @@
     --md-sys-color-outline-variant: 25 18% 30%;
     
     --md-sys-color-shadow: 0 0% 0%;
-    --md-sys-color-surface-tint: 25 95% 70%;
+    --md-sys-color-surface-tint: 25 95% 70%; /* #F79E6E */
     
     --md-sys-color-inverse-surface: 25 10% 95%;
     --md-sys-color-inverse-on-surface: 25 10% 20%;

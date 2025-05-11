@@ -6,19 +6,21 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 relative overflow-hidden",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 relative overflow-hidden transition-all duration-300",
   {
     variants: {
       variant: {
         // Material Design 3 specific button variants
-        filled: "bg-primary text-primary-foreground hover:bg-primary/90 active:bg-primary/80",
-        tonal: "bg-primary/10 text-primary hover:bg-primary/20 active:bg-primary/30",
-        elevated: "bg-card text-card-foreground shadow-sm hover:shadow-md hover:bg-accent",
-        text: "text-primary hover:bg-primary/8 active:bg-primary/16",
-        outlined: "border border-input bg-transparent text-foreground hover:bg-accent hover:text-accent-foreground",
+        filled: "bg-primary text-on-primary hover:bg-primary/90 active:bg-primary/80",
+        tonal: "bg-primary-container text-on-primary-container hover:bg-primary-container/90 active:bg-primary-container/80",
+        elevated: "bg-surface-container-low text-on-surface shadow-sm hover:shadow-md hover:bg-surface-container-low/90",
+        text: "bg-transparent text-primary hover:bg-primary/8 active:bg-primary/16",
+        outlined: "border border-outline bg-transparent text-primary hover:bg-surface-container active:bg-surface-container/80",
+        tertiary: "bg-tertiary text-on-tertiary hover:bg-tertiary/90 active:bg-tertiary/80",
+        "tertiary-container": "bg-tertiary-container text-on-tertiary-container hover:bg-tertiary-container/90 active:bg-tertiary-container/80",
         
         // Standard shadcn/ui variants for compatibility
-        default: "bg-primary text-primary-foreground hover:bg-primary/90", // alias for filled
+        default: "bg-primary text-on-primary hover:bg-primary/90", // alias for filled
         destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground", // alias for outlined
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
@@ -47,7 +49,7 @@ const buttonVariants = cva(
         high: "shadow-md hover:shadow-lg active:shadow-md",
       },
       stateLayer: {
-        true: "after:absolute after:inset-0 after:rounded-[inherit] after:bg-current after:opacity-0 after:transition-opacity hover:after:opacity-8 focus-visible:after:opacity-12 active:after:opacity-16",
+        true: "after:absolute after:inset-0 after:rounded-[inherit] after:bg-current after:opacity-0 after:transition-opacity hover:after:opacity-[var(--md-state-hover-opacity)] focus-visible:after:opacity-[var(--md-state-focus-opacity)] active:after:opacity-[var(--md-state-pressed-opacity)]",
         false: "",
       },
     },

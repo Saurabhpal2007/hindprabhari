@@ -17,9 +17,11 @@ const badgeVariants = cva(
           "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline: "text-foreground",
         // Material Design 3 badge variants
-        filled: "border-transparent bg-primary text-primary-foreground",
-        tonal: "border-transparent bg-secondary text-secondary-foreground",
-        outlined: "border-primary text-primary bg-transparent",
+        filled: "border-transparent bg-primary text-primary-foreground hover:bg-primary/90",
+        tonal: "border-transparent bg-primary-container text-on-primary-container hover:bg-primary-container/90",
+        tertiary: "border-transparent bg-tertiary text-on-tertiary hover:bg-tertiary/90",
+        "tertiary-container": "border-transparent bg-tertiary-container text-on-tertiary-container hover:bg-tertiary-container/90",
+        outlined: "border-primary text-primary bg-transparent hover:bg-primary/10",
       },
       size: {
         default: "px-2.5 py-0.5 text-xs",

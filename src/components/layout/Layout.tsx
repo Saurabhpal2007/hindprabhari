@@ -16,11 +16,13 @@ const Layout = () => {
   }, [location.pathname]);
 
   return (
-    <div className="flex flex-col min-h-screen bg-background">
+    <div className="flex flex-col min-h-screen bg-background transition-colors duration-300">
       <Header />
-      <div className="pt-16 md-elevation-1">
-        <NewsTicker className="my-4 md-elevation-1" />
-        <main className="flex-grow">
+      <div className="pt-16">
+        <div className="surface-container-low py-1">
+          <NewsTicker className="my-3 md-elevation-1" />
+        </div>
+        <main className="flex-grow animate-in">
           <Outlet />
         </main>
       </div>
